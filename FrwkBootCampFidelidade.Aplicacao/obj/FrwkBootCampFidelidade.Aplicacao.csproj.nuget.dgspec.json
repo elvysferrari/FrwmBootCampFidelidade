@@ -1,20 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Aplicacao\\FrwkBootCampFidelidade.Aplicacao.csproj": {}
+    "D:\\ProjetosFrwk\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Aplicacao\\FrwkBootCampFidelidade.Aplicacao.csproj": {}
   },
   "projects": {
-    "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Aplicacao\\FrwkBootCampFidelidade.Aplicacao.csproj": {
+    "D:\\ProjetosFrwk\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Aplicacao\\FrwkBootCampFidelidade.Aplicacao.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Aplicacao\\FrwkBootCampFidelidade.Aplicacao.csproj",
+        "projectUniqueName": "D:\\ProjetosFrwk\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Aplicacao\\FrwkBootCampFidelidade.Aplicacao.csproj",
         "projectName": "FrwkBootCampFidelidade.Aplicacao",
-        "projectPath": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Aplicacao\\FrwkBootCampFidelidade.Aplicacao.csproj",
-        "packagesPath": "C:\\Users\\framework\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Aplicacao\\obj\\",
+        "projectPath": "D:\\ProjetosFrwk\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Aplicacao\\FrwkBootCampFidelidade.Aplicacao.csproj",
+        "packagesPath": "C:\\Users\\giova\\.nuget\\packages\\",
+        "outputPath": "D:\\ProjetosFrwk\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Aplicacao\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\framework\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\giova\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -54,7 +57,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }

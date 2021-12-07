@@ -8,19 +8,23 @@
     "net5.0": []
   },
   "packageFolders": {
-    "C:\\Users\\framework\\.nuget\\packages\\": {}
+    "C:\\Users\\giova\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Dominio\\FrwkBootCampFidelidade.Dominio.csproj",
+      "projectUniqueName": "D:\\ProjetosFrwk\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Dominio\\FrwkBootCampFidelidade.Dominio.csproj",
       "projectName": "FrwkBootCampFidelidade.Dominio",
-      "projectPath": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Dominio\\FrwkBootCampFidelidade.Dominio.csproj",
-      "packagesPath": "C:\\Users\\framework\\.nuget\\packages\\",
-      "outputPath": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Dominio\\obj\\",
+      "projectPath": "D:\\ProjetosFrwk\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Dominio\\FrwkBootCampFidelidade.Dominio.csproj",
+      "packagesPath": "C:\\Users\\giova\\.nuget\\packages\\",
+      "outputPath": "D:\\ProjetosFrwk\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Dominio\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+      ],
       "configFilePaths": [
-        "C:\\Users\\framework\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\giova\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -60,7 +64,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.403\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }
