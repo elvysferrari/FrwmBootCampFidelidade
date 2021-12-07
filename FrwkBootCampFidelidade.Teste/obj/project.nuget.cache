@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Utk+rTT9APNZYu0V2ddo6tkxRgBn+gYzeuW95MarSL2aFh3SeOUssXnXrTqKRXh3sZmeuJw4dutmsHDxeo/C4Q==",
+  "dgSpecHash": "J2VK0Lo0SbGZ1iDxk+i79APSu2CCR65TblrFxYKxjfrCIbRQVlJNhEdF14JQe/hdIru4ENMZr6Jw96aiLcOdXQ==",
   "success": true,
-  "projectFilePath": "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.Teste\\FrwkBootCampFidelidade.Teste.csproj",
+  "projectFilePath": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Teste\\FrwkBootCampFidelidade.Teste.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\framework\\.nuget\\packages\\coverlet.collector\\3.0.2\\coverlet.collector.3.0.2.nupkg.sha512",
     "C:\\Users\\framework\\.nuget\\packages\\microsoft.codecoverage\\16.9.4\\microsoft.codecoverage.16.9.4.nupkg.sha512",

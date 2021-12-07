@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.API\\FrwkBootCampFidelidade.API.csproj": {}
+    "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.API\\FrwkBootCampFidelidade.API.csproj": {}
   },
   "projects": {
-    "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.API\\FrwkBootCampFidelidade.API.csproj": {
+    "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.API\\FrwkBootCampFidelidade.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.API\\FrwkBootCampFidelidade.API.csproj",
+        "projectUniqueName": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.API\\FrwkBootCampFidelidade.API.csproj",
         "projectName": "FrwkBootCampFidelidade.API",
-        "projectPath": "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.API\\FrwkBootCampFidelidade.API.csproj",
+        "projectPath": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.API\\FrwkBootCampFidelidade.API.csproj",
         "packagesPath": "C:\\Users\\framework\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.API\\obj\\",
+        "outputPath": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.API\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\framework\\AppData\\Roaming\\NuGet\\NuGet.Config",

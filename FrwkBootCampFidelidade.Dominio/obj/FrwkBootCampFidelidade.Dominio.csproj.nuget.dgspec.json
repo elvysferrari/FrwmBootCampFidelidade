@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.Dominio\\FrwkBootCampFidelidade.Dominio.csproj": {}
+    "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Dominio\\FrwkBootCampFidelidade.Dominio.csproj": {}
   },
   "projects": {
-    "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.Dominio\\FrwkBootCampFidelidade.Dominio.csproj": {
+    "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Dominio\\FrwkBootCampFidelidade.Dominio.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.Dominio\\FrwkBootCampFidelidade.Dominio.csproj",
+        "projectUniqueName": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Dominio\\FrwkBootCampFidelidade.Dominio.csproj",
         "projectName": "FrwkBootCampFidelidade.Dominio",
-        "projectPath": "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.Dominio\\FrwkBootCampFidelidade.Dominio.csproj",
+        "projectPath": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Dominio\\FrwkBootCampFidelidade.Dominio.csproj",
         "packagesPath": "C:\\Users\\framework\\.nuget\\packages\\",
-        "outputPath": "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.Dominio\\obj\\",
+        "outputPath": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Dominio\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\framework\\AppData\\Roaming\\NuGet\\NuGet.Config",

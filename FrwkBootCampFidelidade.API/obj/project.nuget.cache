@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2Sjt56GJoNOXBpqF0oZJ4nm7jRHsU96fQlFv96hCt9mvRHW2AEPnO9zAhVUEqJzKYCj445bBOVO6+MlYfnHshA==",
+  "dgSpecHash": "hMuex/4nAcomKQ6tPZ0g6fJj4dIfiOGgr07b700TZ0Oct6+La+GAHJjf6A1IO99Jvw8K37bGZMlcLS6088eUNw==",
   "success": true,
-  "projectFilePath": "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.API\\FrwkBootCampFidelidade.API.csproj",
+  "projectFilePath": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.API\\FrwkBootCampFidelidade.API.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\framework\\.nuget\\packages\\microsoft.extensions.apidescription.server\\3.0.0\\microsoft.extensions.apidescription.server.3.0.0.nupkg.sha512",
     "C:\\Users\\framework\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",

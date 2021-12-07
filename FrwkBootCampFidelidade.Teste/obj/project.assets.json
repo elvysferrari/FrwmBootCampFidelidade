@@ -5922,11 +5922,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.Teste\\FrwkBootCampFidelidade.Teste.csproj",
+      "projectUniqueName": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Teste\\FrwkBootCampFidelidade.Teste.csproj",
       "projectName": "FrwkBootCampFidelidade.Teste",
-      "projectPath": "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.Teste\\FrwkBootCampFidelidade.Teste.csproj",
+      "projectPath": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Teste\\FrwkBootCampFidelidade.Teste.csproj",
       "packagesPath": "C:\\Users\\framework\\.nuget\\packages\\",
-      "outputPath": "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.Teste\\obj\\",
+      "outputPath": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Teste\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\framework\\AppData\\Roaming\\NuGet\\NuGet.Config",

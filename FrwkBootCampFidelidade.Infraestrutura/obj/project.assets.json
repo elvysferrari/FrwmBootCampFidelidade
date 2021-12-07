@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.Infraestrutura\\FrwkBootCampFidelidade.Infraestrutura.csproj",
+      "projectUniqueName": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Infraestrutura\\FrwkBootCampFidelidade.Infraestrutura.csproj",
       "projectName": "FrwkBootCampFidelidade.Infraestrutura",
-      "projectPath": "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.Infraestrutura\\FrwkBootCampFidelidade.Infraestrutura.csproj",
+      "projectPath": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Infraestrutura\\FrwkBootCampFidelidade.Infraestrutura.csproj",
       "packagesPath": "C:\\Users\\framework\\.nuget\\packages\\",
-      "outputPath": "C:\\GitHub\\FrwkBootCampFidelidade\\FrwkBootCampFidelidade.Infraestrutura\\obj\\",
+      "outputPath": "C:\\GitHub\\FrwmBootCampFidelidade\\FrwkBootCampFidelidade.Infraestrutura\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\framework\\AppData\\Roaming\\NuGet\\NuGet.Config",
