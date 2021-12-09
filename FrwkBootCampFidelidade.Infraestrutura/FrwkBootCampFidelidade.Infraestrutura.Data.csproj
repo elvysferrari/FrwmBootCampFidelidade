@@ -5,13 +5,18 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Base\Entities\" />
+    <Folder Include="Base\Mapping\" />
     <Folder Include="Extrato\" />
     <Folder Include="Resgate\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.12" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="5.0.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FrwkBootCampFidelidade.Dominio\FrwkBootCampFidelidade.Dominio.csproj" />
   </ItemGroup>
 
 </Project>
