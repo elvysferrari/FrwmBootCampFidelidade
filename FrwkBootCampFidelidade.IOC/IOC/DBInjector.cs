@@ -8,7 +8,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
     {
         public static void AddDBInjector(this IServiceCollection services)
         {
-            services.AddScoped<IBonification, BonificationRepository>();
+            services.AddScoped<IBonification, ExtractRepository>();
         }
     }
 }

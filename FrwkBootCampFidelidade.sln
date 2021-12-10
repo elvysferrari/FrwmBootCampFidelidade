@@ -23,7 +23,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "5 - Testes", "5 - Testes", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkBootCampFidelidade.Teste", "FrwkBootCampFidelidade.Teste\FrwkBootCampFidelidade.Teste.csproj", "{01AE68DA-2070-46A6-BEC1-417C12D0ACC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrwkBootCampFidelidade.Infraestrutura.IOC", "FrwkBootCampFidelidade.IOC\FrwkBootCampFidelidade.Infraestrutura.IOC.csproj", "{D755A7EF-17ED-4EF8-B1EC-49CB3CFCB2DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkBootCampFidelidade.Infraestrutura.IOC", "FrwkBootCampFidelidade.IOC\FrwkBootCampFidelidade.Infraestrutura.IOC.csproj", "{D755A7EF-17ED-4EF8-B1EC-49CB3CFCB2DD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DTO", "DTO", "{83401A2F-5E42-4A68-AF5A-4B7515E89C5A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,6 +68,7 @@ Global
 		{6E47F3CF-F4E2-434E-AC56-7607B8EE1F41} = {2B9A59DE-F2DB-43EB-B10D-4A4EA56AD2E2}
 		{01AE68DA-2070-46A6-BEC1-417C12D0ACC8} = {0AAD2DE8-43D4-43C6-A6B7-87B607B292FB}
 		{D755A7EF-17ED-4EF8-B1EC-49CB3CFCB2DD} = {2B9A59DE-F2DB-43EB-B10D-4A4EA56AD2E2}
+		{83401A2F-5E42-4A68-AF5A-4B7515E89C5A} = {F25C8222-8FCE-405C-AB8F-BEEB69E85E54}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7EA29803-B2E0-4913-A59B-A52D96A7E6E6}
