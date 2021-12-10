@@ -26,7 +26,7 @@ namespace FrwkBootCampFidelidade.API.Controllers
             return bonifications;
         }
 
-        [HttpGet("GetByCPF/{userId}")]        
+        [HttpGet("GetByCPF/{cpf}")]        
         public async Task<List<BonificationDTO>> GetByCPF(string cpf)
         {
             List<BonificationDTO> bonifications = await _bonificationService.GetByCPF(cpf);

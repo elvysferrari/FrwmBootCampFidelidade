@@ -25,7 +25,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.BonificationContext.Repository
                         join orders in _context.Orders on bonifications.Id equals orders.Id
                         where userId == orders.UserId
                         orderby bonifications.Id
-                        select new BonificationDTO() { Id = bonifications.Id, quantity = bonifications.scoreQuantity, OrderId = orders.Id, UserId = orders.UserId };
+                        select new BonificationDTO() { Id = bonifications.Id, quantity = bonifications.scoreQuantity, OrderId = orders.Id, UserId = orders.UserId, date = bonifications.date };
 
             return await query.ToListAsync();            
         }
@@ -35,7 +35,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.BonificationContext.Repository
                         join orders in _context.Orders on bonifications.Id equals orders.Id
                         where cpf == orders.cpf
                         orderby bonifications.Id
-                        select new BonificationDTO() { Id = bonifications.Id, quantity = bonifications.scoreQuantity, OrderId = orders.Id, UserId = orders.UserId };
+                        select new BonificationDTO() { Id = bonifications.Id, quantity = bonifications.scoreQuantity, OrderId = orders.Id, UserId = orders.UserId, date = bonifications.date };
 
             return await query.ToListAsync();
         }
