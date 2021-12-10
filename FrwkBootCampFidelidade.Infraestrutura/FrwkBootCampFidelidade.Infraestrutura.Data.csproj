@@ -5,9 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Extrato\**" />
+    <Compile Remove="Resgate\**" />
+    <EmbeddedResource Remove="Extrato\**" />
+    <EmbeddedResource Remove="Resgate\**" />
+    <None Remove="Extrato\**" />
+    <None Remove="Resgate\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Base\Mapping\" />
-    <Folder Include="Extrato\" />
-    <Folder Include="Resgate\" />
   </ItemGroup>
 
   <ItemGroup>
