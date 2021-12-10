@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Base\Entities\" />
-    <Folder Include="Extrato\" />
     <Folder Include="Resgate\" />
   </ItemGroup>
 
