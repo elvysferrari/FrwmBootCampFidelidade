@@ -1,3 +1,4 @@
+using Autofac;
 using FrwkBootCampFidelidade.Infraestrutura.Context;
 using FrwkBootCampFidelidade.Infraestrutura.IOC.IOC;
 using Microsoft.AspNetCore.Builder;
@@ -39,6 +40,10 @@ namespace FrwkBootCampFidelidade.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FrwkBootCampFidelidade.API", Version = "v1" });
             });
+        }
+        public void ConfigureContainer(ContainerBuilder Builder)
+        {
+            Builder.RegisterModule(new ModuleIOC());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

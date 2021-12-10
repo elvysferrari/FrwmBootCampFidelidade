@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
+using FrwkBootCampFidelidade.DTO.BonificationContext;
+using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 
 namespace FrwkBootCampFidelidade.API.Controllers
 {
@@ -11,28 +13,35 @@ namespace FrwkBootCampFidelidade.API.Controllers
     [ApiController]
     public class BonificationController : ControllerBase
     {
-        private readonly IBonification _bonification;
-        public BonificationController(IBonification bonification)
+        private readonly IBonificationService _bonificationService;
+        public BonificationController(IBonificationService bonificationService)
         {
-            _bonification = bonification;
+            _bonificationService = bonificationService;
         }
 
-        [HttpGet]
-        public async Task<List<Bonification>> GetAll()
+        [HttpGet("GetByUserId/{userId}")]        
+        public async Task<List<BonificationDTO>> GetByUserId(int userId)
         {
-            List<Bonification> bonifications = await _bonification.GetAll().ToListAsync();
+            List<BonificationDTO> bonifications = await _bonificationService.GetByUserId(userId);
+            return bonifications;
+        }
+
+        [HttpGet("GetByCPF/{userId}")]        
+        public async Task<List<BonificationDTO>> GetByCPF(string cpf)
+        {
+            List<BonificationDTO> bonifications = await _bonificationService.GetByCPF(cpf);
             return bonifications;
         }
 
         // POST api/values
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] Bonification bonificationDTO)
+        public async Task<ActionResult> Post([FromBody] BonificationDTO bonificationDTO)
         {
             if (bonificationDTO == null)
                 return NotFound();
             try
             {
-                await _bonification.Add(bonificationDTO);
+                await _bonificationService.Add(bonificationDTO);
                 return Ok(bonificationDTO);
             }
             catch

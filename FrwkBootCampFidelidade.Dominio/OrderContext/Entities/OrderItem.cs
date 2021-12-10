@@ -13,7 +13,7 @@ namespace FrwkBootCampFidelidade.Dominio.OrderContext.Entities
         public Order Order { get; set; }
         public string observation { get; set; }
         public int quantity { get; set; }
-        public object Product { get; set; }
+        public int ProductId { get; set; }
 
     }
 }
