@@ -18,7 +18,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Context
         public virtual DbSet<Bonification> Bonifications { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
-            builder.ApplyConfiguration(new ExtractMap());
+            builder.ApplyConfiguration(new BonificationMap());
         }
     }
 }

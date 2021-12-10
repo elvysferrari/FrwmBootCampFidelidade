@@ -4,7 +4,7 @@ using FrwkBootCampFidelidade.Dominio.ExtractContext.Entities;
 
 namespace FrwkBootCampFidelidade.Dominio.ExtractContext.Interfaces
 {
-    public interface IExtract : IBaseRepository<Extract>
+    public interface IRansomHistoryStatus : IBaseRepository<RansomHistoryStatus>
     {
     }
 }

@@ -5,11 +5,11 @@ using FrwkBootCampFidelidade.Infraestrutura.Context;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.ExtractContext.Repository
 {
-    public class ExtractRepository : BaseRepository<Extract>, IExtract
+    public class RansomHistoryStatus : BaseRepository<Dominio.ExtractContext.Entities.RansomHistoryStatus>, IRansomHistoryStatus
     {
         private readonly DBContext _context;
 
-        public ExtractRepository(DBContext context): base(context)
+        public RansomHistoryStatus(DBContext context): base(context)
         {
             _context = context;
         }
