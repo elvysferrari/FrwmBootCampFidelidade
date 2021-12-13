@@ -11,6 +11,8 @@ namespace FrwkBootCampFidelidade.Infraestrutura.BonificationContext.Mapping
         public void Configure(EntityTypeBuilder<Bonification> builder)
         {
             builder.ToTable("Bonification");
+            builder.HasKey(x => x.Id);
+
             builder.HasData(ObterDados());
         }
         private ICollection<Bonification> ObterDados()
@@ -18,8 +20,8 @@ namespace FrwkBootCampFidelidade.Infraestrutura.BonificationContext.Mapping
             DateTime createdAt = new DateTime(2021, 12, 13, 15, 45, 23);
 
             return new[]{
-                new Bonification() { OrderId = 1, ScoreQuantity = 52.0f, Date = createdAt, CreatedAt = createdAt, UpdatedAt = createdAt },
-                new Bonification() { OrderId = 2, ScoreQuantity = 61.25f, Date = createdAt, CreatedAt = createdAt, UpdatedAt = createdAt }
+                new Bonification() {Id = 1, OrderId = 1, ScoreQuantity = 52.0f, Date = createdAt, CreatedAt = createdAt, UpdatedAt = createdAt },
+                new Bonification() {Id = 2, OrderId = 2, ScoreQuantity = 61.25f, Date = createdAt, CreatedAt = createdAt, UpdatedAt = createdAt }
             };
         }
     }
