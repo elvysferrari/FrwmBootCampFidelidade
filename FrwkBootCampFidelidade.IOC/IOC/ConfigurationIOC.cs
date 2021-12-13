@@ -3,7 +3,9 @@ using AutoMapper;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Aplicacao.Services;
 using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
+using FrwkBootCampFidelidade.Dominio.WalletContext.Entities;
 using FrwkBootCampFidelidade.DTO.BonificationContext;
+using FrwkBootCampFidelidade.DTO.WalletContext;
 using System.Collections.Generic;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
@@ -14,6 +16,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
         {
             #region IOC Application
             builder.RegisterType<BonificationService>().As<IBonificationService>();
+            builder.RegisterType<WalletService>().As<IWalletService>();
             #endregion
 
             #region IOC Mapper
@@ -24,6 +27,9 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
                 cfg.CreateMap<BonificationDTO, Bonification>();
                 cfg.CreateMap<List<BonificationDTO>, List<Bonification>>();
                 cfg.CreateMap<List<Bonification>, List<BonificationDTO>>();
+
+                cfg.CreateMap<List<WalletDTO>, List<Wallet>>();
+                cfg.CreateMap<List<Wallet>, List<WalletDTO>>();
                 #endregion
 
             })).AsSelf().SingleInstance();
