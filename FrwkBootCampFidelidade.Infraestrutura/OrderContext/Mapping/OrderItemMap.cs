@@ -17,12 +17,12 @@ namespace FrwkBootCampFidelidade.Infraestrutura.OrderItemContext.Mapping
         private ICollection<OrderItem> ObterDados()
         {            
             return new[]{
-                new OrderItem() { Id = 1, OrderId = 1, observation = "Medicamento X.1", ProductId = 1, quantity = 5 },
-                new OrderItem() { Id = 2, OrderId = 1, observation = "Medicamento X.2", ProductId = 2, quantity = 15 },
-                new OrderItem() { Id = 3, OrderId = 1, observation = "Medicamento X.3", ProductId = 3, quantity = 25 },
-                new OrderItem() { Id = 4, OrderId = 2, observation = "Medicamento Y.1", ProductId = 4, quantity = 8 },
-                new OrderItem() { Id = 5, OrderId = 2, observation = "Medicamento Y.2", ProductId = 5, quantity = 9 },
-                new OrderItem() { Id = 6, OrderId = 2, observation = "Medicamento Y.3", ProductId = 6, quantity = 10 },
+                new OrderItem() { Id = 1, OrderId = 1, Observation = "Medicamento X.1", ProductId = 1, Quantity = 5 },
+                new OrderItem() { Id = 2, OrderId = 1, Observation = "Medicamento X.2", ProductId = 2, Quantity = 15 },
+                new OrderItem() { Id = 3, OrderId = 1, Observation = "Medicamento X.3", ProductId = 3, Quantity = 25 },
+                new OrderItem() { Id = 4, OrderId = 2, Observation = "Medicamento Y.1", ProductId = 4, Quantity = 8 },
+                new OrderItem() { Id = 5, OrderId = 2, Observation = "Medicamento Y.2", ProductId = 5, Quantity = 9 },
+                new OrderItem() { Id = 6, OrderId = 2, Observation = "Medicamento Y.3", ProductId = 6, Quantity = 10 },
             };
         }
     }
