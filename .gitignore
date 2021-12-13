@@ -396,3 +396,4 @@ FodyWeavers.xsd
 FrwkBootCampFidelidade.API/appsettings.json
 FrwkBootCampFidelidade.Infraestrutura/Migrations/20211213123451_fidelidademigration.cs
 FrwkBootCampFidelidade.Infraestrutura/Migrations/20211213123451_fidelidademigration.Designer.cs
+FrwkBootCampFidelidade.Infraestrutura/Migrations
