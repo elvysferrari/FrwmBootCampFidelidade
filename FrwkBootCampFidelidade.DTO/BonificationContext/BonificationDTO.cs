@@ -8,6 +8,6 @@ namespace FrwkBootCampFidelidade.DTO.BonificationContext
         public int OrderId { get; set; }
         public int UserId { get; set; }        
         public DateTime date { get; set; }
-        public int scoreQuantity { get; set; }
+        public float scoreQuantity { get; set; }
     }
 }

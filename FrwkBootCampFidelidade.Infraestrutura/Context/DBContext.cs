@@ -31,10 +31,10 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Context
         {
             builder.ApplyConfiguration(new BonificationMap());
             builder.ApplyConfiguration(new RansomMap());
-            builder.ApplyConfiguration(new OrderMap());
             builder.ApplyConfiguration(new OrderItemMap());
-            builder.ApplyConfiguration(new WalletMap());
+            builder.ApplyConfiguration(new OrderMap());           
             builder.ApplyConfiguration(new WalletTypeMap());
+            builder.ApplyConfiguration(new WalletMap());            
         }
     }
 }
