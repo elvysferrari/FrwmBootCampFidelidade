@@ -5,7 +5,7 @@ using FrwkBootCampFidelidade.Infraestrutura.Context;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.ExtractContext.Repository
 {
-    public class RansomHistoryStatus : BaseRepository<Dominio.ExtractContext.Entities.RansomHistoryStatus>, IRansomHistoryStatus
+    public class RansomHistoryStatus : BaseRepository<Dominio.ExtractContext.Entities.RansomHistoryStatus>, IRansomHistoryStatusRepository
     {
         private readonly DBContext _context;
 

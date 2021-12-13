@@ -5,7 +5,7 @@ using FrwkBootCampFidelidade.Infraestrutura.Context;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.RansomContext.Repository
 {
-    public class RansomRepository : BaseRepository<Ransom>, IRansom
+    public class RansomRepository : BaseRepository<Ransom>, IRansomRepository
     {
         private readonly DBContext _context;
 

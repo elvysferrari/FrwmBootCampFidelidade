@@ -14,10 +14,10 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 {
     public class BonificationService : IBonificationService
     {
-        private readonly IBonification _bonification;
+        private readonly IBonificationRepository _bonification;
         private readonly IMapper _mapper;
 
-        public BonificationService(IBonification bonification, IMapper mapper)
+        public BonificationService(IBonificationRepository bonification, IMapper mapper)
         {
             _bonification = bonification;
             _mapper = mapper;

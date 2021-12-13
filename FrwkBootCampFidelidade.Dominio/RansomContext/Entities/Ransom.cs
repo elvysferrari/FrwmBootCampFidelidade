@@ -14,7 +14,7 @@ namespace FrwkBootCampFidelidade.Dominio.RansomContext.Entities
 
         public string Beneficiary { get; set; }
 
-        public string Cpf { get; set; }
+        public string CPF { get; set; }
 
         public string PixKeyType { get; set; }
 

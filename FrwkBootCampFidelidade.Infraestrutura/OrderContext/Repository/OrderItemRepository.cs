@@ -5,7 +5,7 @@ using FrwkBootCampFidelidade.Infraestrutura.Context;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.OrderItemContext.Repository
 {
-    public class OrderItemRepository : BaseRepository<OrderItem>, IOrderItem 
+    public class OrderItemRepository : BaseRepository<OrderItem>, IOrderItemRepository 
     {
         private readonly DBContext _context;
 

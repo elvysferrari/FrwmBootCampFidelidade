@@ -11,8 +11,8 @@ namespace FrwkBootCampFidelidade.API.Controllers
     [ApiController]
     public class RansomController : ControllerBase
     {
-        private readonly IRansom _ransom;
-        public RansomController(IRansom ransom)
+        private readonly IRansomRepository _ransom;
+        public RansomController(IRansomRepository ransom)
         {
             _ransom = ransom;
         }

@@ -14,12 +14,12 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
     {
         public static void AddDBInjector(this IServiceCollection services)
         {
-            services.AddScoped<IBonification, BonificationRepository>();
-            services.AddScoped<IRansom, RansomRepository>();
-            services.AddScoped<IOrder, OrderRepository>();
-            services.AddScoped<IOrderItem, OrderItemRepository>();
-            services.AddScoped<IWallet, WalletRepository>();
-            services.AddScoped<IWalletType, WalletTypeRepository>();
+            services.AddScoped<IBonificationRepository, BonificationRepository>();
+            services.AddScoped<IRansomRepository, RansomRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddScoped<IWalletRepository, WalletRepository>();
+            services.AddScoped<IWalletTypeRepository, WalletTypeRepository>();
         }
     }
 }

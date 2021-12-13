@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrwkBootCampFidelidade.Dominio.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Dominio.WalletContext.Entities
 {
-    public class Wallet
+    public class Wallet : EntityBase
     {
-        public int Id { get; set; }
         public int DrugstoreId { get; set; }        
         public int UserId { get; set; }
         public WalletType WalletType { get; set; }

@@ -12,7 +12,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.BonificationContext.Mapping
 
             builder.HasKey(prop => prop.Id);
 
-            builder.Property(x => x.date).HasColumnType("smalldatetime").IsRequired();            
+            builder.Property(x => x.Date).HasColumnType("smalldatetime").IsRequired();            
         }
     }
 }
