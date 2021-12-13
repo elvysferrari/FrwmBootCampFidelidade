@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.ExtractContext.Mapping
 {
-    public class RansomHistoryStatus : IEntityTypeConfiguration<Dominio.ExtractContext.Entities.RansomHistoryStatus>
+    public class RansomHistoryStatusMap : IEntityTypeConfiguration<RansomHistoryStatus>
     {
-        public void Configure(EntityTypeBuilder<Dominio.ExtractContext.Entities.RansomHistoryStatus> builder)
+        public void Configure(EntityTypeBuilder<RansomHistoryStatus> builder)
         {
             builder.ToTable("Extract");
 
