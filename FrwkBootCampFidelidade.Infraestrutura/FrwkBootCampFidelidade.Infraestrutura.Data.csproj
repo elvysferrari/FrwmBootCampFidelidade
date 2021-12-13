@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Folder Include="Base\Mapping\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
   <ItemGroup>
