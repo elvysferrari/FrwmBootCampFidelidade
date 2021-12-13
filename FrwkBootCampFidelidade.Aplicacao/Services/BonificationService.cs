@@ -27,6 +27,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         {
             var bonification = _mapper.Map<Bonification>(obj);
             await _bonification.Add(bonification);
+            await _bonification.SaveChanges();
         }
 
         public async Task<List<BonificationDTO>> GetByCPF(string CPF)

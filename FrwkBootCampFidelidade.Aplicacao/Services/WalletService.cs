@@ -24,7 +24,11 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         public async Task Add(WalletDTO walletDTO)
         {
             var wallet = _mapper.Map<Wallet>(walletDTO);
+            wallet.CreatedAt = DateTime.Now;
+            wallet.UpdatedAt = DateTime.Now;
+
             await _wallet.Add(wallet);
+            await _wallet.SaveChanges();
         }
 
         public async Task<List<WalletDTO>> GetAllByUserId(int userId)
@@ -39,10 +43,12 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             return _mapper.Map<List<WalletDTO>>(wallets);
         }
 
-        public void Update(WalletDTO walletDTO)
+        public async void Update(WalletDTO walletDTO)
         {
             var wallet = _mapper.Map<Wallet>(walletDTO);
+            wallet.UpdatedAt = DateTime.Now;
             _wallet.Update(wallet);
+            await _wallet.SaveChanges();
         }
     }
 }

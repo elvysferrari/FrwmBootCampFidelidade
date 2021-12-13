@@ -28,6 +28,8 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
                 cfg.CreateMap<List<BonificationDTO>, List<Bonification>>();
                 cfg.CreateMap<List<Bonification>, List<BonificationDTO>>();
 
+                cfg.CreateMap<Wallet, WalletDTO>();
+                cfg.CreateMap<WalletDTO, Wallet>();
                 cfg.CreateMap<List<WalletDTO>, List<Wallet>>();
                 cfg.CreateMap<List<Wallet>, List<WalletDTO>>();
                 #endregion
