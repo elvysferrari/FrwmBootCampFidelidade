@@ -5,6 +5,8 @@ using FrwkBootCampFidelidade.Infraestrutura.BonificationContext.Repository;
 using FrwkBootCampFidelidade.Infraestrutura.RansomContext.Repository;
 using FrwkBootCampFidelidade.Infraestrutura.OrderItemContext.Repository;
 using Microsoft.Extensions.DependencyInjection;
+using FrwkBootCampFidelidade.Dominio.WalletContext.Interfaces;
+using FrwkBootCampFidelidade.Infraestrutura.Data.WalletContext.Repository;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 {
@@ -16,6 +18,8 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
             services.AddScoped<IRansom, RansomRepository>();
             services.AddScoped<IOrder, OrderRepository>();
             services.AddScoped<IOrderItem, OrderItemRepository>();
+            services.AddScoped<IWallet, WalletRepository>();
+            services.AddScoped<IWalletType, WalletTypeRepository>();
         }
     }
 }
