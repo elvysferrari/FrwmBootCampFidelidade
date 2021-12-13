@@ -13,9 +13,9 @@ namespace FrwkBootCampFidelidade.Dominio.OrderContext.Entities
         public double TotalValue { get; set; }
         public int StoreId { get; set; }
         public int UserId { get; set; }        
-        public string cpf { get; set; }
-        public DateTime createdAt { get; set; }
-        public DateTime updatedAt { get; set; }
+        public string Cpf { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
 
     }
 }
