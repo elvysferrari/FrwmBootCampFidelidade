@@ -30,11 +30,7 @@ namespace FrwkBootCampFidelidade.API
 
             services.AddDBInjector();
 
-            services.AddControllers()
-                .AddFluentValidation(fvc => 
-                {
-                    fvc.RegisterValidatorsFromAssemblyContaining<Startup>();
-                });
+            services.AddControllers().AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             services.AddSwaggerGen(c =>
             {
