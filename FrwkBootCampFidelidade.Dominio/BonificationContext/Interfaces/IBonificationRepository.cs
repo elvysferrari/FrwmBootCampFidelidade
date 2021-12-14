@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Dominio.BonificationContext.Interfaces
 {
-    public interface IBonification : IBaseRepository<Bonification>
+    public interface IBonificationRepository : IBaseRepository<Bonification>
     {
         //GetByUserId
         Task<List<BonificationDTO>> GetByUserId(int userId);

@@ -26,19 +26,19 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("createdAt")
-                        .HasColumnType("datetime2");
+                    b.Property<float>("ScoreQuantity")
+                        .HasColumnType("real");
 
-                    b.Property<DateTime>("date")
-                        .HasColumnType("smalldatetime");
-
-                    b.Property<int>("scoreQuantity")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("updatedAt")
+                    b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
@@ -46,6 +46,26 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("Bonification");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
+                            Date = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
+                            OrderId = 1,
+                            ScoreQuantity = 52f,
+                            UpdatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
+                            Date = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
+                            OrderId = 2,
+                            ScoreQuantity = 61.25f,
+                            UpdatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.OrderContext.Entities.Order", b =>
@@ -55,27 +75,49 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Cpf")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("StoreId")
                         .HasColumnType("int");
 
                     b.Property<double>("TotalValue")
                         .HasColumnType("float");
 
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
-
-                    b.Property<string>("cpf")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("createdAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("updatedAt")
-                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
                     b.ToTable("Order");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Cpf = "02563215479",
+                            CreatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
+                            StoreId = 1,
+                            TotalValue = 658.96002197265625,
+                            UpdatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
+                            UserId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Cpf = "65989847894",
+                            CreatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
+                            StoreId = 1,
+                            TotalValue = 1698.6600341796875,
+                            UpdatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
+                            UserId = 1
+                        });
                 });
 
             modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.OrderContext.Entities.OrderItem", b =>
@@ -102,6 +144,56 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderItem");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            OrderId = 1,
+                            ProductId = 1,
+                            observation = "Medicamento X.1",
+                            quantity = 5
+                        },
+                        new
+                        {
+                            Id = 2,
+                            OrderId = 1,
+                            ProductId = 2,
+                            observation = "Medicamento X.2",
+                            quantity = 15
+                        },
+                        new
+                        {
+                            Id = 3,
+                            OrderId = 1,
+                            ProductId = 3,
+                            observation = "Medicamento X.3",
+                            quantity = 25
+                        },
+                        new
+                        {
+                            Id = 4,
+                            OrderId = 2,
+                            ProductId = 4,
+                            observation = "Medicamento Y.1",
+                            quantity = 8
+                        },
+                        new
+                        {
+                            Id = 5,
+                            OrderId = 2,
+                            ProductId = 5,
+                            observation = "Medicamento Y.2",
+                            quantity = 9
+                        },
+                        new
+                        {
+                            Id = 6,
+                            OrderId = 2,
+                            ProductId = 6,
+                            observation = "Medicamento Y.3",
+                            quantity = 10
+                        });
                 });
 
             modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.RansomContext.Entities.Ransom", b =>
@@ -185,6 +277,28 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                     b.HasIndex("WalletTypeId");
 
                     b.ToTable("Wallet");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Amount = 50f,
+                            CreatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
+                            DrugstoreId = 1,
+                            UpdatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
+                            UserId = 1,
+                            WalletTypeId = 1
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Amount = 150f,
+                            CreatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
+                            DrugstoreId = 1,
+                            UpdatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
+                            UserId = 1,
+                            WalletTypeId = 2
+                        });
                 });
 
             modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.WalletContext.Entities.WalletType", b =>
@@ -206,6 +320,22 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("WalletType");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
+                            Name = "Pontos",
+                            UpdatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
+                            Name = "Dinheiro",
+                            UpdatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified)
+                        });
                 });
 
             modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.BonificationContext.Entities.Bonification", b =>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FrwkBootCampFidelidade.Dominio.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,15 +7,14 @@ using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Dominio.ExtractContext.Entities
 {
-    public class RansomHistoryStatus
+    public class RansomHistoryStatus : EntityBase
     {
-        public int Id { get; set; }
-        public int ransomStatusId { get; set; }
-        public object ransomStatus { get; set; }
-        public int ransomId { get; set; }
-        public object ransom { get; set; }
-        public DateTime date { get; set; }
-        public DateTime createdAt { get; set; }
-        public DateTime updatedAt { get; set; }
+        public int RansomStatusId { get; set; }
+        public object RansomStatus { get; set; }
+        public int RansomId { get; set; }
+        public object Ransom { get; set; }
+        public DateTime Date { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime UpdatedAt { get; set; }
     }
 }

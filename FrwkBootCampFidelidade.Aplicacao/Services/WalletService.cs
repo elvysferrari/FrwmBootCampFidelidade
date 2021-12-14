@@ -13,10 +13,10 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 {
     public class WalletService : IWalletService
     {
-        private readonly IWallet _wallet;
+        private readonly IWalletRepository _wallet;
         private readonly IMapper _mapper;
 
-        public WalletService(IWallet wallet, IMapper mapper)
+        public WalletService(IWalletRepository wallet, IMapper mapper)
         {
             _wallet = wallet;
             _mapper = mapper;

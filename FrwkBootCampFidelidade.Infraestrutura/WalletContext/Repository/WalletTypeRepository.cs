@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.Data.WalletContext.Repository
 {
-    public class WalletTypeRepository : BaseRepository<WalletType>, IWalletType
+    public class WalletTypeRepository : BaseRepository<WalletType>, IWalletTypeRepository
     {
         private readonly DBContext _context;
 

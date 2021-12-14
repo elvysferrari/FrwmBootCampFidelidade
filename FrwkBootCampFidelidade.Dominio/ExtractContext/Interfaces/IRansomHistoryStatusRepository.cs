@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Dominio.ExtractContext.Interfaces
 {
-    public interface IRansomHistoryStatus : IBaseRepository<RansomHistoryStatus>
+    public interface IRansomHistoryStatusRepository : IBaseRepository<RansomHistoryStatus>
     {
         //GetByUserId
         Task<List<RansomHistoryStatusDTO>> GetByUserId(int userId);

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Dominio.WalletContext.Interfaces
 {
-    public interface IWallet : IBaseRepository<Wallet>
+    public interface IWalletRepository : IBaseRepository<Wallet>
     {
         Task<List<WalletDTO>> GetAllByUserId(int userId);
         Task<List<WalletDTO>> GetAllByUserIdAndType(int userId, int walletType);
