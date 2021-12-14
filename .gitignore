@@ -393,8 +393,7 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+# Especific for this project
 FrwkBootCampFidelidade.API/appsettings.json
-FrwkBootCampFidelidade.Infraestrutura/Migrations/20211213123451_fidelidademigration.cs
-FrwkBootCampFidelidade.Infraestrutura/Migrations/20211213123451_fidelidademigration.Designer.cs
-FrwkBootCampFidelidade.Infraestrutura/Migrations
-FrwkBootCampFidelidade.API/appsettings.json
+[Mm]igrations/
