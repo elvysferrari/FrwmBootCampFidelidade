@@ -1,6 +1,9 @@
 ﻿using FrwkBootCampFidelidade.Dominio.ExtractContext.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+
 
 namespace FrwkBootCampFidelidade.Infraestrutura.ExtractContext.Mapping
 {

@@ -2,12 +2,14 @@
 using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
 using FrwkBootCampFidelidade.Dominio.RansomContext.Entities;
 using FrwkBootCampFidelidade.Dominio.OrderContext.Entities;
+using FrwkBootCampFidelidade.Dominio.ExtractContext.Entities;
 using FrwkBootCampFidelidade.Infraestrutura.BonificationContext.Mapping;
 using FrwkBootCampFidelidade.Infraestrutura.RansomContext.Mapping;
 using FrwkBootCampFidelidade.Infraestrutura.OrderItemContext.Mapping;
 using Microsoft.EntityFrameworkCore;
 using FrwkBootCampFidelidade.Dominio.WalletContext.Entities;
 using FrwkBootCampFidelidade.Infraestrutura.Data.WalletContext.Mapping;
+using FrwkBootCampFidelidade.Infraestrutura.ExtractContext.Mapping;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.Context
 {
@@ -23,6 +25,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Context
 
         public virtual DbSet<Bonification> Bonifications { get; set; }
         public virtual DbSet<Ransom> Ransoms { get; set; }
+        public virtual DbSet<RansomHistoryStatus> Extracts { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<Wallet> Wallets { get; set; }
@@ -31,10 +34,11 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Context
         {
             builder.ApplyConfiguration(new BonificationMap());
             builder.ApplyConfiguration(new RansomMap());
-            builder.ApplyConfiguration(new OrderMap());
+            builder.ApplyConfiguration(new RansomHistoryStatusMap());
             builder.ApplyConfiguration(new OrderItemMap());
-            builder.ApplyConfiguration(new WalletMap());
+            builder.ApplyConfiguration(new OrderMap());
             builder.ApplyConfiguration(new WalletTypeMap());
+            builder.ApplyConfiguration(new WalletMap());
         }
     }
 }

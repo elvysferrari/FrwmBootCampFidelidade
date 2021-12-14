@@ -1,8 +1,10 @@
 ﻿using FrwkBootCampFidelidade.Dominio.BonificationContext.Interfaces;
 using FrwkBootCampFidelidade.Dominio.RansomContext.Interfaces;
 using FrwkBootCampFidelidade.Dominio.OrderContext.Interfaces;
+using FrwkBootCampFidelidade.Dominio.ExtractContext.Interfaces;
 using FrwkBootCampFidelidade.Infraestrutura.BonificationContext.Repository;
 using FrwkBootCampFidelidade.Infraestrutura.RansomContext.Repository;
+using FrwkBootCampFidelidade.Infraestrutura.ExtractContext.Repository;
 using FrwkBootCampFidelidade.Infraestrutura.OrderItemContext.Repository;
 using Microsoft.Extensions.DependencyInjection;
 using FrwkBootCampFidelidade.Dominio.WalletContext.Interfaces;
@@ -14,12 +16,13 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
     {
         public static void AddDBInjector(this IServiceCollection services)
         {
-            services.AddScoped<IBonification, BonificationRepository>();
-            services.AddScoped<IRansom, RansomRepository>();
-            services.AddScoped<IOrder, OrderRepository>();
-            services.AddScoped<IOrderItem, OrderItemRepository>();
-            services.AddScoped<IWallet, WalletRepository>();
-            services.AddScoped<IWalletType, WalletTypeRepository>();
+            services.AddScoped<IBonificationRepository, BonificationRepository>();
+            services.AddScoped<IRansomRepository, RansomRepository>();
+            services.AddScoped<IRansomHistoryStatusRepository, RansomHistoryStatusRepository>();
+            services.AddScoped<IOrderRepository, OrderRepository>();
+            services.AddScoped<IOrderItemRepository, OrderItemRepository>();
+            services.AddScoped<IWalletRepository, WalletRepository>();
+            services.AddScoped<IWalletTypeRepository, WalletTypeRepository>();
         }
     }
 }
