@@ -3,7 +3,9 @@ using AutoMapper;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Aplicacao.Services;
 using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
+using FrwkBootCampFidelidade.Dominio.RansomContext.Entities;
 using FrwkBootCampFidelidade.DTO.BonificationContext;
+using FrwkBootCampFidelidade.DTO.RansomContext;
 using System.Collections.Generic;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
@@ -14,6 +16,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
         {
             #region IOC Application
             builder.RegisterType<BonificationService>().As<IBonificationService>();
+            builder.RegisterType<RansomService>().As<IRansomService>();
             #endregion
 
             #region IOC Mapper
@@ -24,6 +27,13 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
                 cfg.CreateMap<BonificationDTO, Bonification>();
                 cfg.CreateMap<List<BonificationDTO>, List<Bonification>>();
                 cfg.CreateMap<List<Bonification>, List<BonificationDTO>>();
+                #endregion
+
+                #region Ransom
+                cfg.CreateMap<Ransom, RansomDTO>();
+                cfg.CreateMap<RansomDTO, Ransom>();
+                cfg.CreateMap<List<RansomDTO>, List<Ransom>>();
+                cfg.CreateMap<List<Ransom>, List<RansomDTO>>();
                 #endregion
 
             })).AsSelf().SingleInstance();

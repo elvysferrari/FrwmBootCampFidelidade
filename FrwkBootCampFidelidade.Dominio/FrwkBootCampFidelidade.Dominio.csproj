@@ -5,9 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Base\Entities\" />
-    <Folder Include="Extrato\" />
-    <Folder Include="Resgate\" />
+    <Compile Remove="Base\Entities\**" />
+    <Compile Remove="Extrato\**" />
+    <Compile Remove="Resgate\**" />
+    <EmbeddedResource Remove="Base\Entities\**" />
+    <EmbeddedResource Remove="Extrato\**" />
+    <EmbeddedResource Remove="Resgate\**" />
+    <None Remove="Base\Entities\**" />
+    <None Remove="Extrato\**" />
+    <None Remove="Resgate\**" />
   </ItemGroup>
 
   <ItemGroup>
