@@ -21,18 +21,18 @@ namespace FrwkBootCampFidelidade.Infraestrutura.ExtractContext.Repository
 
         public async Task<List<RansomHistoryStatusDTO>> GetByUserId(int userId)
         {
-            var query = from extracts in _context.Extracts
-                        join ranson in _context.Ransoms on extracts.RansomId equals ranson.Id
-                        join wallet in _context.Wallets on ranson.WalletId equals wallet.Id
+            var query = from extracts in _context.RansomHistoryStatus
+                        join ransom in _context.Ransoms on extracts.RansomId equals ransom.Id
+                        join wallet in _context.Wallets on ransom.WalletId equals wallet.Id
                         where userId == wallet.UserId
-                        orderby extracts.Date
-                        select new RansomHistoryStatusDTO() { Id = extracts.Id };
+                        orderby extracts.Date descending
+                        select new RansomHistoryStatusDTO() { Id = extracts.Id, WalletId = wallet.Id, Amount = ransom.Amount, Date = extracts.Date };
 
             return await query.ToListAsync();
         }
         public async Task<List<RansomHistoryStatusDTO>> GetByCPF(string cpf)
         {
-            var query = from extracts in _context.Extracts
+            var query = from extracts in _context.RansomHistoryStatus
                         join ranson in _context.Ransoms on extracts.RansomId equals ranson.Id
                         join wallet in _context.Wallets on ranson.WalletId equals wallet.Id
                         where cpf == ranson.CPF

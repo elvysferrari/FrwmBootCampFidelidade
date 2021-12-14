@@ -7,6 +7,8 @@ using FrwkBootCampFidelidade.Dominio.WalletContext.Entities;
 using FrwkBootCampFidelidade.DTO.BonificationContext;
 using FrwkBootCampFidelidade.DTO.WalletContext;
 using System.Collections.Generic;
+using FrwkBootCampFidelidade.Dominio.ExtractContext.Entities;
+using FrwkBootCampFidelidade.DTO.ExtractContext;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 {
@@ -32,6 +34,14 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
                 cfg.CreateMap<WalletDTO, Wallet>();
                 cfg.CreateMap<List<WalletDTO>, List<Wallet>>();
                 cfg.CreateMap<List<Wallet>, List<WalletDTO>>();
+                #endregion
+
+                #region Extract
+                cfg.CreateMap<RansomHistoryStatus, RansomHistoryStatusDTO>();
+                cfg.CreateMap<RansomHistoryStatusDTO, RansomHistoryStatus>();
+                cfg.CreateMap<List<RansomHistoryStatusDTO>, List<RansomHistoryStatus>>();
+                cfg.CreateMap<List<RansomHistoryStatus>, List<RansomHistoryStatusDTO>>();
+
                 #endregion
 
             })).AsSelf().SingleInstance();

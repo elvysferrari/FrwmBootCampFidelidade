@@ -1,12 +1,15 @@
-﻿using System;
+﻿using FrwkBootCampFidelidade.DTO.WalletContext;
+using System;
+
 
 namespace FrwkBootCampFidelidade.DTO.ExtractContext
 {
     public class RansomHistoryStatusDTO
     {
         public int Id { get; set; }
-        public object wallet { get; set; }
-        public decimal value { get; set; }
-        public DateTime date { get; set; }
+        public int WalletId { get; set; }
+        public WalletDTO Wallet { get; set; }
+        public float Amount { get; set; }
+        public DateTime Date { get; set; }
     }
 }

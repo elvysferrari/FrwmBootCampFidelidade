@@ -11,11 +11,19 @@ namespace FrwkBootCampFidelidade.Infraestrutura.ExtractContext.Mapping
     {
         public void Configure(EntityTypeBuilder<RansomHistoryStatus> builder)
         {
-            builder.ToTable("Extract");
+            builder.ToTable("RansomHistoryStatus");
 
-            builder.Property(x => x.Date).HasColumnType("smalldatetime").IsRequired();
+           // builder.HasData(ObterDados());
+        }
 
-           // builder.HasKey(prop => prop.value);
+        private static ICollection<RansomHistoryStatus> ObterDados()
+        {
+            DateTime createdAt = new(2021, 12, 13, 15, 45, 23);
+
+            return new[]{
+                new RansomHistoryStatus() {Id = 1, RansomStatusId = 1, RansomId = 1, Date = createdAt, CreatedAt = createdAt, UpdatedAt = createdAt },
+                new RansomHistoryStatus() {Id = 2, RansomStatusId = 2, RansomId = 2, Date = createdAt, CreatedAt = createdAt, UpdatedAt = createdAt }
+            };
         }
     }
 }

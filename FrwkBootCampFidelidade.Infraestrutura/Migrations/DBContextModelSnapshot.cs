@@ -68,6 +68,37 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.ExtractContext.Entities.RansomHistoryStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("RansomId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RansomStatusId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RansomId");
+
+                    b.HasIndex("RansomStatusId");
+
+                    b.ToTable("RansomHistoryStatus");
+                });
+
             modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.OrderContext.Entities.Order", b =>
                 {
                     b.Property<int>("Id")
@@ -75,7 +106,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Cpf")
+                    b.Property<string>("CPF")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
@@ -101,7 +132,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                         new
                         {
                             Id = 1,
-                            Cpf = "02563215479",
+                            CPF = "02563215479",
                             CreatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
                             StoreId = 1,
                             TotalValue = 658.96002197265625,
@@ -111,7 +142,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                         new
                         {
                             Id = 2,
-                            Cpf = "65989847894",
+                            CPF = "65989847894",
                             CreatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
                             StoreId = 1,
                             TotalValue = 1698.6600341796875,
@@ -127,16 +158,16 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Observation")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<string>("observation")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("quantity")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -149,58 +180,58 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                         new
                         {
                             Id = 1,
+                            Observation = "Medicamento X.1",
                             OrderId = 1,
                             ProductId = 1,
-                            observation = "Medicamento X.1",
-                            quantity = 5
+                            Quantity = 5
                         },
                         new
                         {
                             Id = 2,
+                            Observation = "Medicamento X.2",
                             OrderId = 1,
                             ProductId = 2,
-                            observation = "Medicamento X.2",
-                            quantity = 15
+                            Quantity = 15
                         },
                         new
                         {
                             Id = 3,
+                            Observation = "Medicamento X.3",
                             OrderId = 1,
                             ProductId = 3,
-                            observation = "Medicamento X.3",
-                            quantity = 25
+                            Quantity = 25
                         },
                         new
                         {
                             Id = 4,
+                            Observation = "Medicamento Y.1",
                             OrderId = 2,
                             ProductId = 4,
-                            observation = "Medicamento Y.1",
-                            quantity = 8
+                            Quantity = 8
                         },
                         new
                         {
                             Id = 5,
+                            Observation = "Medicamento Y.2",
                             OrderId = 2,
                             ProductId = 5,
-                            observation = "Medicamento Y.2",
-                            quantity = 9
+                            Quantity = 9
                         },
                         new
                         {
                             Id = 6,
+                            Observation = "Medicamento Y.3",
                             OrderId = 2,
                             ProductId = 6,
-                            observation = "Medicamento Y.3",
-                            quantity = 10
+                            Quantity = 10
                         });
                 });
 
             modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.RansomContext.Entities.Ransom", b =>
                 {
-                    b.Property<long>("Id")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint")
+                        .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("Agency")
@@ -218,7 +249,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                     b.Property<string>("Beneficiary")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Cpf")
+                    b.Property<string>("CPF")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("Created")
@@ -245,6 +276,21 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Ransom");
+                });
+
+            modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.RansomContext.Entities.RansomStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("RansomStatus");
                 });
 
             modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.WalletContext.Entities.Wallet", b =>
@@ -347,6 +393,25 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Order");
+                });
+
+            modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.ExtractContext.Entities.RansomHistoryStatus", b =>
+                {
+                    b.HasOne("FrwkBootCampFidelidade.Dominio.RansomContext.Entities.Ransom", "Ransom")
+                        .WithMany()
+                        .HasForeignKey("RansomId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FrwkBootCampFidelidade.Dominio.RansomContext.Entities.RansomStatus", "RansomStatus")
+                        .WithMany()
+                        .HasForeignKey("RansomStatusId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Ransom");
+
+                    b.Navigation("RansomStatus");
                 });
 
             modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.OrderContext.Entities.OrderItem", b =>
