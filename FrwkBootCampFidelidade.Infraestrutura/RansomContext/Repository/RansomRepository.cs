@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.RansomContext.Repository
 {
-    public class RansomRepository : BaseRepository<Ransom>, IRansom
+    public class RansomRepository : BaseRepository<Ransom>, IRansomRepository
     {
         private readonly DBContext _context;
 
@@ -27,10 +27,10 @@ namespace FrwkBootCampFidelidade.Infraestrutura.RansomContext.Repository
         public async Task<List<RansomDTO>> GetListByCPF(string cpf)
         {
             var query = from ransoms in _context.Ransoms
-                        where cpf == ransoms.Cpf
+                        where cpf == ransoms.CPF
                         orderby ransoms.Id
                         select new RansomDTO() { Id = ransoms.Id, WalletId = ransoms.WalletId, Amount = ransoms.Amount, 
-                            Date = ransoms.Date, Beneficiary = ransoms.Beneficiary, Cpf = ransoms.Cpf, PixKeyType = ransoms.PixKeyType,
+                            Date = ransoms.Date, Beneficiary = ransoms.Beneficiary, Cpf = ransoms.CPF, PixKeyType = ransoms.PixKeyType,
                             PixKey = ransoms.PixKey, BankNumber = ransoms.BankNumber, Agency = ransoms.Agency, BankAccountNumber = ransoms.BankAccountNumber,
                             Operation = ransoms.Operation};
 

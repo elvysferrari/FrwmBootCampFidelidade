@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FrwkBootCampFidelidade.DTO
+namespace FrwkBootCampFidelidade.DTO.ExtractContext
 {
     public class RansomHistoryStatusDTO
     {

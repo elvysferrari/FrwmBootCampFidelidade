@@ -1,11 +1,10 @@
-﻿using System;
+﻿using FrwkBootCampFidelidade.Dominio.Base;
+using System;
 
 namespace FrwkBootCampFidelidade.Dominio.RansomContext.Entities
 {
-    public class Ransom
+    public class Ransom : EntityBase
     {
-        public long Id { get; set; }
-
         public long WalletId { get; set; }
 
         public long Amount { get; set; }
@@ -14,7 +13,7 @@ namespace FrwkBootCampFidelidade.Dominio.RansomContext.Entities
 
         public string Beneficiary { get; set; }
 
-        public string Cpf { get; set; }
+        public string CPF { get; set; }
 
         public string PixKeyType { get; set; }
 

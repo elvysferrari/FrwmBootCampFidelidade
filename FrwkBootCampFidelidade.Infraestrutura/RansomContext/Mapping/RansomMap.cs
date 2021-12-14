@@ -20,7 +20,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.RansomContext.Mapping
 
             builder.Property(x => x.Beneficiary);
 
-            builder.Property(x => x.Cpf);
+            builder.Property(x => x.CPF);
 
             builder.Property(x => x.PixKeyType);
 

@@ -1,6 +1,9 @@
 ﻿using FrwkBootCampFidelidade.Dominio.ExtractContext.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
+using System.Collections.Generic;
+
 
 namespace FrwkBootCampFidelidade.Infraestrutura.ExtractContext.Mapping
 {
@@ -10,7 +13,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.ExtractContext.Mapping
         {
             builder.ToTable("Extract");
 
-            builder.Property(x => x.date).HasColumnType("smalldatetime").IsRequired();
+            builder.Property(x => x.Date).HasColumnType("smalldatetime").IsRequired();
 
            // builder.HasKey(prop => prop.value);
         }

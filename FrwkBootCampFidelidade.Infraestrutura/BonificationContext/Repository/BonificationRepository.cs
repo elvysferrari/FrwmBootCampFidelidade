@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.BonificationContext.Repository
 {
-    public class BonificationRepository : BaseRepository<Bonification>, IBonification 
+    public class BonificationRepository : BaseRepository<Bonification>, IBonificationRepository 
     {
         private readonly DBContext _context;
 
@@ -25,7 +25,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.BonificationContext.Repository
                         join orders in _context.Orders on bonifications.Id equals orders.Id
                         where userId == orders.UserId
                         orderby bonifications.Id
-                        select new BonificationDTO() { Id = bonifications.Id, scoreQuantity = bonifications.scoreQuantity, OrderId = orders.Id, UserId = orders.UserId, date = bonifications.date };
+                        select new BonificationDTO() { Id = bonifications.Id, scoreQuantity = bonifications.ScoreQuantity, OrderId = orders.Id, UserId = orders.UserId, date = bonifications.Date };
 
             return await query.ToListAsync();            
         }
@@ -33,9 +33,9 @@ namespace FrwkBootCampFidelidade.Infraestrutura.BonificationContext.Repository
         {
             var query = from bonifications in _context.Bonifications
                         join orders in _context.Orders on bonifications.Id equals orders.Id
-                        where cpf == orders.cpf
+                        where cpf == orders.CPF
                         orderby bonifications.Id
-                        select new BonificationDTO() { Id = bonifications.Id, scoreQuantity = bonifications.scoreQuantity, OrderId = orders.Id, UserId = orders.UserId, date = bonifications.date };
+                        select new BonificationDTO() { Id = bonifications.Id, scoreQuantity = bonifications.ScoreQuantity, OrderId = orders.Id, UserId = orders.UserId, date = bonifications.Date };
 
             return await query.ToListAsync();
         }

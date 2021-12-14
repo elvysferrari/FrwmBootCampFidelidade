@@ -11,30 +11,30 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 {
     public class RansomService : IRansomService
     {
-        private readonly IRansom _ransom;
+        private readonly IRansomRepository _ransomRepository;
         private readonly IMapper _mapper;
 
-        public RansomService(IRansom bonification, IMapper mapper)
+        public RansomService(IRansomRepository ransomRepository, IMapper mapper)
         {
-            _ransom = bonification;
+            _ransomRepository = ransomRepository;
             _mapper = mapper;
         }
 
         public async Task Add(RansomDTO obj)
         {
             var ransom = _mapper.Map<Ransom>(obj);
-            await _ransom.Add(ransom);
+            await _ransomRepository.Add(ransom);
         }
 
         public async Task<RansomDTO> GetById(int Id)
         {
-            RansomDTO ransomDTO = _mapper.Map<RansomDTO>(await _ransom.GetById(Id));
+            RansomDTO ransomDTO = _mapper.Map<RansomDTO>(await _ransomRepository.GetById(Id));
             return ransomDTO;
         }
 
         public IEnumerable<RansomDTO> GetAll()
         {
-            var teste = _ransom.GetAll();
+            var teste = _ransomRepository.GetAll();
             IEnumerable<RansomDTO> ransomDTOs = _mapper.Map<IEnumerable<RansomDTO>>(teste);
 
             return ransomDTOs;
@@ -42,7 +42,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
         public async Task<List<RansomDTO>> GetListByCPF(string cpf)
         {
-            List<RansomDTO> ransomDTOs = _mapper.Map<List<RansomDTO>>(await _ransom.GetListByCPF(cpf));
+            List<RansomDTO> ransomDTOs = _mapper.Map<List<RansomDTO>>(await _ransomRepository.GetListByCPF(cpf));
             return ransomDTOs;
         }
 

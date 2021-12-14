@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Dominio.RansomContext.Interfaces
 {
-    public interface IRansom : IBaseRepository<Ransom>
+    public interface IRansomRepository : IBaseRepository<Ransom>
     {
         Task<List<RansomDTO>> GetListByCPF(string CPF);
     }
