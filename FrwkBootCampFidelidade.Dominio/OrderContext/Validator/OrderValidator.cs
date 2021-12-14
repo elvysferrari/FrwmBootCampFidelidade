@@ -13,6 +13,7 @@ namespace FrwkBootCampFidelidade.Dominio.OrderContext.Validator
         public OrderValidator()
         {
             RuleFor(c => c.CPF)
+                .Length(1, 14).WithMessage("Mínimo de 1 e máximo 14")
                 .NotEmpty().WithMessage("CPF é obrigatório")
                 .NotNull().WithMessage("CPF é obrigatório");
         }

@@ -1,11 +1,6 @@
 ﻿using FrwkBootCampFidelidade.Dominio.Base;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FrwkBootCampFidelidade.Dominio.ExtractContext.Entities;
 using FrwkBootCampFidelidade.Dominio.RansomContext.Entities;
+using System;
 
 namespace FrwkBootCampFidelidade.Dominio.ExtractContext.Entities
 {

@@ -1,5 +1,7 @@
 using Autofac;
+using FluentValidation;
 using FluentValidation.AspNetCore;
+using FrwkBootCampFidelidade.Dominio.OrderContext.Entities;
 using FrwkBootCampFidelidade.Dominio.OrderContext.Validator;
 using FrwkBootCampFidelidade.Infraestrutura.Context;
 using FrwkBootCampFidelidade.Infraestrutura.IOC.IOC;
@@ -30,7 +32,9 @@ namespace FrwkBootCampFidelidade.API
 
             services.AddDBInjector();
 
-            services.AddControllers().AddFluentValidation(fvc => fvc.RegisterValidatorsFromAssemblyContaining<Startup>());
+            services
+                .AddControllers()
+                .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
 
             services.AddSwaggerGen(c =>
             {
