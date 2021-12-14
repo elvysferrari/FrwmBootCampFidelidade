@@ -1,19 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Base\Entities\**" />
-    <Compile Remove="Extrato\**" />
-    <Compile Remove="Resgate\**" />
-    <EmbeddedResource Remove="Base\Entities\**" />
-    <EmbeddedResource Remove="Extrato\**" />
-    <EmbeddedResource Remove="Resgate\**" />
-    <None Remove="Base\Entities\**" />
-    <None Remove="Extrato\**" />
-    <None Remove="Resgate\**" />
+    <Folder Include="Base\Entities\" />
+    <Folder Include="Extrato\" />
+    <Folder Include="Resgate\" />
+    <Folder Include="Services\BonificationContext\" />
+    <Folder Include="Services\ExtractContext\" />
+    <Folder Include="Services\RamsomContext\" />
+    <Folder Include="Services\OrderContext\" />
   </ItemGroup>
 
   <ItemGroup>
