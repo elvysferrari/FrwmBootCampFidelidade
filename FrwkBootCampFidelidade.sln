@@ -28,15 +28,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DTO", "DTO", "{83401A2F-5E42-4A68-AF5A-4B7515E89C5A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkBootCampFidelidade.DTO", "FrwkBootCampFidelidade.DTO\FrwkBootCampFidelidade.DTO.csproj", "{71A24D4E-0AAD-4A0E-9EC2-6E94B854B0FD}"
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkBootCampFidelidade.DTO", "FrwkBootCampFidelidade.DTO\FrwkBootCampFidelidade.DTO.csproj", "{71A24D4E-0AAD-4A0E-9EC2-6E94B854B0FD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrwkBootCampFidelidade.Promotion.API", "FrwkBootCampFidelidade.Promotion.API\FrwkBootCampFidelidade.Promotion.API.csproj", "{FEAF9D44-62A8-4B34-88E9-89C5E4F91711}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkBootCampFidelidade.Promotion.API", "FrwkBootCampFidelidade.Promotion.API\FrwkBootCampFidelidade.Promotion.API.csproj", "{FEAF9D44-62A8-4B34-88E9-89C5E4F91711}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrwkBootCampFidelidade.Extract.API", "FrwkBootCampFidelidade.Extract.API\FrwkBootCampFidelidade.Extract.API.csproj", "{D8CF6B72-7BD0-44D5-8300-EDDC21678AB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkBootCampFidelidade.Extract.API", "FrwkBootCampFidelidade.Extract.API\FrwkBootCampFidelidade.Extract.API.csproj", "{D8CF6B72-7BD0-44D5-8300-EDDC21678AB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrwkBootCampFidelidade.Bonification.API", "FrwkBootCampFidelidade.Bonification.API\FrwkBootCampFidelidade.Bonification.API.csproj", "{886B9580-DE28-44F6-B4D4-4F945331525C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkBootCampFidelidade.Bonification.API", "FrwkBootCampFidelidade.Bonification.API\FrwkBootCampFidelidade.Bonification.API.csproj", "{886B9580-DE28-44F6-B4D4-4F945331525C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrwkBootCampFidelidade.Wallet.API", "FrwkBootCampFidelidade.Wallet.API\FrwkBootCampFidelidade.Wallet.API.csproj", "{5A67F5FC-A539-4E04-AE1A-469905540CF7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkBootCampFidelidade.Wallet.API", "FrwkBootCampFidelidade.Wallet.API\FrwkBootCampFidelidade.Wallet.API.csproj", "{5A67F5FC-A539-4E04-AE1A-469905540CF7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -72,6 +71,10 @@ Global
 		{71A24D4E-0AAD-4A0E-9EC2-6E94B854B0FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71A24D4E-0AAD-4A0E-9EC2-6E94B854B0FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71A24D4E-0AAD-4A0E-9EC2-6E94B854B0FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEAF9D44-62A8-4B34-88E9-89C5E4F91711}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEAF9D44-62A8-4B34-88E9-89C5E4F91711}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEAF9D44-62A8-4B34-88E9-89C5E4F91711}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEAF9D44-62A8-4B34-88E9-89C5E4F91711}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D8CF6B72-7BD0-44D5-8300-EDDC21678AB2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D8CF6B72-7BD0-44D5-8300-EDDC21678AB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8CF6B72-7BD0-44D5-8300-EDDC21678AB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -84,10 +87,6 @@ Global
 		{5A67F5FC-A539-4E04-AE1A-469905540CF7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5A67F5FC-A539-4E04-AE1A-469905540CF7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5A67F5FC-A539-4E04-AE1A-469905540CF7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FEAF9D44-62A8-4B34-88E9-89C5E4F91711}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FEAF9D44-62A8-4B34-88E9-89C5E4F91711}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FEAF9D44-62A8-4B34-88E9-89C5E4F91711}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FEAF9D44-62A8-4B34-88E9-89C5E4F91711}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,10 +100,10 @@ Global
 		{D755A7EF-17ED-4EF8-B1EC-49CB3CFCB2DD} = {2B9A59DE-F2DB-43EB-B10D-4A4EA56AD2E2}
 		{83401A2F-5E42-4A68-AF5A-4B7515E89C5A} = {F25C8222-8FCE-405C-AB8F-BEEB69E85E54}
 		{71A24D4E-0AAD-4A0E-9EC2-6E94B854B0FD} = {F25C8222-8FCE-405C-AB8F-BEEB69E85E54}
+		{FEAF9D44-62A8-4B34-88E9-89C5E4F91711} = {2BA9272C-76ED-4407-B64F-85DD45E589B0}
 		{D8CF6B72-7BD0-44D5-8300-EDDC21678AB2} = {2BA9272C-76ED-4407-B64F-85DD45E589B0}
 		{886B9580-DE28-44F6-B4D4-4F945331525C} = {2BA9272C-76ED-4407-B64F-85DD45E589B0}
 		{5A67F5FC-A539-4E04-AE1A-469905540CF7} = {2BA9272C-76ED-4407-B64F-85DD45E589B0}
-		{FEAF9D44-62A8-4B34-88E9-89C5E4F91711} = {2BA9272C-76ED-4407-B64F-85DD45E589B0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7EA29803-B2E0-4913-A59B-A52D96A7E6E6}
