@@ -33,24 +33,30 @@ namespace FrwkBootCampFidelidade.Infraestrutura.ExtractContext.Repository
         public async Task<List<RansomHistoryStatusDTO>> GetByCPF(string cpf)
         {
             var query = from extracts in _context.RansomHistoryStatus
-                        join ranson in _context.Ransoms on extracts.RansomId equals ranson.Id
-                        join wallet in _context.Wallets on ranson.WalletId equals wallet.Id
-                        where cpf == ranson.CPF
+                        join ransom in _context.Ransoms on extracts.RansomId equals ransom.Id
+                        join wallet in _context.Wallets on ransom.WalletId equals wallet.Id
+                        where cpf == ransom.CPF
                         orderby extracts.Date
-                        select new RansomHistoryStatusDTO() { Id = extracts.Id };
+                        select new RansomHistoryStatusDTO() { Id = extracts.Id, WalletId = wallet.Id, Amount = ransom.Amount, Date = extracts.Date };
+
 
             return await query.ToListAsync();
         }
 
-        //public async Task<List<RansomHistoryStatusDTO>> GetByCPF(string cpf)
-        //{
-        //    var query = from extracts in _context.Extracts
-        //                join orders in _context.Orders on extracts.Id equals orders.Id
-        //                where cpf == orders.CPF
-        //                orderby extracts.Id
-        //                select new RansomHistoryStatusDTO() { Id = extracts.Id };
+        public async Task<List<SummaryPointsDTO>> GetSummaryPoints(int userId)
+        {
+            var query = (from ransom in _context.Ransoms
+                           join ransonHistoryStatus in _context.RansomHistoryStatus on ransom.Id equals ransonHistoryStatus.RansomId
+                           join wallet in _context.Wallets on ransom.WalletId equals wallet.Id
+                           where wallet.UserId == userId
+                           group ransom by new { ransom.Date } into g
+                           select new SummaryPointsDTO() 
+                           {
+                               Date = g.Key.Date,
+                               SumAmount = g.Sum(x => x.Amount)
+                           });
 
-        //    return await query.ToListAsync();
-        //}
+            return await query.ToListAsync();
+        }
     }
 }

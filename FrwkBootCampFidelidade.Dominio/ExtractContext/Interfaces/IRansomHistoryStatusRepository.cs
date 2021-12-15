@@ -11,5 +11,6 @@ namespace FrwkBootCampFidelidade.Dominio.ExtractContext.Interfaces
         //GetByUserId
         Task<List<RansomHistoryStatusDTO>> GetByUserId(int userId);
         Task<List<RansomHistoryStatusDTO>> GetByCPF(string CPF);
+        Task<List<SummaryPointsDTO>> GetSummaryPoints(int userId);
     }
 }

@@ -30,16 +30,22 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             await _Extract.SaveChanges();
         }
 
+        public async Task<List<RansomHistoryStatusDTO>> GetByUserId(int userId)
+        {
+            var Extracts = await _Extract.GetByUserId(userId);
+            return _mapper.Map<List<RansomHistoryStatusDTO>>(Extracts);
+        }
+
         public async Task<List<RansomHistoryStatusDTO>> GetByCPF(string CPF)
         {
             var Extracts = await _Extract.GetByCPF(CPF);
             return _mapper.Map<List<RansomHistoryStatusDTO>>(Extracts);
         }
 
-        public async Task<List<RansomHistoryStatusDTO>> GetByUserId(int userId)
+        public async Task<List<SummaryPointsDTO>> GetSummaryPoints(int userId)
         {
-            var Extracts = await _Extract.GetByUserId(userId);
-            return _mapper.Map<List<RansomHistoryStatusDTO>>(Extracts);
+            var Extracts = await _Extract.GetSummaryPoints(userId);
+            return _mapper.Map<List<SummaryPointsDTO>>(Extracts);
         }
     }
 }

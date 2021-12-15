@@ -34,9 +34,9 @@ namespace FrwkBootCampFidelidade.API.Controllers
         }
 
         [HttpGet("GetSummaryPointsByUserID/{userId}")]
-        public async Task<List<RansomHistoryStatusDTO>> GetSummaryPoints(string userId)
+        public async Task<List<SummaryPointsDTO>> GetSummaryPoints(int userId)
         {
-            List<RansomHistoryStatusDTO> extracts = await _ExtractService.GetByCPF(userId);
+            List<SummaryPointsDTO> extracts = await _ExtractService.GetSummaryPoints(userId);
             return extracts;
         }
 

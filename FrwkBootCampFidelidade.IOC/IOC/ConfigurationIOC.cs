@@ -22,6 +22,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
             builder.RegisterType<BonificationService>().As<IBonificationService>();
             builder.RegisterType<WalletService>().As<IWalletService>();
             builder.RegisterType<RansomService>().As<IRansomService>();
+            builder.RegisterType<ExtractService>().As<IExtractService>();
             #endregion
 
             #region IOC Mapper
@@ -51,6 +52,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
                 cfg.CreateMap<RansomHistoryStatusDTO, RansomHistoryStatus>();
                 cfg.CreateMap<List<RansomHistoryStatusDTO>, List<RansomHistoryStatus>>();
                 cfg.CreateMap<List<RansomHistoryStatus>, List<RansomHistoryStatusDTO>>();
+
 
                 #endregion
 
