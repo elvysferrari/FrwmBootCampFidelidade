@@ -18,11 +18,11 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             _product = product;
         }
 
-        public List<ProductDTO> GetByPromotion(int promotionId)
+        public IEnumerable<ProductDTO> GetByPromotion(int promotionId)
         {
            var products = _product.GetByPromotion(promotionId);
            var productDTO = _mapper.Map<IEnumerable<ProductDTO>>(products);
-           return productDTO.ToList();
+           return productDTO;
         }
     }
 }

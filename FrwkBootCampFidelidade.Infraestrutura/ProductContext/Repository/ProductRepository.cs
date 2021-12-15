@@ -20,7 +20,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.ProductContext.Repository
             new Product{Id=9,PromotionId=2, Name="Teste 9", Description="Remédio bom", Price=80.9, CreatedAt=System.DateTime.Now,UpdatedAt=System.DateTime.Now },
         };
 
-        public List<Product> GetByPromotion(int promotionId)
+        public IEnumerable<Product> GetByPromotion(int promotionId)
         {
             return _products.Where(x => x.PromotionId == promotionId).ToList();
         }

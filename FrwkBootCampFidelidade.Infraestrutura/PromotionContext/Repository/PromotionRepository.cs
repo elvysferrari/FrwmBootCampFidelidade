@@ -20,7 +20,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Repository
             _context = context;
         }
 
-        public async Task<List<Promotion>> GetPromotionByDateRange(PromotionRequestDTO promotionRequest)
+        public async Task<IEnumerable<Promotion>> GetPromotionByDateRange(PromotionRequestDTO promotionRequest)
         {
             return await _context.Promotions.Where(x => 
                                         x.StartDate >= promotionRequest.StartDate &&
@@ -29,7 +29,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Repository
                                         .ToListAsync();
         }
 
-        public async Task<List<Promotion>> GetPromotionToday()
+        public async Task<IEnumerable<Promotion>> GetPromotionToday()
         {
             return await _context.Promotions.Where(x => 
                                         x.StartDate >= DateTime.Now &&
