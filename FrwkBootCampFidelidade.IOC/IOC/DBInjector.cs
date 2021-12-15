@@ -9,6 +9,10 @@ using FrwkBootCampFidelidade.Infraestrutura.OrderItemContext.Repository;
 using Microsoft.Extensions.DependencyInjection;
 using FrwkBootCampFidelidade.Dominio.WalletContext.Interfaces;
 using FrwkBootCampFidelidade.Infraestrutura.Data.WalletContext.Repository;
+using FrwkBootCampFidelidade.Dominio.PromotionContext.Interfaces;
+using FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Repository;
+using FrwkBootCampFidelidade.Dominio.ProductContext.Interfaces;
+using FrwkBootCampFidelidade.Infraestrutura.Data.ProductContext.Repository;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 {
@@ -23,6 +27,8 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
             services.AddScoped<IOrderItemRepository, OrderItemRepository>();
             services.AddScoped<IWalletRepository, WalletRepository>();
             services.AddScoped<IWalletTypeRepository, WalletTypeRepository>();
+            services.AddScoped<IPromotionRepository, PromotionRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
         }
     }
 }
