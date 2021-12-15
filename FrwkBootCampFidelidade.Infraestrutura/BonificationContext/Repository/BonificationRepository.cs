@@ -19,25 +19,26 @@ namespace FrwkBootCampFidelidade.Infraestrutura.BonificationContext.Repository
             _context = context;
         }
 
-        public async Task<List<BonificationDTO>> GetByUserId(int userId)
+        public async Task<List<Bonification>> GetByUserId(int userId)
         {
             var query = from bonifications in _context.Bonifications
                         join orders in _context.Orders on bonifications.Id equals orders.Id
                         where userId == orders.UserId
                         orderby bonifications.Id
-                        select new BonificationDTO() { Id = bonifications.Id, scoreQuantity = bonifications.ScoreQuantity, OrderId = orders.Id, UserId = orders.UserId, date = bonifications.Date };
+                        select new Bonification() { Id = bonifications.Id, ScoreQuantity = bonifications.ScoreQuantity, OrderId = orders.Id, Date = bonifications.Date };
 
             return await query.ToListAsync();            
         }
-        public async Task<List<BonificationDTO>> GetByCPF(string cpf)
+        public async Task<List<Bonification>> GetByCPF(string cpf)
         {
             var query = from bonifications in _context.Bonifications
                         join orders in _context.Orders on bonifications.Id equals orders.Id
                         where cpf == orders.CPF
                         orderby bonifications.Id
-                        select new BonificationDTO() { Id = bonifications.Id, scoreQuantity = bonifications.ScoreQuantity, OrderId = orders.Id, UserId = orders.UserId, date = bonifications.Date };
+                        select new Bonification() { Id = bonifications.Id, ScoreQuantity = bonifications.ScoreQuantity, OrderId = orders.Id, Date = bonifications.Date };
 
-            return await query.ToListAsync();
+            return await query.ToListAsync();             
+
         }
     }
 }

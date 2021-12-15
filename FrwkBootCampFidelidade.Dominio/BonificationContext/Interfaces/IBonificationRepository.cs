@@ -9,7 +9,7 @@ namespace FrwkBootCampFidelidade.Dominio.BonificationContext.Interfaces
     public interface IBonificationRepository : IBaseRepository<Bonification>
     {
         //GetByUserId
-        Task<List<BonificationDTO>> GetByUserId(int userId);
-        Task<List<BonificationDTO>> GetByCPF(string CPF);
+        Task<List<Bonification>> GetByUserId(int userId);
+        Task<List<Bonification>> GetByCPF(string CPF);
     }
 }
