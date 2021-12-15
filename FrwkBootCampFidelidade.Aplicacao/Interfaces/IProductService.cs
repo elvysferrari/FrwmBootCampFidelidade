@@ -5,6 +5,6 @@ namespace FrwkBootCampFidelidade.Aplicacao.Interfaces
 {
     public interface IProductService
     {
-        List<ProductDTO> GetByPromotion(int promotionId);
+        IEnumerable<ProductDTO> GetByPromotion(int promotionId);
     }
 }

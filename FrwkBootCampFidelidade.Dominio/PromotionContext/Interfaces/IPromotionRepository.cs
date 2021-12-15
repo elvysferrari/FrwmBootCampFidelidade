@@ -8,7 +8,7 @@ namespace FrwkBootCampFidelidade.Dominio.PromotionContext.Interfaces
 {
     public interface IPromotionRepository : IBaseRepository<Promotion>
     {
-        Task<List<Promotion>> GetPromotionByDateRange(PromotionRequestDTO promotionRequest);
-        Task<List<Promotion>> GetPromotionToday();
+        Task<IEnumerable<Promotion>> GetPromotionByDateRange(PromotionRequestDTO promotionRequest);
+        Task<IEnumerable<Promotion>> GetPromotionToday();
     }
 }

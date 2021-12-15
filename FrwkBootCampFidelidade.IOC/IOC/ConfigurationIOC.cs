@@ -45,15 +45,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
                 cfg.CreateMap<List<WalletDTO>, List<Wallet>>();
                 cfg.CreateMap<List<Wallet>, List<WalletDTO>>();
 
-                cfg.CreateMap<Promotion, PromotionDTO>();
-                cfg.CreateMap<PromotionDTO, Promotion>();
-                cfg.CreateMap<List<PromotionDTO>, List<Promotion>>();
-                cfg.CreateMap<List<Promotion>, List<PromotionDTO>>();
 
-                cfg.CreateMap<Product, ProductDTO>();
-                cfg.CreateMap<ProductDTO, Product>();
-                cfg.CreateMap<List<ProductDTO>, List<Product>>();
-                cfg.CreateMap<List<Product>, List<ProductDTO>>();
 
                 #endregion
 
@@ -70,6 +62,20 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
                 cfg.CreateMap<List<RansomHistoryStatusDTO>, List<RansomHistoryStatus>>();
                 cfg.CreateMap<List<RansomHistoryStatus>, List<RansomHistoryStatusDTO>>();
 
+
+                #endregion
+
+                #region Promotion
+
+                cfg.CreateMap<Promotion, PromotionDTO>();
+                cfg.CreateMap<PromotionDTO, Promotion>();
+                cfg.CreateMap<List<PromotionDTO>, List<Promotion>>();
+                cfg.CreateMap<List<Promotion>, List<PromotionDTO>>();
+
+                cfg.CreateMap<Product, ProductDTO>();
+                cfg.CreateMap<ProductDTO, Product>();
+                cfg.CreateMap<List<ProductDTO>, List<Product>>();
+                cfg.CreateMap<List<Product>, List<ProductDTO>>();
 
                 #endregion
 

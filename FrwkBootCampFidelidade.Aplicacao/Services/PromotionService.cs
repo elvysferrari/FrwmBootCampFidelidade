@@ -22,31 +22,31 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             _productService = productService;
         }
 
-        private List<PromotionDTO> GetProducts(List<Promotion> promotions)
+        private IEnumerable<PromotionDTO> GetProducts(IEnumerable<Promotion> promotions)
         {
             var promotionsDTO = _mapper.Map<IEnumerable<PromotionDTO>>(promotions);
             foreach (var promotion in promotionsDTO)
             {
                 promotion.Products = _productService.GetByPromotion(promotion.Id);
             }
-            return promotionsDTO.ToList();
+            return promotionsDTO;
         }
 
-        public async Task<List<PromotionDTO>> GetPromotionByDateRange(PromotionRequestDTO promotionRequestDTO)
+        public async Task<IEnumerable<PromotionDTO>> GetPromotionByDateRange(PromotionRequestDTO promotionRequestDTO)
         {
             var promotions = await _promotion.GetPromotionByDateRange(promotionRequestDTO);
             var promotionsDTO = GetProducts(promotions);
             return promotionsDTO;
         }
 
-        public async Task<List<PromotionDTO>> GetPromotionToday()
+        public async Task<IEnumerable<PromotionDTO>> GetPromotionToday()
         {
             var promotions = await _promotion.GetPromotionToday();
             var promotionsDTO = GetProducts(promotions);
             return promotionsDTO;
         }
 
-        public async Task<List<PromotionDTO>> GetAll()
+        public async Task<IEnumerable<PromotionDTO>> GetAll()
         {
             var promotions = _promotion.GetAll().ToList();
             var promotionsDTO = GetProducts(promotions);
@@ -56,6 +56,12 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         public async Task<PromotionDTO> GetById(int id)
         {
             var promotion = await _promotion.GetById(id);
+            
+            if(promotion == null)
+            {
+                return null;
+            }
+
             var promotionDTO = _mapper.Map<PromotionDTO>(promotion);
             promotionDTO.Products = _productService.GetByPromotion(promotion.Id);
             return promotionDTO;
