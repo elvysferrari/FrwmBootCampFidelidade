@@ -20,16 +20,16 @@ namespace FrwkBootCampFidelidade.API.Controllers
         }
 
         [HttpGet("GetByUserId/{userId}")]        
-        public async Task<List<BonificationDTO>> GetByUserId(int userId)
+        public async Task<IEnumerable<BonificationDTO>> GetByUserId(int userId)
         {
-            List<BonificationDTO> bonifications = await _bonificationService.GetByUserId(userId);
+            IEnumerable<BonificationDTO> bonifications = await _bonificationService.GetByUserId(userId);
             return bonifications;
         }
 
         [HttpGet("GetByCPF/{cpf}")]        
-        public async Task<List<BonificationDTO>> GetByCPF(string cpf)
+        public async Task<IEnumerable<BonificationDTO>> GetByCPF(string cpf)
         {
-            List<BonificationDTO> bonifications = await _bonificationService.GetByCPF(cpf);
+            IEnumerable<BonificationDTO> bonifications = await _bonificationService.GetByCPF(cpf);
             return bonifications;
         }
 

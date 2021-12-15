@@ -6,11 +6,15 @@ using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
 using FrwkBootCampFidelidade.Dominio.ProductContext.Entities;
 using FrwkBootCampFidelidade.Dominio.PromotionContext.Entities;
 using FrwkBootCampFidelidade.Dominio.WalletContext.Entities;
+using FrwkBootCampFidelidade.Dominio.RansomContext.Entities;
 using FrwkBootCampFidelidade.DTO.BonificationContext;
 using FrwkBootCampFidelidade.DTO.ProductContext;
 using FrwkBootCampFidelidade.DTO.PromotionContext;
 using FrwkBootCampFidelidade.DTO.WalletContext;
+using FrwkBootCampFidelidade.DTO.RansomContext;
 using System.Collections.Generic;
+using FrwkBootCampFidelidade.Dominio.ExtractContext.Entities;
+using FrwkBootCampFidelidade.DTO.ExtractContext;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 {
@@ -21,6 +25,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
             #region IOC Application
             builder.RegisterType<BonificationService>().As<IBonificationService>();
             builder.RegisterType<WalletService>().As<IWalletService>();
+            builder.RegisterType<RansomService>().As<IRansomService>();
             builder.RegisterType<PromotionService>().As<IPromotionService>();
             builder.RegisterType<ProductService>().As<IProductService>();
             #endregion
@@ -48,6 +53,21 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
                 cfg.CreateMap<ProductDTO, Product>();
                 cfg.CreateMap<List<ProductDTO>, List<Product>>();
                 cfg.CreateMap<List<Product>, List<ProductDTO>>();
+
+                #endregion
+
+                #region Ransom
+                cfg.CreateMap<Ransom, RansomDTO>();
+                cfg.CreateMap<RansomDTO, Ransom>();
+                cfg.CreateMap<List<RansomDTO>, List<Ransom>>();
+                cfg.CreateMap<List<Ransom>, List<RansomDTO>>();
+                #endregion
+
+                #region Extract
+                cfg.CreateMap<RansomHistoryStatus, RansomHistoryStatusDTO>();
+                cfg.CreateMap<RansomHistoryStatusDTO, RansomHistoryStatus>();
+                cfg.CreateMap<List<RansomHistoryStatusDTO>, List<RansomHistoryStatus>>();
+                cfg.CreateMap<List<RansomHistoryStatus>, List<RansomHistoryStatusDTO>>();
 
                 #endregion
 

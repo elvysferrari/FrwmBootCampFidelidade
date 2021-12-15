@@ -27,7 +27,8 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Context
 
         public virtual DbSet<Bonification> Bonifications { get; set; }
         public virtual DbSet<Ransom> Ransoms { get; set; }
-        public virtual DbSet<RansomHistoryStatus> Extracts { get; set; }
+        public virtual DbSet<RansomStatus> RansomStatus { get; set; }
+        public virtual DbSet<RansomHistoryStatus> RansomHistoryStatus { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<Wallet> Wallets { get; set; }
@@ -38,6 +39,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Context
         {
             builder.ApplyConfiguration(new BonificationMap());
             builder.ApplyConfiguration(new RansomMap());
+            builder.ApplyConfiguration(new RansomStatusMap());
             builder.ApplyConfiguration(new RansomHistoryStatusMap());
             builder.ApplyConfiguration(new OrderItemMap());
             builder.ApplyConfiguration(new OrderMap());

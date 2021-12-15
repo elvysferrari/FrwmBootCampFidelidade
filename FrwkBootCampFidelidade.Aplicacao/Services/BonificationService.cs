@@ -30,16 +30,16 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             await _bonification.SaveChanges();
         }
 
-        public async Task<List<BonificationDTO>> GetByCPF(string CPF)
-        {
+        public async Task<IEnumerable<BonificationDTO>> GetByCPF(string CPF)
+        {            
             var bonifications = await _bonification.GetByCPF(CPF);
-            return _mapper.Map<List<BonificationDTO>>(bonifications);
+            return _mapper.Map<IEnumerable<BonificationDTO>>(bonifications);
         }
 
-        public async Task<List<BonificationDTO>> GetByUserId(int userId)
+        public async Task<IEnumerable<BonificationDTO>> GetByUserId(int userId)
         {
             var bonifications = await _bonification.GetByUserId(userId);
-            return _mapper.Map<List<BonificationDTO>>(bonifications);
+            return _mapper.Map<IEnumerable<BonificationDTO>>(bonifications);
         }
     }
 }
