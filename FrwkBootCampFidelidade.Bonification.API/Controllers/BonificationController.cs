@@ -50,5 +50,20 @@ namespace FrwkBootCampFidelidade.Bonification.API.Controllers
             }
             
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                await _bonificationService.Remove(id);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+        }
     }
 }

@@ -16,7 +16,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.12")
+                .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
             modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.BonificationContext.Entities.Bonification", b =>
@@ -25,6 +25,9 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CPF")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -35,15 +38,19 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("ScoreCreditedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<float>("ScoreQuantity")
                         .HasColumnType("real");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Id");
+                    b.Property<int?>("UserId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("OrderId");
+                    b.HasKey("Id");
 
                     b.ToTable("Bonification");
 
@@ -227,6 +234,60 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                         });
                 });
 
+            modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.PromotionContext.Entities.Promotion", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
+                        .HasAnnotation("SqlServer:IdentitySeed", 1)
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("DiscountPercentage")
+                        .HasColumnType("float");
+
+                    b.Property<DateTime>("EndDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Promotion");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            CreatedAt = new DateTime(2021, 12, 16, 15, 22, 26, 56, DateTimeKind.Local).AddTicks(6504),
+                            Description = "Black Friday",
+                            DiscountPercentage = 10.0,
+                            EndDate = new DateTime(2021, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UpdatedAt = new DateTime(2021, 12, 16, 15, 22, 26, 56, DateTimeKind.Local).AddTicks(6504)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            CreatedAt = new DateTime(2021, 12, 16, 15, 22, 26, 56, DateTimeKind.Local).AddTicks(6504),
+                            Description = "Natal",
+                            DiscountPercentage = 20.0,
+                            EndDate = new DateTime(2021, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            StartDate = new DateTime(2021, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            UpdatedAt = new DateTime(2021, 12, 16, 15, 22, 26, 56, DateTimeKind.Local).AddTicks(6504)
+                        });
+                });
+
             modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.RansomContext.Entities.Ransom", b =>
                 {
                     b.Property<int>("Id")
@@ -323,28 +384,30 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                     b.HasIndex("WalletTypeId");
 
                     b.ToTable("Wallet");
+                });
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Amount = 50f,
-                            CreatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
-                            DrugstoreId = 1,
-                            UpdatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
-                            UserId = 1,
-                            WalletTypeId = 1
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Amount = 150f,
-                            CreatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
-                            DrugstoreId = 1,
-                            UpdatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified),
-                            UserId = 1,
-                            WalletTypeId = 2
-                        });
+            modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.WalletContext.Entities.WalletHistoryTransfer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<float>("Quantity")
+                        .HasColumnType("real");
+
+                    b.Property<int>("WalletOriginId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WalletTargetId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("WalletHistoryTransfer");
                 });
 
             modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.WalletContext.Entities.WalletType", b =>
@@ -382,17 +445,6 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                             Name = "Dinheiro",
                             UpdatedAt = new DateTime(2021, 12, 13, 15, 45, 23, 0, DateTimeKind.Unspecified)
                         });
-                });
-
-            modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.BonificationContext.Entities.Bonification", b =>
-                {
-                    b.HasOne("FrwkBootCampFidelidade.Dominio.OrderContext.Entities.Order", "Order")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.ExtractContext.Entities.RansomHistoryStatus", b =>

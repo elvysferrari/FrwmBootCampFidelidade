@@ -6,13 +6,14 @@ using FrwkBootCampFidelidade.Infraestrutura.BonificationContext.Repository;
 using FrwkBootCampFidelidade.Infraestrutura.RansomContext.Repository;
 using FrwkBootCampFidelidade.Infraestrutura.ExtractContext.Repository;
 using FrwkBootCampFidelidade.Infraestrutura.OrderItemContext.Repository;
-using Microsoft.Extensions.DependencyInjection;
 using FrwkBootCampFidelidade.Dominio.WalletContext.Interfaces;
 using FrwkBootCampFidelidade.Infraestrutura.Data.WalletContext.Repository;
 using FrwkBootCampFidelidade.Dominio.PromotionContext.Interfaces;
 using FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Repository;
 using FrwkBootCampFidelidade.Dominio.ProductContext.Interfaces;
 using FrwkBootCampFidelidade.Infraestrutura.Data.ProductContext.Repository;
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 {
@@ -29,6 +30,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
             services.AddScoped<IWalletTypeRepository, WalletTypeRepository>();
             services.AddScoped<IPromotionRepository, PromotionRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
+            services.AddScoped<IWalletHistoryTransferRepository, WalletHistoryTransferRepository>();
         }
     }
 }
