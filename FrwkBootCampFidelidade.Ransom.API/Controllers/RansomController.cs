@@ -16,6 +16,13 @@ namespace FrwkBootCampFidelidade.Ransom.API.Controllers
             _ransomService = ransomService;
         }
 
+        [HttpPost]
+        public RansomDTO AddRansom([FromBody] RansomDTO ransomDTO)
+        {
+            _ransomService.Add(ransomDTO);
+            return ransomDTO;
+        }
+
         [HttpGet]
         public IEnumerable<RansomDTO> GetAll()
         {

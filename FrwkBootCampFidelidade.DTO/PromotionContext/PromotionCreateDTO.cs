@@ -1,13 +1,9 @@
-﻿using FrwkBootCampFidelidade.DTO.ProductContext;
-using System;
-using System.Collections.Generic;
+﻿using System;
 
 namespace FrwkBootCampFidelidade.DTO.PromotionContext
 {
-    public class PromotionDTO
+    public class PromotionCreateDTO
     {
-        public string Id { get; set; }
-        public IEnumerable<ProductDTO> Products { get; set; }
         public string Description { get; set; }
         public double DiscountPercentage { get; set; }
         public DateTime StartDate { get; set; }
