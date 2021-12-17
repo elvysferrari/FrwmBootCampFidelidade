@@ -19,6 +19,26 @@ namespace FrwkBootCampFidelidade.Infraestrutura.RansomContext.Repository
             _context = context;
         }
 
+        public async override Task<Ransom> Add(Ransom ransom)
+        {
+            await _context.Set<Ransom>().AddAsync(ransom);
+            await _context.SaveChangesAsync();
+
+            return ransom;
+        }
+
+        public async override void Remove(Ransom ransom)
+        {
+            _context.Remove(ransom);
+            await _context.SaveChangesAsync();
+        }
+
+        public async override void Update(Ransom ransom)
+        {
+            _context.Update(ransom);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<RansomDTO>> GetAll()
         {
             return await _context.Set<RansomDTO>().ToListAsync();

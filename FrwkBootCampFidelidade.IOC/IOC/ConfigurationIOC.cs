@@ -45,7 +45,10 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
                 cfg.CreateMap<List<WalletDTO>, List<Wallet>>();
                 cfg.CreateMap<List<Wallet>, List<WalletDTO>>();
 
-
+                cfg.CreateMap<WalletHistoryTransfer, WalletTransferDTO>();
+                cfg.CreateMap<WalletTransferDTO, WalletHistoryTransfer>();
+                cfg.CreateMap<List<WalletTransferDTO>, List<WalletHistoryTransfer>>();
+                cfg.CreateMap<List<WalletHistoryTransfer>, List<WalletTransferDTO>>();
 
                 #endregion
 

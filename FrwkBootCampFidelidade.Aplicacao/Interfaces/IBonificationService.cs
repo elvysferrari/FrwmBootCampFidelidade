@@ -10,7 +10,9 @@ namespace FrwkBootCampFidelidade.Aplicacao.Interfaces
     public interface IBonificationService
     {
         Task Add(BonificationDTO obj);
+        Task Remove(int Id);
         Task<IEnumerable<BonificationDTO>> GetByUserId(int userId);
-        Task<IEnumerable<BonificationDTO>> GetByCPF(string CPF);        
+        Task<IEnumerable<BonificationDTO>> GetByCPF(string CPF);
+        IEnumerable<BonificationDTO> GetPendingBonification(string CPF);
     }
 }

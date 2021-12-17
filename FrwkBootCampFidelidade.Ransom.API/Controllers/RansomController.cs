@@ -1,5 +1,6 @@
 ﻿using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.DTO.RansomContext;
+using FrwkBootCampFidelidade.DTO.WalletContext;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,9 +12,20 @@ namespace FrwkBootCampFidelidade.Ransom.API.Controllers
     public class RansomController : ControllerBase
     {
         private readonly IRansomService _ransomService;
-        public RansomController(IRansomService ransomService)
+        private readonly IWalletService _walletService;
+        public RansomController(IRansomService ransomService, IWalletService walletService)
         {
             _ransomService = ransomService;
+            _walletService = walletService;
+        }
+
+        [HttpPost]
+        public RansomDTO AddRansom([FromBody] RansomDTO ransomDTO)
+        {
+            _ransomService.Add(ransomDTO);
+            _walletService.Withdraw(new WalletWithdrawDTO { WalletId = (int)ransomDTO.WalletId, Amount = ransomDTO.Amount});
+
+            return ransomDTO;
         }
 
         [HttpGet]

@@ -3,6 +3,7 @@ using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
 using FrwkBootCampFidelidade.Dominio.BonificationContext.Interfaces;
 using FrwkBootCampFidelidade.DTO.BonificationContext;
+using FrwkBootCampFidelidade.DTO.WalletContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,17 +18,47 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         private readonly IBonificationRepository _bonification;
         private readonly IMapper _mapper;
 
-        public BonificationService(IBonificationRepository bonification, IMapper mapper)
+        private readonly IWalletService _walletService;
+        public BonificationService(IBonificationRepository bonification, IMapper mapper, IWalletService walletService)
         {
             _bonification = bonification;
+            _walletService = walletService;
             _mapper = mapper;
         }
 
-        public async Task Add(BonificationDTO obj)
+        public async Task Add(BonificationDTO bonificationDTO)
         {
-            var bonification = _mapper.Map<Bonification>(obj);
-            await _bonification.Add(bonification);
-            await _bonification.SaveChanges();
+            var bonification = _mapper.Map<Bonification>(bonificationDTO);
+
+            if (bonificationDTO != null)
+            {                                
+                bonification.ScoreQuantity = (bonificationDTO.TotalValue / 100) * 1;                
+                bonification.Date = DateTime.Now;
+                bonification.CreatedAt = bonification.Date;
+                bonification.UpdatedAt = bonification.Date;
+
+                try
+                {
+                    await _bonification.Add(bonification);
+                    await _bonification.SaveChanges();
+
+                    //Atualizar carteira com o saldo novo
+                    List<WalletDTO> walletsDTO = await _walletService.GetByUserIdAndType(Convert.ToInt32(bonification.UserId), 1);
+                    if(walletsDTO.Count > 0) {
+                        WalletDTO walletDTO = walletsDTO.FirstOrDefault();
+                        walletDTO.Amount += bonification.ScoreQuantity;
+                        _walletService.Update(walletDTO);                        
+
+                        bonification.ScoreCreditedAt = DateTime.Now;
+                        _bonification.Update(bonification);
+                        await _bonification.SaveChanges();
+                    }
+                }
+                catch 
+                {
+
+                }
+            }            
         }
 
         public async Task<IEnumerable<BonificationDTO>> GetByCPF(string CPF)
@@ -40,6 +71,41 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         {
             var bonifications = await _bonification.GetByUserId(userId);
             return _mapper.Map<IEnumerable<BonificationDTO>>(bonifications);
+        }
+
+        public IEnumerable<BonificationDTO> GetPendingBonification(string CPF)
+        {
+            var bonifications = _bonification.GetBy(x => x.CPF == CPF && x.ScoreCreditedAt == null);
+
+            return _mapper.Map<IEnumerable<BonificationDTO>>(bonifications);
+        }
+        public async Task Remove(int Id)
+        {
+            Bonification bonification = await _bonification.GetById(Id);
+            if(bonification != null)
+            {
+                try
+                {
+                    _bonification.Remove(Id);
+                    await _bonification.SaveChanges();
+
+                    //Atualizar carteira com o saldo novo
+                    List<WalletDTO> walletsDTO = await _walletService.GetByUserIdAndType(Convert.ToInt32(bonification.UserId), 1);
+                    if (walletsDTO.Count > 0)
+                    {
+                        WalletDTO walletDTO = walletsDTO.FirstOrDefault();
+                        walletDTO.Amount -= bonification.ScoreQuantity;
+                        if (walletDTO.Amount < 0)
+                            walletDTO.Amount = 0;
+
+                        _walletService.Update(walletDTO);
+                    }
+                }
+                catch
+                {
+
+                }
+            }
         }
     }
 }

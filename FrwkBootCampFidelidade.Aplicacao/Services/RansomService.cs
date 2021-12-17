@@ -22,8 +22,14 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
         public async Task Add(RansomDTO obj)
         {
-            var ransom = _mapper.Map<Ransom>(obj);
+            Ransom ransom = _mapper.Map<Ransom>(obj);
             await _ransomRepository.Add(ransom);
+        }
+
+        public async Task Remove(RansomDTO ransomDTO)
+        {
+            Ransom ransom = _mapper.Map<Ransom>(ransomDTO);
+            _ransomRepository.Remove(ransom);
         }
 
         public async Task<RansomDTO> GetById(int Id)

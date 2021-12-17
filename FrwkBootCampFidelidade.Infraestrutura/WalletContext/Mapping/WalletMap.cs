@@ -14,7 +14,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.WalletContext.Mapping
         public void Configure(EntityTypeBuilder<Wallet> builder)
         {
             builder.ToTable("Wallet");
-            builder.HasData(ObterDados());
+            //builder.HasData(ObterDados());
         }
         private ICollection<Wallet> ObterDados()
         {

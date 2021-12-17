@@ -33,6 +33,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Context
         public virtual DbSet<OrderItem> OrderItems { get; set; }
         public virtual DbSet<Wallet> Wallets { get; set; }
         public virtual DbSet<WalletType> WalletTypes { get; set; }
+        public virtual DbSet<WalletHistoryTransfer> WalletHistoryTransfers { get; set; }
         //public virtual DbSet<Promotion> Promotions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -45,6 +46,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Context
             builder.ApplyConfiguration(new OrderMap());
             builder.ApplyConfiguration(new WalletTypeMap());
             builder.ApplyConfiguration(new WalletMap());
+            builder.ApplyConfiguration(new WalletHistoryTransferMap());
             //builder.ApplyConfiguration(new PromotionMap());
         }
     }
