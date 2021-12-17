@@ -37,7 +37,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkBootCampFidelidade.Boni
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkBootCampFidelidade.Wallet.API", "FrwkBootCampFidelidade.Wallet.API\FrwkBootCampFidelidade.Wallet.API.csproj", "{5A67F5FC-A539-4E04-AE1A-469905540CF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrwkBootCampFidelidade.Ransom.API", "FrwkBootCampFidelidade.Ransom.API\FrwkBootCampFidelidade.Ransom.API.csproj", "{39BDB102-BC18-42D7-923D-085CD64D5C04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkBootCampFidelidade.Ransom.API", "FrwkBootCampFidelidade.Ransom.API\FrwkBootCampFidelidade.Ransom.API.csproj", "{39BDB102-BC18-42D7-923D-085CD64D5C04}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

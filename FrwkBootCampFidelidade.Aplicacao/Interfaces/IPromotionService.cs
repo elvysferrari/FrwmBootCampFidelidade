@@ -7,8 +7,12 @@ namespace FrwkBootCampFidelidade.Aplicacao.Interfaces
     public interface IPromotionService
     {
         Task<IEnumerable<PromotionDTO>> GetAll();
-        Task<PromotionDTO> GetById(int id);
-        Task<IEnumerable<PromotionDTO>> GetPromotionByDateRange(PromotionRequestDTO promotionRequestDTO);
+        Task<PromotionDTO> GetById(string id);
+        Task<IEnumerable<PromotionDTO>> GetPromotionByDateRange(PromotionRequestDTO promotionRequest);
         Task<IEnumerable<PromotionDTO>> GetPromotionToday();
+        Task<PromotionDTO> Add(PromotionCreateDTO promotion);
+        Task<bool> Update(PromotionUpdateDTO promotion);
+        Task<bool> RemoveById(string id);
+        Task<bool> Remove(PromotionRemoveDTO promotion);
     }
 }

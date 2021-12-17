@@ -5,6 +5,6 @@ namespace FrwkBootCampFidelidade.Dominio.ProductContext.Interfaces
 {
     public interface IProductRepository
     {
-        IEnumerable<Product> GetByPromotion(int promotionId);
+        IEnumerable<Product> GetByPromotion(string promotionId);
     }
 }

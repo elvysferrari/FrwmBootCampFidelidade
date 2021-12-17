@@ -18,7 +18,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             _product = product;
         }
 
-        public IEnumerable<ProductDTO> GetByPromotion(int promotionId)
+        public IEnumerable<ProductDTO> GetByPromotion(string promotionId)
         {
            var products = _product.GetByPromotion(promotionId);
            var productDTO = _mapper.Map<IEnumerable<ProductDTO>>(products);
