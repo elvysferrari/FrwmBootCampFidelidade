@@ -116,7 +116,7 @@ namespace FrwkBootCampFidelidade.Promotion.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Update([FromBody] PromotionUpdateDTO promotion)
+        public async Task<IActionResult> Update([FromBody] PromotionUpdateDeleteDTO promotion)
         {
             try
             {
@@ -152,7 +152,7 @@ namespace FrwkBootCampFidelidade.Promotion.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Remove([FromBody] PromotionRemoveDTO promotion)
+        public async Task<IActionResult> Remove([FromBody] PromotionUpdateDeleteDTO promotion)
         {
             try
             {

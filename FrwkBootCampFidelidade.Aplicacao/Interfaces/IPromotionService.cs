@@ -11,8 +11,8 @@ namespace FrwkBootCampFidelidade.Aplicacao.Interfaces
         Task<IEnumerable<PromotionDTO>> GetPromotionByDateRange(PromotionRequestDTO promotionRequest);
         Task<IEnumerable<PromotionDTO>> GetPromotionToday();
         Task<PromotionDTO> Add(PromotionCreateDTO promotion);
-        Task<bool> Update(PromotionUpdateDTO promotion);
+        Task<bool> Update(PromotionUpdateDeleteDTO promotion);
         Task<bool> RemoveById(string id);
-        Task<bool> Remove(PromotionRemoveDTO promotion);
+        Task<bool> Remove(PromotionUpdateDeleteDTO promotion);
     }
 }

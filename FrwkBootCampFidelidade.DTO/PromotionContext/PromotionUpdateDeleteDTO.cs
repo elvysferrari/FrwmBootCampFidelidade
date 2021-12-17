@@ -2,7 +2,7 @@
 
 namespace FrwkBootCampFidelidade.DTO.PromotionContext
 {
-    public class PromotionRemoveDTO
+    public  class PromotionUpdateDeleteDTO
     {
         public string Id { get; set; }
         public string Description { get; set; }
