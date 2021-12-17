@@ -85,5 +85,22 @@ namespace FrwkBootCampFidelidade.Wallet.API.Controllers
             }
 
         }
+
+        [HttpPost("Withdraw")]
+        public async Task<ActionResult> WalletWithdraw([FromBody] WalletWithdrawDTO walletWithdrawDTO)
+        {
+            if (walletWithdrawDTO == null)
+                return NotFound();
+            try
+            {
+                await _walletService.Withdraw(walletWithdrawDTO);
+                return Ok(walletWithdrawDTO);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+
+        }
     }
 }
