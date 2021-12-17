@@ -3,6 +3,7 @@ using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.RansomContext.Entities;
 using FrwkBootCampFidelidade.Dominio.RansomContext.Interfaces;
 using FrwkBootCampFidelidade.DTO.RansomContext;
+using FrwkBootCampFidelidade.DTO.WalletContext;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 //using AutoMapper;
@@ -12,17 +13,22 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
     public class RansomService : IRansomService
     {
         private readonly IRansomRepository _ransomRepository;
+        private readonly IWalletService _walletService;
         private readonly IMapper _mapper;
 
-        public RansomService(IRansomRepository ransomRepository, IMapper mapper)
+        public RansomService(IRansomRepository ransomRepository, IWalletService walletService, IMapper mapper)
         {
             _ransomRepository = ransomRepository;
+            _walletService = walletService;
             _mapper = mapper;
         }
 
-        public async Task Add(RansomDTO obj)
+        public async Task Add(RansomDTO ransomDTO)
         {
-            Ransom ransom = _mapper.Map<Ransom>(obj);
+            Ransom ransom = _mapper.Map<Ransom>(ransomDTO);
+
+            await _walletService.Withdraw(new WalletWithdrawDTO { WalletId = (int)ransomDTO.WalletId, Amount = ransomDTO.Amount });
+
             await _ransomRepository.Add(ransom);
         }
 
@@ -52,6 +58,6 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             return ransomDTOs;
         }
 
-        
+
     }
 }
