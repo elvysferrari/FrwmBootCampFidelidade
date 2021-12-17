@@ -31,7 +31,7 @@ namespace FrwkBootCampFidelidade.API.Controllers
         }
 
         [HttpGet("GetById/{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<IActionResult> GetById(string id)
         {
             try
             {

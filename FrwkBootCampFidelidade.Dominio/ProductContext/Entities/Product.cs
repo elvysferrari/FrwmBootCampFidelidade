@@ -6,7 +6,7 @@ namespace FrwkBootCampFidelidade.Dominio.ProductContext.Entities
 {
     public class Product : EntityBase
     {
-        public int PromotionId { get; set; }
+        public string PromotionId { get; set; }
         public Promotion Promotion { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }

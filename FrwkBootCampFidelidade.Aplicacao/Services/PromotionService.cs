@@ -4,7 +4,6 @@ using FrwkBootCampFidelidade.Dominio.PromotionContext.Entities;
 using FrwkBootCampFidelidade.Dominio.PromotionContext.Interfaces;
 using FrwkBootCampFidelidade.DTO.PromotionContext;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Aplicacao.Services
@@ -48,12 +47,12 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
         public async Task<IEnumerable<PromotionDTO>> GetAll()
         {
-            var promotions = _promotion.GetAll().ToList();
+            var promotions = await _promotion.GetAll();
             var promotionsDTO = GetProducts(promotions);
             return promotionsDTO;
         }
 
-        public async Task<PromotionDTO> GetById(int id)
+        public async Task<PromotionDTO> GetById(string id)
         {
             var promotion = await _promotion.GetById(id);
             
@@ -65,6 +64,31 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             var promotionDTO = _mapper.Map<PromotionDTO>(promotion);
             promotionDTO.Products = _productService.GetByPromotion(promotion.Id);
             return promotionDTO;
+        }
+
+        public async Task<PromotionDTO> Add(PromotionCreateDTO promotion)
+        {
+            var promot = _mapper.Map<Promotion>(promotion);
+            promot = await _promotion.Add(promot);
+            var promotionDTO = _mapper.Map<PromotionDTO>(promot);
+            return promotionDTO;
+        }
+
+        public async Task<bool> Update(PromotionUpdateDTO promotion)
+        {
+            var promot = _mapper.Map<Promotion>(promotion);
+            return await _promotion.Update(promot);
+        }
+
+        public async Task<bool> RemoveById(string id)
+        {
+            return await _promotion.RemoveById(id);
+        }
+
+        public async Task<bool> Remove(PromotionRemoveDTO promotion)
+        {
+            var promot = _mapper.Map<Promotion>(promotion);
+            return await _promotion.Remove(promot);
         }
     }
 }

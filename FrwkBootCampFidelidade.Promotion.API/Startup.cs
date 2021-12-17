@@ -1,6 +1,8 @@
 using Autofac;
 using FluentValidation.AspNetCore;
+using FrwkBootCampFidelidade.Dominio.Base.Interfaces;
 using FrwkBootCampFidelidade.Infraestrutura.Context;
+using FrwkBootCampFidelidade.Infraestrutura.Data.Context;
 using FrwkBootCampFidelidade.Infraestrutura.IOC.IOC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,7 +28,10 @@ namespace FrwkBootCampFidelidade.Promotion.API
             services.AddControllers()
                 .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
 
-            services.AddDbContext<DBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("connection")));
+            //EF MSSQL
+            //services.AddDbContext<DBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("connection")));
+
+            services.AddScoped<IPromotionContext, PromotionContext>();
 
             services.AddDBInjector();
 
