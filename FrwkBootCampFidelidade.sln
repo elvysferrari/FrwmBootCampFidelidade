@@ -37,6 +37,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkBootCampFidelidade.Wall
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkBootCampFidelidade.Ransom.API", "FrwkBootCampFidelidade.Ransom.API\FrwkBootCampFidelidade.Ransom.API.csproj", "{39BDB102-BC18-42D7-923D-085CD64D5C04}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker-compose", "docker-compose", "{BE69E689-6948-4AE4-A59D-A148ABF8E02C}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

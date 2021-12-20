@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+    db: 
+        image: sql1
+    wallet.api:
+        image: wallet.api
+        ports:
+         - 8001:80
+        build:
+            context: .
+            dockerfile: FrwkBootCampFidelidade.Wallet.API\Dockerfile
