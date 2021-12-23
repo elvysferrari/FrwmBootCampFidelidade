@@ -14,8 +14,21 @@ services:
             db
         expose:
           - 1433
+    mongodb:
+        image : mongo
+        container_name: mongodb
+        environment:
+        - PUID=1000
+        - PGID=1000
+        volumes:
+        - /home/barry/mongodb/database:/data/db
+        ports:
+        - 27017:27017
+        restart: unless-stopped
+        expose:
+          - 27017
     wallet.api:
-        image: wallet.api  
+        image: elvysferrari/wallet.api  
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
@@ -23,12 +36,12 @@ services:
         ports:
             - 8001:8001
         depends_on:
-            - db
+            - db        
         build:
             context: .
             dockerfile: FrwkBootCampFidelidade.Wallet.API\Dockerfile
     bonification.api:
-        image: bonification.api  
+        image: elvysferrari/bonification.api  
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
@@ -36,8 +49,47 @@ services:
         ports:
             - 8002:8002
         depends_on:
+            - db    
+        build:
+            context: .
+            dockerfile: FrwkBootCampFidelidade.Bonification.API\Dockerfile            
+    ransom.api:
+        image: elvysferrari/ransom.api  
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+          - DOCKER_ENVIRONMENT=true
+          - ASPNETCORE_URLS=http://+:8003
+        ports:
+            - 8003:8003
+        depends_on:
+            - db   
+        build:
+            context: .
+            dockerfile: FrwkBootCampFidelidade.Ransom.API\Dockerfile             
+    extract.api:
+        image: elvysferrari/extract.api  
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+          - DOCKER_ENVIRONMENT=true
+          - ASPNETCORE_URLS=http://+:8004
+        ports:
+            - 8004:8004
+        depends_on:
             - db
         build:
             context: .
-            dockerfile: FrwkBootCampFidelidade.Bonification.API\Dockerfile
+            dockerfile: FrwkBootCampFidelidade.Extract.API\Dockerfile
+    promotion.api:
+            image: elvysferrari/promotion.api  
+            environment:
+              - ASPNETCORE_ENVIRONMENT=Development
+              - DOCKER_ENVIRONMENT=true
+              - ASPNETCORE_URLS=http://+:8005
+            ports:
+                - 8005:8005
+            depends_on:
+                - mongodb
+            build:
+                context: .
+                dockerfile: FrwkBootCampFidelidade.Promotion.API\Dockerfile    
     
