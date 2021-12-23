@@ -78,15 +78,10 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
                 cfg.CreateMap<PromotionCreateDTO, Promotion>();
                 cfg.CreateMap<List<PromotionCreateDTO>, List<Promotion>>();
                 cfg.CreateMap<List<Promotion>, List<PromotionCreateDTO>>();
-                cfg.CreateMap<Promotion, PromotionUpdateDTO>();
-                cfg.CreateMap<PromotionUpdateDTO, Promotion>();
-                cfg.CreateMap<List<PromotionUpdateDTO>, List<Promotion>>();
-                cfg.CreateMap<List<Promotion>, List<PromotionUpdateDTO>>();
-                cfg.CreateMap<Promotion, PromotionRemoveDTO>();
-                cfg.CreateMap<PromotionRemoveDTO, Promotion>();
-                cfg.CreateMap<List<PromotionRemoveDTO>, List<Promotion>>();
-                cfg.CreateMap<List<Promotion>, List<PromotionRemoveDTO>>();
-
+                cfg.CreateMap<Promotion, PromotionUpdateDeleteDTO>();
+                cfg.CreateMap<PromotionUpdateDeleteDTO, Promotion>();
+                cfg.CreateMap<List<PromotionUpdateDeleteDTO>, List<Promotion>>();
+                cfg.CreateMap<List<Promotion>, List<PromotionUpdateDeleteDTO>>();
 
                 cfg.CreateMap<Product, ProductDTO>();
                 cfg.CreateMap<ProductDTO, Product>();

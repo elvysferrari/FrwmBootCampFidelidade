@@ -3,6 +3,7 @@ using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.PromotionContext.Entities;
 using FrwkBootCampFidelidade.Dominio.PromotionContext.Interfaces;
 using FrwkBootCampFidelidade.DTO.PromotionContext;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -55,8 +56,8 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         public async Task<PromotionDTO> GetById(string id)
         {
             var promotion = await _promotion.GetById(id);
-            
-            if(promotion == null)
+
+            if (promotion == null)
             {
                 return null;
             }
@@ -69,14 +70,26 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         public async Task<PromotionDTO> Add(PromotionCreateDTO promotion)
         {
             var promot = _mapper.Map<Promotion>(promotion);
+            promot.CreatedAt = DateTime.Now;
+            promot.UpdatedAt = DateTime.Now;
+
             promot = await _promotion.Add(promot);
             var promotionDTO = _mapper.Map<PromotionDTO>(promot);
             return promotionDTO;
         }
 
-        public async Task<bool> Update(PromotionUpdateDTO promotion)
+        public async Task<bool> Update(PromotionUpdateDeleteDTO promotion)
         {
             var promot = _mapper.Map<Promotion>(promotion);
+            var promotionOld = await _promotion.GetById(promotion.Id);
+            
+            if(promotionOld == null)
+            {
+                return false;
+            }
+
+            promot.CreatedAt = promotionOld.CreatedAt;
+            promot.UpdatedAt = DateTime.Now;
             return await _promotion.Update(promot);
         }
 
@@ -85,7 +98,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             return await _promotion.RemoveById(id);
         }
 
-        public async Task<bool> Remove(PromotionRemoveDTO promotion)
+        public async Task<bool> Remove(PromotionUpdateDeleteDTO promotion)
         {
             var promot = _mapper.Map<Promotion>(promotion);
             return await _promotion.Remove(promot);
