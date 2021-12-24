@@ -10,6 +10,8 @@ services:
             - "1433:1433"
         volumes:
             - ${APPDATA}/dados:/var/opt/mssql/data   
+        mem_limit: 
+            512m
         container_name: 
             db
         expose:
@@ -21,10 +23,12 @@ services:
         - PUID=1000
         - PGID=1000
         volumes:
-        - /home/barry/mongodb/database:/data/db
+        - ./home/barry/mongodb/database:/data/db
         ports:
         - 27017:27017
         restart: unless-stopped
+        mem_limit: 
+            512m
         expose:
           - 27017
     wallet.api:
@@ -35,6 +39,8 @@ services:
           - ASPNETCORE_URLS=http://+:8001
         ports:
             - 8001:8001
+        mem_limit: 
+            512m
         depends_on:
             - db        
         build:
@@ -48,6 +54,8 @@ services:
           - ASPNETCORE_URLS=http://+:8002
         ports:
             - 8002:8002
+        mem_limit: 
+            512m
         depends_on:
             - db    
         build:
@@ -61,6 +69,8 @@ services:
           - ASPNETCORE_URLS=http://+:8003
         ports:
             - 8003:8003
+        mem_limit: 
+            512m
         depends_on:
             - db   
         build:
@@ -74,22 +84,26 @@ services:
           - ASPNETCORE_URLS=http://+:8004
         ports:
             - 8004:8004
+        mem_limit: 
+            512m
         depends_on:
             - db
         build:
             context: .
             dockerfile: FrwkBootCampFidelidade.Extract.API\Dockerfile
     promotion.api:
-            image: elvysferrari/promotion.api  
-            environment:
-              - ASPNETCORE_ENVIRONMENT=Development
-              - DOCKER_ENVIRONMENT=true
-              - ASPNETCORE_URLS=http://+:8005
-            ports:
-                - 8005:8005
-            depends_on:
-                - mongodb
-            build:
-                context: .
-                dockerfile: FrwkBootCampFidelidade.Promotion.API\Dockerfile    
+        image: elvysferrari/promotion.api  
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - DOCKER_ENVIRONMENT=true
+            - ASPNETCORE_URLS=http://+:8005
+        ports:
+            - 8005:8005
+        mem_limit: 
+            512m
+        depends_on:
+            - mongodb
+        build:
+            context: .
+            dockerfile: FrwkBootCampFidelidade.Promotion.API\Dockerfile    
     
