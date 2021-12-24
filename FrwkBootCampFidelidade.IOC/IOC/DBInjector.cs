@@ -14,6 +14,8 @@ using FrwkBootCampFidelidade.Dominio.ProductContext.Interfaces;
 using FrwkBootCampFidelidade.Infraestrutura.Data.ProductContext.Repository;
 
 using Microsoft.Extensions.DependencyInjection;
+using FrwkBootCampFidelidade.Aplicacao.Interfaces.RpcService;
+using FrwkBootCampFidelidade.Aplicacao.Services.RpcService;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 {
@@ -21,6 +23,8 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
     {
         public static void AddDBInjector(this IServiceCollection services)
         {
+            services.AddScoped<IRpcClientService, RpcClientService>();
+
             services.AddScoped<IBonificationRepository, BonificationRepository>();
             services.AddScoped<IRansomRepository, RansomRepository>();
             services.AddScoped<IRansomHistoryStatusRepository, RansomHistoryStatusRepository>();
