@@ -56,7 +56,7 @@ namespace FrwkBootCampFidelidade.Ransom.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseSentryTracing();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -62,7 +62,7 @@ namespace FrwkBootCampFidelidade.Wallet.API
             }
 
             app.UseRouting();
-
+            app.UseSentryTracing();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

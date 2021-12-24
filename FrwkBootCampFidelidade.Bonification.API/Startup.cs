@@ -53,7 +53,7 @@ namespace FrwkBootCampFidelidade.Bonification.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseSentryTracing();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

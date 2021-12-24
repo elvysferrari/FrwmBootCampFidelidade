@@ -62,7 +62,7 @@ namespace FrwkBootCampFidelidade.Promotion.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseSentryTracing();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
