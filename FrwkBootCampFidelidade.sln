@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31911.196
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Apresentacao", "1 - Apresentacao", "{2BA9272C-76ED-4407-B64F-85DD45E589B0}"
 EndProject
@@ -41,6 +41,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker-compose", "docker-co
 	ProjectSection(SolutionItems) = preProject
 		docker-compose.yml = docker-compose.yml
 	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "6 - Compartilhado", "6 - Compartilhado", "{2BD65309-51A0-4DB3-A7E2-5B471D801474}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrwkBootCampFidelidade.Core", "FrwkBootCampFidelidade.Core\FrwkBootCampFidelidade.Core.csproj", "{A94CD39E-EB9F-4395-99D7-FACEC0726D40}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -96,6 +100,10 @@ Global
 		{39BDB102-BC18-42D7-923D-085CD64D5C04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{39BDB102-BC18-42D7-923D-085CD64D5C04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{39BDB102-BC18-42D7-923D-085CD64D5C04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A94CD39E-EB9F-4395-99D7-FACEC0726D40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A94CD39E-EB9F-4395-99D7-FACEC0726D40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A94CD39E-EB9F-4395-99D7-FACEC0726D40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A94CD39E-EB9F-4395-99D7-FACEC0726D40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -113,6 +121,7 @@ Global
 		{886B9580-DE28-44F6-B4D4-4F945331525C} = {2BA9272C-76ED-4407-B64F-85DD45E589B0}
 		{5A67F5FC-A539-4E04-AE1A-469905540CF7} = {2BA9272C-76ED-4407-B64F-85DD45E589B0}
 		{39BDB102-BC18-42D7-923D-085CD64D5C04} = {2BA9272C-76ED-4407-B64F-85DD45E589B0}
+		{A94CD39E-EB9F-4395-99D7-FACEC0726D40} = {2BD65309-51A0-4DB3-A7E2-5B471D801474}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7EA29803-B2E0-4913-A59B-A52D96A7E6E6}
