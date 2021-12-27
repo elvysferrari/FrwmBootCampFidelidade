@@ -16,6 +16,9 @@ namespace FrwkBootCampFidelidade.Wallet.API
 {
     public class Startup
     {
+        private readonly string DATABASE = Environment.GetEnvironmentVariable("Database");
+        private readonly string DBUSER = Environment.GetEnvironmentVariable("DbUser");
+        private readonly string DBPASSWORD = Environment.GetEnvironmentVariable("Password");
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -60,7 +63,6 @@ namespace FrwkBootCampFidelidade.Wallet.API
             {
                 app.UseHttpsRedirection();
             }
-
             app.UseRouting();
             app.UseSentryTracing();
             app.UseAuthorization();

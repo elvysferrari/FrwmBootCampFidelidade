@@ -1,4 +1,4 @@
-﻿using FrwkBootCampFidelidade.Core.RabbitMq;
+﻿using FrwkBootCampFidelidade.Dominio.Base;
 
 namespace FrwkBootCampFidelidade.Aplicacao.Interfaces.RpcService
 {
