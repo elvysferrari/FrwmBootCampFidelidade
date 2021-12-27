@@ -5,6 +5,7 @@ using Web.BootCampFidelidade.HttpAggregator.Infrastructute.Constants;
 using Web.BootCampFidelidade.HttpAggregator.Models.DTO;
 using Web.BootCampFidelidade.HttpAggregator.Models;
 using Web.BootCampFidelidade.HttpAggregator.Service.Interface;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.BootCampFidelidade.HttpAggregator.Controller
 {
@@ -18,6 +19,8 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
             this.service = service;
         }
 
+        [HttpGet]
+        [Authorize]
         public ActionResult<ProductDTO> Get()
         {
             var message = new MessageInputModel()
