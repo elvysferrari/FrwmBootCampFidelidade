@@ -1,7 +1,7 @@
-﻿using FrwkBootCampFidelidade.Aplicacao.Interfaces;
-using FrwkBootCampFidelidade.Core.Constants;
-using FrwkBootCampFidelidade.Core.RabbitMq;
-using FrwkBootCampFidelidade.Extract.API.Options;
+﻿using FrwkBootCampFidelidade.Aplicacao.Configuration;
+using FrwkBootCampFidelidade.Aplicacao.Constants;
+using FrwkBootCampFidelidade.Aplicacao.Interfaces;
+using FrwkBootCampFidelidade.Dominio.Base;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -9,23 +9,25 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace FrwkBootCampFidelidade.Extract.API.Consumer
+namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 {
     public class ExtractConsumer : BackgroundService
     {
-        private readonly ExtractRabbitMqConfiguration _config;
         private readonly IConnection _connection;
         private readonly IModel _channel;
         private readonly IServiceProvider _serviceProvider;
+        private readonly RabbitMqConfiguration _config;
 
-        public ExtractConsumer(IOptions<ExtractRabbitMqConfiguration> option, IServiceProvider serviceProvider)
+        public ExtractConsumer(IServiceProvider serviceProvider, IOptions<RabbitMqConfiguration> options)
         {
-            _config = option.Value;
             _serviceProvider = serviceProvider;
+            _config = options.Value;
 
             var factory = new ConnectionFactory
             {
@@ -36,7 +38,7 @@ namespace FrwkBootCampFidelidade.Extract.API.Consumer
             _channel = _connection.CreateModel();
 
             _channel.QueueDeclare(
-                        queue: DomainConstant.QUEUE_EXTRACT,
+                        queue: DomainConstant.EXTRACT,
                         durable: false,
                         exclusive: false,
                         autoDelete: false,
@@ -50,7 +52,7 @@ namespace FrwkBootCampFidelidade.Extract.API.Consumer
         {
             var consumer = new EventingBasicConsumer(_channel);
 
-            _channel.BasicConsume(queue: DomainConstant.QUEUE_EXTRACT, autoAck: false, consumer: consumer);
+            _channel.BasicConsume(queue: DomainConstant.EXTRACT, autoAck: false, consumer: consumer);
 
             consumer.Received += (model, ea) =>
             {
@@ -90,23 +92,28 @@ namespace FrwkBootCampFidelidade.Extract.API.Consumer
 
         private string InvokeService(MessageInputModel message)
         {
-            using (var scope = _serviceProvider.CreateScope())
+            using var scope = _serviceProvider.CreateScope();
+            var productService = scope.ServiceProvider.GetRequiredService<IExtractService>();
+
+            dynamic response = string.Empty;
+
+            switch (message.Method)
             {
-                var extractService = scope.ServiceProvider.GetRequiredService<IExtractService>();
-
-                dynamic response = string.Empty;
-
-                switch (message.Method)
-                {
-                    case MethodConstant.GET:
-                        response = extractService.GetByCPF(message.Content);
-                        break;
-                    default:
-                        break;
-                }
-
-                return JsonConvert.SerializeObject(response);
+                case MethodConstant.GETBYCPF:
+                    response = productService.GetByCPF(message.Content);
+                    break;
+                case MethodConstant.GETBYUSERID:
+                    response = productService.GetByUserId(int.Parse(message.Content));
+                    break;
+                case MethodConstant.GET:
+                    //response = productService.Add(JsonConvert.DeserializeObject<ExtractDTO>(message.Content));
+                    break;
+                default:
+                    break;
             }
+
+            return JsonConvert.SerializeObject(response);
         }
     }
 }
+
