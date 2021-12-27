@@ -12,7 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FrwkBootCampFidelidade.Core\FrwkBootCampFidelidade.Core.csproj" />
     <ProjectReference Include="..\FrwkBootCampFidelidade.Dominio\FrwkBootCampFidelidade.Dominio.csproj" />
     <ProjectReference Include="..\FrwkBootCampFidelidade.DTO\FrwkBootCampFidelidade.DTO.csproj" />
   </ItemGroup>

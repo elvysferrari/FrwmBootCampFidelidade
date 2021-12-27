@@ -1,7 +1,6 @@
 ﻿using System;
 
-
-namespace FrwkBootCampFidelidade.DTO.ExtractContext
+namespace Web.BootCampFidelidade.HttpAggregator.Models.DTO
 {
     public class SummaryPointsDTO
     {

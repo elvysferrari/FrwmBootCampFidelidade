@@ -1,6 +1,7 @@
-﻿using FrwkBootCampFidelidade.Aplicacao.Interfaces;
-using FrwkBootCampFidelidade.Core.Constants;
-using FrwkBootCampFidelidade.Core.RabbitMq;
+﻿using FrwkBootCampFidelidade.Aplicacao.Configuration;
+using FrwkBootCampFidelidade.Aplicacao.Constants;
+using FrwkBootCampFidelidade.Aplicacao.Interfaces;
+using FrwkBootCampFidelidade.Dominio.Base;
 using FrwkBootCampFidelidade.DTO.PromotionContext;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -36,7 +37,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
             _channel = _connection.CreateModel();
 
             _channel.QueueDeclare(
-                        queue: DomainConstant.QUEUE_PROMOTIONS,
+                        queue: DomainConstant.PROMOTION,
                         durable: false,
                         exclusive: false,
                         autoDelete: false,
@@ -49,7 +50,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
         {
             var consumer = new EventingBasicConsumer(_channel);
 
-            _channel.BasicConsume(queue: DomainConstant.QUEUE_PROMOTIONS, autoAck: false, consumer: consumer);
+            _channel.BasicConsume(queue: DomainConstant.PROMOTION, autoAck: false, consumer: consumer);
 
             consumer.Received += (model, ea) =>
             {
@@ -97,33 +98,33 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 
                 switch (message.Method)
                 {
-                    case MethodConstant.ADD:
+                    case MethodConstant.POST:
                         var promotionCreateDTO = JsonConvert.DeserializeObject<PromotionCreateDTO>(message.Content);
                         response = promotionService.Add(promotionCreateDTO);
                         break;
-                    case MethodConstant.GET_ALL:
+                    case MethodConstant.GET:
                         response = promotionService.GetAll();
                         break;
-                    case MethodConstant.GET_BY_ID:
+                    case MethodConstant.GETBYID:
                         var id = JsonConvert.DeserializeObject<string>(message.Content);
                         response = promotionService.GetById(id);
                         break;
-                    case MethodConstant.GET_PROMOTION_TODAY:
+                    case MethodConstant.GETPROMOTIONTODAY:
                         response = promotionService.GetPromotionToday();
                         break;
-                    case MethodConstant.GET_PROMOTION_BY_DATA_RANGE:
+                    case MethodConstant.GETPROMOTIONBYDATERANGE:
                         var promotionRequestDTO = JsonConvert.DeserializeObject<PromotionRequestDTO>(message.Content);
                         response = promotionService.GetPromotionByDateRange(promotionRequestDTO);
                         break;
-                    case MethodConstant.REMOVE:
+                    case MethodConstant.DELETE:
                         var promotionUpdateDTO = JsonConvert.DeserializeObject<PromotionUpdateDeleteDTO>(message.Content);
                         response = promotionService.Remove(promotionUpdateDTO);
                         break;
-                    case MethodConstant.REMOVE_BY_ID:
+                    case MethodConstant.REMOVEBYID:
                         var id_r = JsonConvert.DeserializeObject<string>(message.Content);
                         response = promotionService.RemoveById(id_r);
                         break;
-                    case MethodConstant.UPDATE:
+                    case MethodConstant.PUT:
                         var promotionDeleteDTO = JsonConvert.DeserializeObject<PromotionUpdateDeleteDTO>(message.Content);
                         response = promotionService.Update(promotionDeleteDTO);
                         break;

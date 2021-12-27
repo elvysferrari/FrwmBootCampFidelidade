@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Promotion.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class PromotionController : ControllerBase
     {

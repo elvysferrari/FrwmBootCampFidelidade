@@ -1,15 +1,12 @@
-﻿using FrwkBootCampFidelidade.Dominio.ExtractContext.Interfaces;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using FrwkBootCampFidelidade.Dominio.ExtractContext.Entities;
+﻿using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.DTO.ExtractContext;
-using FrwkBootCampFidelidade.Aplicacao.Interfaces;
+using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class ExtractController : ControllerBase
     {

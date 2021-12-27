@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-    db: 
+    mssql: 
         image: mcr.microsoft.com/mssql/server:2019-latest
         environment:
             - SA_PASSWORD=Suporte59@.!
@@ -9,13 +9,28 @@ services:
         ports:
             - "1433:1433"
         volumes:
-            - ${APPDATA}/dados:/var/opt/mssql/data   
+            - ././mssql:/var/opt/mssql/data   
         mem_limit: 
             512m
         container_name: 
-            db
+            mssql
         expose:
           - 1433
+
+    rabbitmq:
+        image: rabbitmq:3-management-alpine
+        command: rabbitmq-server
+        container_name: rabbitmq
+        ports:
+          - "5672"
+          - "15672"
+        volumes:
+            - ././rabbitmq/etc/:/etc/rabbitmq/
+            - ././rabbitmq/data/:/var/lib/rabbitmq/
+            - ././rabbitmq/logs/:/var/log/rabbitmq/
+        expose:
+          - 15672
+
     mongodb:
         image : mongo
         container_name: mongodb
@@ -23,7 +38,7 @@ services:
         - PUID=1000
         - PGID=1000
         volumes:
-        - ./home/barry/mongodb/database:/data/db
+        - ././mongodb:/data/db
         ports:
         - 27017:27017
         restart: unless-stopped
@@ -31,6 +46,7 @@ services:
             512m
         expose:
           - 27017
+
     wallet.api:
         image: elvysferrari/wallet.api  
         environment:
@@ -42,10 +58,11 @@ services:
         mem_limit: 
             512m
         depends_on:
-            - db        
+            - mssql        
         build:
             context: .
             dockerfile: FrwkBootCampFidelidade.Wallet.API\Dockerfile
+
     bonification.api:
         image: elvysferrari/bonification.api  
         environment:
@@ -57,10 +74,11 @@ services:
         mem_limit: 
             512m
         depends_on:
-            - db    
+            - mssql    
         build:
             context: .
-            dockerfile: FrwkBootCampFidelidade.Bonification.API\Dockerfile            
+            dockerfile: FrwkBootCampFidelidade.Bonification.API\Dockerfile    
+            
     ransom.api:
         image: elvysferrari/ransom.api  
         environment:
@@ -72,10 +90,11 @@ services:
         mem_limit: 
             512m
         depends_on:
-            - db   
+            - mssql   
         build:
             context: .
-            dockerfile: FrwkBootCampFidelidade.Ransom.API\Dockerfile             
+            dockerfile: FrwkBootCampFidelidade.Ransom.API\Dockerfile   
+            
     extract.api:
         image: elvysferrari/extract.api  
         environment:
@@ -87,10 +106,11 @@ services:
         mem_limit: 
             512m
         depends_on:
-            - db
+            - mssql
         build:
             context: .
             dockerfile: FrwkBootCampFidelidade.Extract.API\Dockerfile
+
     promotion.api:
         image: elvysferrari/promotion.api  
         environment:
