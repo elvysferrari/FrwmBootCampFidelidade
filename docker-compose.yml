@@ -18,12 +18,12 @@ services:
           - 1433
 
     rabbitmq:
-        image: rabbitmq:3-management-alpine
+        image: rabbitmq:3.8.26-management-alpine
         command: rabbitmq-server
         container_name: rabbitmq
         ports:
-          - "5672"
-          - "15672"
+          - "5672:5672"
+          - "15672:15672"
         volumes:
             - ././rabbitmq/etc/:/etc/rabbitmq/
             - ././rabbitmq/data/:/var/lib/rabbitmq/
@@ -46,6 +46,18 @@ services:
             512m
         expose:
           - 27017
+    
+    apigateway:
+        container_name: apigateway
+        environment:
+            SecretKey: 1130f66f-591f-4f1c-a748-f1f9a1c7c43a
+        ports:
+            - 7000:80
+        depends_on:
+            - rabbitmq        
+        build:
+            context: .
+            dockerfile: Web.BootCampFidelidade.HttpAggregator\Dockerfile
 
     wallet.api:
         image: elvysferrari/wallet.api  
