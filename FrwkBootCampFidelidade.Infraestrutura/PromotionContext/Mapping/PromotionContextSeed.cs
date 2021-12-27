@@ -22,12 +22,20 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Mapping
             DateTime createdAt = DateTime.Now;
             DateTime blackFridayStart = new DateTime(2021, 11, 1);
             DateTime blackFridayEnd = new DateTime(2021, 11, 30);
-            DateTime natalStart = new DateTime(2021, 12, 15);
-            DateTime natalEnd = new DateTime(2021, 12, 25);
 
             return new[]{
-                new Promotion() {Id = "111111111111111111111111", Description="Black Friday", DiscountPercentage = 10, StartDate = blackFridayStart, EndDate=blackFridayEnd, CreatedAt = createdAt, UpdatedAt = createdAt },
-                new Promotion() {Id = "111111111111111111111112", Description="Natal", DiscountPercentage = 20, StartDate = natalStart, EndDate=natalEnd, CreatedAt = createdAt, UpdatedAt = createdAt },
+                new Promotion()
+                {
+                    Id = "61ca0c75af617fc6b0458414",
+                    Active = true,
+                    DrugstoreId = 1,
+                    UserId = 1,
+                    Description="Black Friday",
+                    StartDate = blackFridayStart,
+                    EndDate=blackFridayEnd,
+                    CreatedAt = createdAt,
+                    UpdatedAt = createdAt
+                }
             };
         }
     }
