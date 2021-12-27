@@ -1,16 +1,20 @@
-﻿using FrwkBootCampFidelidade.Aplicacao.Interfaces.RpcService;
-using FrwkBootCampFidelidade.Core.RabbitMq;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Concurrent;
 using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
+using Web.BootCampFidelidade.HttpAggregator.Infrastructute.Options;
+using Web.BootCampFidelidade.HttpAggregator.Models;
+using Web.BootCampFidelidade.HttpAggregator.Models.DTO;
+using Web.BootCampFidelidade.HttpAggregator.Service.Interface;
 
-namespace FrwkBootCampFidelidade.Aplicacao.Services.RpcService
+namespace Web.BootCampFidelidade.HttpAggregator.Service
 {
-    public class RpcClientService : IRpcClientService
+    public class RabbitMqService : IRabbitMqService
     {
         private readonly ConnectionFactory _factory;
         private readonly RabbitMqConfiguration _config;
@@ -18,10 +22,10 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services.RpcService
         private readonly IModel channel;
         private readonly string replyQueueName;
         private readonly EventingBasicConsumer consumer;
-        private readonly BlockingCollection<string> respQueue = new BlockingCollection<string>();
+        private readonly BlockingCollection<string> respQueue = new();
         private readonly IBasicProperties props;
 
-        public RpcClientService(IOptions<RabbitMqConfiguration> options)
+        public RabbitMqService(IOptions<RabbitMqConfiguration> options)
         {
             _config = options.Value;
 
@@ -75,3 +79,4 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services.RpcService
         }
     }
 }
+

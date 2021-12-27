@@ -10,11 +10,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace FrwkBootCampFidelidade.Promotion.API
 {
     public class Startup
     {
+
+        private readonly string DATABASE = Environment.GetEnvironmentVariable("Database");
+        private readonly string DBUSER = Environment.GetEnvironmentVariable("DbUser");
+        private readonly string DBPASSWORD = Environment.GetEnvironmentVariable("Password");
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;

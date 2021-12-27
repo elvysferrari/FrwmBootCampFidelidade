@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Wallet.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class WalletController : ControllerBase
     {

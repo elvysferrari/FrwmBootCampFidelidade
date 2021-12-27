@@ -21,6 +21,10 @@ namespace FrwkBootCampFidelidade.Extract.API
 {
     public class Startup
     {
+
+        private readonly string DATABASE = Environment.GetEnvironmentVariable("Database");
+        private readonly string DBUSER = Environment.GetEnvironmentVariable("DbUser");
+        private readonly string DBPASSWORD = Environment.GetEnvironmentVariable("Password");
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -32,7 +36,7 @@ namespace FrwkBootCampFidelidade.Extract.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<DBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("connection")));
+            services.AddDbContext<DBContext>(options => options.UseSqlServer($"Data Source=localhost;Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
 
             services.AddDBInjector();
 
@@ -56,9 +60,11 @@ namespace FrwkBootCampFidelidade.Extract.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FrwkBootCampFidelidade.Extract.API v1"));
+               
             }
+
+            app.UseSwagger();
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FrwkBootCampFidelidade.Extract.API v1"));
 
             app.UseHttpsRedirection();
 
