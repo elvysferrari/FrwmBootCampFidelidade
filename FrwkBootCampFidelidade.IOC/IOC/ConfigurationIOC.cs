@@ -29,6 +29,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
             builder.RegisterType<PromotionService>().As<IPromotionService>();
             builder.RegisterType<ProductService>().As<IProductService>();
             builder.RegisterType<ExtractService>().As<IExtractService>();
+            builder.RegisterType<PromotionItemService>().As<IPromotionItemService>();
             #endregion
 
             #region IOC Mapper
@@ -70,23 +71,22 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 
                 #region Promotion
 
-                cfg.CreateMap<Promotion, PromotionDTO>();
-                cfg.CreateMap<PromotionDTO, Promotion>();
-                cfg.CreateMap<List<PromotionDTO>, List<Promotion>>();
-                cfg.CreateMap<List<Promotion>, List<PromotionDTO>>();
-                cfg.CreateMap<Promotion, PromotionCreateDTO>();
-                cfg.CreateMap<PromotionCreateDTO, Promotion>();
-                cfg.CreateMap<List<PromotionCreateDTO>, List<Promotion>>();
-                cfg.CreateMap<List<Promotion>, List<PromotionCreateDTO>>();
-                cfg.CreateMap<Promotion, PromotionUpdateDeleteDTO>();
-                cfg.CreateMap<PromotionUpdateDeleteDTO, Promotion>();
-                cfg.CreateMap<List<PromotionUpdateDeleteDTO>, List<Promotion>>();
-                cfg.CreateMap<List<Promotion>, List<PromotionUpdateDeleteDTO>>();
+                cfg.CreateMap<Promotion, PromotionDTO>().ReverseMap();
+                cfg.CreateMap<List<PromotionDTO>, List<Promotion>>().ReverseMap();
+                cfg.CreateMap<Promotion, PromotionCreateDTO>().ReverseMap();
+                cfg.CreateMap<List<PromotionCreateDTO>, List<Promotion>>().ReverseMap();
+                cfg.CreateMap<Promotion, PromotionUpdateDeleteDTO>().ReverseMap();
+                cfg.CreateMap<List<PromotionUpdateDeleteDTO>, List<Promotion>>().ReverseMap();
 
-                cfg.CreateMap<Product, ProductDTO>();
-                cfg.CreateMap<ProductDTO, Product>();
-                cfg.CreateMap<List<ProductDTO>, List<Product>>();
-                cfg.CreateMap<List<Product>, List<ProductDTO>>();
+                cfg.CreateMap<PromotionItem, PromotionItemDTO>().ReverseMap();
+                cfg.CreateMap<List<PromotionItemDTO>, List<PromotionItem>>().ReverseMap();
+                cfg.CreateMap<PromotionItem, PromotionItemCreateDTO>().ReverseMap();
+                cfg.CreateMap<List<PromotionItemCreateDTO>, List<PromotionItem>>().ReverseMap();
+                cfg.CreateMap<PromotionItem, PromotionItemUpdateDeleteDTO>().ReverseMap();
+                cfg.CreateMap<List<PromotionItemUpdateDeleteDTO>, List<PromotionItem>>().ReverseMap();
+
+                cfg.CreateMap<Product, ProductDTO>().ReverseMap();
+                cfg.CreateMap<List<ProductDTO>, List<Product>>().ReverseMap();
 
                 #endregion
 
