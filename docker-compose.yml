@@ -9,9 +9,7 @@ services:
         ports:
             - "1433:1433"
         volumes:
-            - ././mssql:/var/opt/mssql/data   
-        mem_limit: 
-            512m
+            - ././mssql/:/var/opt/mssql/data   
         container_name: 
             mssql
         expose:
@@ -48,7 +46,7 @@ services:
           - 27017
     
     apigateway:
-        container_name: elvysferrari/apigateway
+        image: elvysferrari/apigateway.api        
         environment:
             SecretKey: 1130f66f-591f-4f1c-a748-f1f9a1c7c43a
         ports:
@@ -68,7 +66,7 @@ services:
           - Database=DBFidelidade
           - DbUser=SA
           - Password=Suporte59@.!
-          - Datasource=localhost
+          - Datasource=host.docker.internal, 1433
         ports:
             - 8001:8001
         mem_limit: 
@@ -88,7 +86,7 @@ services:
           - Database=DBFidelidade
           - DbUser=SA
           - Password=Suporte59@.!
-          - Datasource=localhost
+          - Datasource=host.docker.internal, 1433
         ports:
             - 8002:8002
         mem_limit: 
@@ -108,7 +106,7 @@ services:
           - Database=DBFidelidade
           - DbUser=SA
           - Password=Suporte59@.!
-          - Datasource=localhost
+          - Datasource=host.docker.internal, 1433
         ports:
             - 8003:8003
         mem_limit: 
@@ -128,7 +126,7 @@ services:
           - Database=DBFidelidade
           - DbUser=SA
           - Password=Suporte59@.!
-          - Datasource=localhost
+          - Datasource=host.docker.internal, 1433
         ports:
             - 8004:8004
         mem_limit: 
@@ -148,7 +146,7 @@ services:
             - Database=DBFidelidade
             - DbUser=SA
             - Password=Suporte59@.!
-            - Datasource=localhost
+            - Datasource=host.docker.internal, 1433
         ports:
             - 8005:8005
         mem_limit: 

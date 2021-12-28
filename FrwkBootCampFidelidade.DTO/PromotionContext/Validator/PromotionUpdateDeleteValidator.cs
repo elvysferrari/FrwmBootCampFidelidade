@@ -11,14 +11,27 @@ namespace FrwkBootCampFidelidade.DTO.PromotionContext
                 .NotEmpty()
                 .WithMessage("Id é obrigatório.");
 
+            RuleFor(x => x.Active)
+                .NotNull()
+                .NotEmpty()
+                .WithMessage("Active é obrigatório.");
+
+            RuleFor(x => x.UserId)
+                .NotNull()
+                .NotEmpty()
+                .GreaterThan(0)
+                .WithMessage("UserId é obrigatório.");
+
+            RuleFor(x => x.DrugstoreId)
+                .NotNull()
+                .NotEmpty()
+                .GreaterThan(0)
+                .WithMessage("DrugstoreId é obrigatório.");
+
             RuleFor(x => x.Description)
                 .NotNull()
                 .NotEmpty()
                 .WithMessage("Description é obrigatório.");
-
-            RuleFor(x => x.DiscountPercentage)
-                .GreaterThanOrEqualTo(0)
-                .WithMessage("DiscountPercentage deve ser maior ou igual a zero.");
 
             RuleFor(x => x.StartDate)
                 .NotNull()

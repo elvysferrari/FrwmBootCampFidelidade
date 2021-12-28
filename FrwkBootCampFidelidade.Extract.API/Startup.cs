@@ -22,6 +22,7 @@ namespace FrwkBootCampFidelidade.Extract.API
     public class Startup
     {
 
+        private readonly string DATASOURCE = Environment.GetEnvironmentVariable("Datasource");
         private readonly string DATABASE = Environment.GetEnvironmentVariable("Database");
         private readonly string DBUSER = Environment.GetEnvironmentVariable("DbUser");
         private readonly string DBPASSWORD = Environment.GetEnvironmentVariable("Password");
@@ -36,7 +37,8 @@ namespace FrwkBootCampFidelidade.Extract.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<DBContext>(options => options.UseSqlServer($"Data Source=localhost;Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
+            services.AddDbContext<DBContext>(options =>
+            options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
 
             services.AddDBInjector();
 
@@ -47,6 +49,16 @@ namespace FrwkBootCampFidelidade.Extract.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FrwkBootCampFidelidade.Extract.API", Version = "v1" });
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                );
             });
         }
         public void ConfigureContainer(ContainerBuilder Builder)

@@ -17,6 +17,7 @@ namespace FrwkBootCampFidelidade.Bonification.API
 {
     public class Startup
     {
+        private readonly string DATASOURCE = Environment.GetEnvironmentVariable("Datasource");
         private readonly string DATABASE = Environment.GetEnvironmentVariable("Database");
         private readonly string DBUSER = Environment.GetEnvironmentVariable("DbUser");
         private readonly string DBPASSWORD = Environment.GetEnvironmentVariable("Password");
@@ -32,8 +33,8 @@ namespace FrwkBootCampFidelidade.Bonification.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<DBContext>(options => 
-            options.UseSqlServer($"Data Source=localhost;Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
+            services.AddDbContext<DBContext>(options =>
+                      options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
 
             services.AddHostedService<BonificationConsumer>();
             services.AddDBInjector();
@@ -44,6 +45,16 @@ namespace FrwkBootCampFidelidade.Bonification.API
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FrwkBootCampFidelidade.Bonification.API", Version = "v1" });
+            });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                );
             });
 
             services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMqConfig"));

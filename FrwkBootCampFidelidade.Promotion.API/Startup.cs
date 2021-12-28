@@ -17,6 +17,7 @@ namespace FrwkBootCampFidelidade.Promotion.API
     public class Startup
     {
 
+        private readonly string DATASOURCE = Environment.GetEnvironmentVariable("Datasource");
         private readonly string DATABASE = Environment.GetEnvironmentVariable("Database");
         private readonly string DBUSER = Environment.GetEnvironmentVariable("DbUser");
         private readonly string DBPASSWORD = Environment.GetEnvironmentVariable("Password");
@@ -43,6 +44,16 @@ namespace FrwkBootCampFidelidade.Promotion.API
             services.AddScoped<IMongoContext, MongoContext>();
 
             services.AddDBInjector();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                );
+            });
 
             services.AddSwaggerGen(c =>
             {
