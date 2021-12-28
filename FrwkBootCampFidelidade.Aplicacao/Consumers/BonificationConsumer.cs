@@ -105,7 +105,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                 case MethodConstant.GETBYUSERID:
                     response = productService.GetByUserId(int.Parse(message.Content));
                     break;
-                case MethodConstant.GET:
+                case MethodConstant.INSERT:
                     response = productService.Add(JsonConvert.DeserializeObject<BonificationDTO>(message.Content));
                     break;
                 default:
