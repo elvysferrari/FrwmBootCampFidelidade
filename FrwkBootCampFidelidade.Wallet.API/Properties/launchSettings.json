@@ -14,7 +14,11 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Database":"DBFidelidade",
+        "DbUser": "SA",
+        "Password": "Suporte59@.!",
+        "Datasource": "localhost"
       }
     },
     "FrwkBootCampFidelidade.Wallet.API": {
