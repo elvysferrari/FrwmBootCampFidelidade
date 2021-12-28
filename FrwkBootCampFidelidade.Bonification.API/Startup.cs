@@ -52,7 +52,6 @@ namespace FrwkBootCampFidelidade.Bonification.API
                     .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .AllowCredentials()
                 );
             });
 
@@ -81,7 +80,7 @@ namespace FrwkBootCampFidelidade.Bonification.API
             app.UseRouting();
             app.UseSentryTracing();
             app.UseAuthorization();
-
+            app.UseCors("CorsPolicy");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

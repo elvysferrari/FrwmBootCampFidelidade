@@ -38,7 +38,6 @@ namespace FrwkBootCampFidelidade.Ransom.API
                     .AllowAnyOrigin()
                     .AllowAnyMethod()
                     .AllowAnyHeader()
-                    .AllowCredentials()
                 );
             });
 
@@ -68,7 +67,7 @@ namespace FrwkBootCampFidelidade.Ransom.API
             app.UseRouting();
             app.UseSentryTracing();
             app.UseAuthorization();
-
+            app.UseCors("CorsPolicy");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
