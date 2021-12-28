@@ -48,6 +48,16 @@ namespace FrwkBootCampFidelidade.Extract.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FrwkBootCampFidelidade.Extract.API", Version = "v1" });
             });
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                );
+            });
         }
         public void ConfigureContainer(ContainerBuilder Builder)
         {

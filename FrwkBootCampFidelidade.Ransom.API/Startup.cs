@@ -32,6 +32,16 @@ namespace FrwkBootCampFidelidade.Ransom.API
                 .AddControllers()
                 .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                );
+            });
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FrwkBootCampFidelidade.Ransom.API", Version = "v1" });

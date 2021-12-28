@@ -46,6 +46,16 @@ namespace FrwkBootCampFidelidade.Bonification.API
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FrwkBootCampFidelidade.Bonification.API", Version = "v1" });
             });
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                );
+            });
+
             services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMqConfig"));
 
         }
