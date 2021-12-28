@@ -12,6 +12,12 @@ namespace FrwkBootCampFidelidade.Dominio.PromotionContext.Validator
                 .NotEmpty()
                 .WithMessage("Active é obrigatório.");
 
+            RuleFor(x => x.UserId)
+                .NotNull()
+                .NotEmpty()
+                .GreaterThan(0)
+                .WithMessage("UserId é obrigatório.");
+
             RuleFor(x => x.DrugstoreId)
                 .NotNull()
                 .NotEmpty()

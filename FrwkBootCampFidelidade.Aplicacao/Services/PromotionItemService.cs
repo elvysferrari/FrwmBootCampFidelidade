@@ -24,6 +24,24 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             _productService = productService;
         }
 
+        private async Task<List<PromotionItemDTO>> ProviderItems(string promotionId)
+        {
+            var promotionItems = new List<PromotionItemDTO>();
+
+            for (long i = 1; i <= 10; i++)
+            {
+                promotionItems.Add(new PromotionItemDTO
+                {
+                    Id = i.ToString(),
+                    DiscountPercentage = i * 2,
+                    ProductId = 1,
+                    PromotionId = promotionId
+                });
+            }
+
+            return promotionItems;
+        }
+
         private async Task<ProductDTO> GetProduct(long productId)
         {
             return await _productService.GetById(productId);
@@ -44,8 +62,15 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
         public async Task<IEnumerable<PromotionItemDTO>> GetPromotionItemsByPromotionId(string promotionId)
         {
-            var items = await _promotionItemRepository.GetPromotionItemsByPromotionId(promotionId);
-            var itemsDTO = _mapper.Map<IEnumerable<PromotionItemDTO>>(items);
+            /*
+                Como não está planejado implementar no front a tela de cadastro de Itens de promoções
+                Vamos apenas gerar de maneira aleatória, para ter dados de exemplos
+             */
+
+            //var items = await _promotionItemRepository.GetPromotionItemsByPromotionId(promotionId);
+            //var itemsDTO = _mapper.Map<IEnumerable<PromotionItemDTO>>(items);
+
+            var itemsDTO = await ProviderItems(promotionId);
 
             foreach (var item in itemsDTO)
             {
@@ -59,7 +84,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         {
             var item = await _promotionItemRepository.GetById(id);
 
-            if(item == null)
+            if (item == null)
             {
                 return null;
             }
