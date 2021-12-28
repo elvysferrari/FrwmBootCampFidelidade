@@ -16,6 +16,7 @@ namespace FrwkBootCampFidelidade.Wallet.API
 {
     public class Startup
     {
+        private readonly string DATASOURCE = Environment.GetEnvironmentVariable("Datasource");
         private readonly string DATABASE = Environment.GetEnvironmentVariable("Database");
         private readonly string DBUSER = Environment.GetEnvironmentVariable("DbUser");
         private readonly string DBPASSWORD = Environment.GetEnvironmentVariable("Password");
@@ -34,7 +35,8 @@ namespace FrwkBootCampFidelidade.Wallet.API
                 services.AddHostedService<MigrationHostedService>();
             }
 
-            services.AddDbContext<DBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("connection")));
+            services.AddDbContext<DBContext>(options =>
+            options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
 
             services.AddDBInjector();
             
