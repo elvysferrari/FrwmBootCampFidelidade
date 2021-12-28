@@ -2,6 +2,7 @@
 using FrwkBootCampFidelidade.Aplicacao.Constants;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.Base;
+using FrwkBootCampFidelidade.DTO.ExtractContext;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -93,20 +94,23 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
         private string InvokeService(MessageInputModel message)
         {
             using var scope = _serviceProvider.CreateScope();
-            var productService = scope.ServiceProvider.GetRequiredService<IExtractService>();
+            var extractService = scope.ServiceProvider.GetRequiredService<IExtractService>();
 
             dynamic response = string.Empty;
 
             switch (message.Method)
             {
                 case MethodConstant.GETBYCPF:
-                    response = productService.GetByCPF(message.Content);
+                    response = extractService.GetByCPF(message.Content);
                     break;
                 case MethodConstant.GETBYUSERID:
-                    response = productService.GetByUserId(int.Parse(message.Content));
+                    response = extractService.GetByUserId(int.Parse(message.Content));
                     break;
-                case MethodConstant.GET:
-                    //response = productService.Add(JsonConvert.DeserializeObject<ExtractDTO>(message.Content));
+                case MethodConstant.GETSUMMARYPOINTSBYUSERID:
+                    response = extractService.GetSummaryPoints(int.Parse(message.Content));
+                    break;
+                case MethodConstant.INSERT:
+                    response = extractService.Add(JsonConvert.DeserializeObject<RansomHistoryStatusDTO>(message.Content));
                     break;
                 default:
                     break;

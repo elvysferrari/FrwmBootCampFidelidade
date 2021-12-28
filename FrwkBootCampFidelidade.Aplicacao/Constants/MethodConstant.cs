@@ -20,6 +20,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Constants
         public const string PUT = "PUT";
         public const string DELETE = "DELETE";
         public const string REMOVEBYID = "REMOVEBYID";
-        
+        public const string INSERT = "INSERT";
+
     }
 }
