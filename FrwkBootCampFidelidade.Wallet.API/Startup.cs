@@ -30,10 +30,7 @@ namespace FrwkBootCampFidelidade.Wallet.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            if (Configuration.GetValue<bool>("RunMigration"))
-            {
-                services.AddHostedService<MigrationHostedService>();
-            }
+
 
             services.AddDbContext<DBContext>(options =>
             options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
@@ -58,6 +55,11 @@ namespace FrwkBootCampFidelidade.Wallet.API
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FrwkBootCampFidelidade.Wallet.API", Version = "v1" });
             });
+
+            if (Configuration.GetValue<bool>("RunMigration"))
+            {
+                services.AddHostedService<MigrationHostedService>();
+            }
         }
         public void ConfigureContainer(ContainerBuilder Builder)
         {

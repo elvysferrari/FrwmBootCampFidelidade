@@ -9,11 +9,16 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using System;
 
 namespace FrwkBootCampFidelidade.Ransom.API
 {
     public class Startup
     {
+        private readonly string DATASOURCE = Environment.GetEnvironmentVariable("Datasource");
+        private readonly string DATABASE = Environment.GetEnvironmentVariable("Database");
+        private readonly string DBUSER = Environment.GetEnvironmentVariable("DbUser");
+        private readonly string DBPASSWORD = Environment.GetEnvironmentVariable("Password");
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -24,7 +29,8 @@ namespace FrwkBootCampFidelidade.Ransom.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("connection")));
+            services.AddDbContext<DBContext>(options => options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
+
 
             services.AddDBInjector();
 
