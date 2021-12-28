@@ -12,9 +12,9 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Repository
 {
     public class PromotionRepository : IPromotionRepository
     {
-        private readonly IPromotionContext _context;
+        private readonly IMongoContext _context;
 
-        public PromotionRepository(IPromotionContext context)
+        public PromotionRepository(IMongoContext context)
         {
             _context = context;
         }

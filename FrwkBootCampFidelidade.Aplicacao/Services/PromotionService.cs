@@ -12,50 +12,64 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
     public class PromotionService : IPromotionService
     {
         private readonly IMapper _mapper;
-        private readonly IPromotionRepository _promotion;
-        private readonly IProductService _productService;
+        private readonly IPromotionRepository _promotionRepository;
+        private readonly IPromotionItemService _promotionItemService;
 
-        public PromotionService(IMapper mapper, IPromotionRepository promotion, IProductService productService)
+        public PromotionService(IMapper mapper, IPromotionRepository promotionRepository,
+            IPromotionItemService promotionItemService)
         {
             _mapper = mapper;
-            _promotion = promotion;
-            _productService = productService;
+            _promotionRepository = promotionRepository;
+            _promotionItemService = promotionItemService;
         }
 
-        private IEnumerable<PromotionDTO> GetProducts(IEnumerable<Promotion> promotions)
+        private async Task<IEnumerable<PromotionItemDTO>> GetItems(string promotionId)
         {
-            var promotionsDTO = _mapper.Map<IEnumerable<PromotionDTO>>(promotions);
-            foreach (var promotion in promotionsDTO)
-            {
-                promotion.Products = _productService.GetByPromotion(promotion.Id);
-            }
-            return promotionsDTO;
+            return await _promotionItemService.GetPromotionItemsByPromotionId(promotionId);
         }
 
         public async Task<IEnumerable<PromotionDTO>> GetPromotionByDateRange(PromotionRequestDTO promotionRequestDTO)
         {
-            var promotions = await _promotion.GetPromotionByDateRange(promotionRequestDTO);
-            var promotionsDTO = GetProducts(promotions);
+            var promotions = await _promotionRepository.GetPromotionByDateRange(promotionRequestDTO);
+            var promotionsDTO = _mapper.Map<IEnumerable<PromotionDTO>>(promotions);
+
+            foreach (var promotion in promotionsDTO)
+            {
+                promotion.PromotionItems = await GetItems(promotion.Id);
+            }
+            
             return promotionsDTO;
         }
 
         public async Task<IEnumerable<PromotionDTO>> GetPromotionToday()
         {
-            var promotions = await _promotion.GetPromotionToday();
-            var promotionsDTO = GetProducts(promotions);
+            var promotions = await _promotionRepository.GetPromotionToday();
+            var promotionsDTO = _mapper.Map<IEnumerable<PromotionDTO>>(promotions);
+
+            foreach (var promotion in promotionsDTO)
+            {
+                promotion.PromotionItems = await GetItems(promotion.Id);
+            }
+
             return promotionsDTO;
         }
 
         public async Task<IEnumerable<PromotionDTO>> GetAll()
         {
-            var promotions = await _promotion.GetAll();
-            var promotionsDTO = GetProducts(promotions);
+            var promotions = await _promotionRepository.GetAll();
+            var promotionsDTO = _mapper.Map<IEnumerable<PromotionDTO>>(promotions);
+
+            foreach (var promotion in promotionsDTO)
+            {
+                promotion.PromotionItems = await GetItems(promotion.Id);
+            }
+
             return promotionsDTO;
         }
 
         public async Task<PromotionDTO> GetById(string id)
         {
-            var promotion = await _promotion.GetById(id);
+            var promotion = await _promotionRepository.GetById(id);
 
             if (promotion == null)
             {
@@ -63,7 +77,8 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             }
 
             var promotionDTO = _mapper.Map<PromotionDTO>(promotion);
-            promotionDTO.Products = _productService.GetByPromotion(promotion.Id);
+            promotionDTO.PromotionItems = await GetItems(promotion.Id);
+
             return promotionDTO;
         }
 
@@ -73,7 +88,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             promot.CreatedAt = DateTime.Now;
             promot.UpdatedAt = DateTime.Now;
 
-            promot = await _promotion.Add(promot);
+            promot = await _promotionRepository.Add(promot);
             var promotionDTO = _mapper.Map<PromotionDTO>(promot);
             return promotionDTO;
         }
@@ -81,7 +96,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         public async Task<bool> Update(PromotionUpdateDeleteDTO promotion)
         {
             var promot = _mapper.Map<Promotion>(promotion);
-            var promotionOld = await _promotion.GetById(promotion.Id);
+            var promotionOld = await _promotionRepository.GetById(promotion.Id);
             
             if(promotionOld == null)
             {
@@ -90,18 +105,18 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
             promot.CreatedAt = promotionOld.CreatedAt;
             promot.UpdatedAt = DateTime.Now;
-            return await _promotion.Update(promot);
+            return await _promotionRepository.Update(promot);
         }
 
         public async Task<bool> RemoveById(string id)
         {
-            return await _promotion.RemoveById(id);
+            return await _promotionRepository.RemoveById(id);
         }
 
         public async Task<bool> Remove(PromotionUpdateDeleteDTO promotion)
         {
             var promot = _mapper.Map<Promotion>(promotion);
-            return await _promotion.Remove(promot);
+            return await _promotionRepository.Remove(promot);
         }
     }
 }

@@ -83,7 +83,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             Wallet originWallet = await _wallet.GetById(walletTransferDTO.WalletOriginId);
             Wallet targetWallet = await _wallet.GetById(walletTransferDTO.WalletTargetId);
 
-            if (originWallet != null && targetWallet != null)
+            if (originWallet != null && targetWallet != null && (originWallet.UserId == targetWallet.UserId))
             {
 
                 if (originWallet.Amount >= walletTransferDTO.Quantity)
@@ -104,7 +104,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
                     await _walletHistory.Add(walletHistory);
                     await _walletHistory.SaveChanges();
                 }
-            }
+            }            
         }
         public async Task Withdraw(WalletWithdrawDTO walletWithdrawDTO)
         {

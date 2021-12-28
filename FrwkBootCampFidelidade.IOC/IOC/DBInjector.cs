@@ -34,6 +34,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
             services.AddScoped<IPromotionRepository, PromotionRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IWalletHistoryTransferRepository, WalletHistoryTransferRepository>();
+            services.AddScoped<IPromotionItemRepository, PromotionItemRepository>();
         }
     }
 }

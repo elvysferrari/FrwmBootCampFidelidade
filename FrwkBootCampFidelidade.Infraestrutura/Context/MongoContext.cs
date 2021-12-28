@@ -6,18 +6,22 @@ using MongoDB.Driver;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.Data.Context
 {
-    public class PromotionContext : IPromotionContext
+    public class MongoContext : IMongoContext
     {
-        public PromotionContext(IConfiguration configuration)
+        public MongoContext(IConfiguration configuration)
         {
             var client = new MongoClient(configuration["ConnectionStrings:Connection"]);
             var database = client.GetDatabase(configuration["ConnectionStrings:DatabaseName"]);
 
-            Promotions = database.GetCollection<Promotion>(configuration["ConnectionStrings:CollectionName"]);
+            Promotions = database.GetCollection<Promotion>("promotions");
+            PromotionItems = database.GetCollection<PromotionItem>("promotionsitem");
 
             PromotionContextSeed.SeedData(Promotions);
+            PromotionItemContextSeed.SeedData(PromotionItems);
         }
 
         public IMongoCollection<Promotion> Promotions { get; }
+
+        public IMongoCollection<PromotionItem> PromotionItems { get; }
     }
 }

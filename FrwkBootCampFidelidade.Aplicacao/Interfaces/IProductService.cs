@@ -1,10 +1,10 @@
 ﻿using FrwkBootCampFidelidade.DTO.ProductContext;
-using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Aplicacao.Interfaces
 {
     public interface IProductService
     {
-        IEnumerable<ProductDTO> GetByPromotion(string promotionId);
+        Task<ProductDTO> GetById(long productId);
     }
 }

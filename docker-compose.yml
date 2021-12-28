@@ -18,12 +18,12 @@ services:
           - 1433
 
     rabbitmq:
-        image: rabbitmq:3-management-alpine
+        image: rabbitmq:3.8.26-management-alpine
         command: rabbitmq-server
         container_name: rabbitmq
         ports:
-          - "5672"
-          - "15672"
+          - "5672:5672"
+          - "15672:15672"
         volumes:
             - ././rabbitmq/etc/:/etc/rabbitmq/
             - ././rabbitmq/data/:/var/lib/rabbitmq/
@@ -31,7 +31,7 @@ services:
         expose:
           - 15672
 
-    mongodb:
+    mongodb:        
         image : mongo
         container_name: mongodb
         environment:
@@ -46,6 +46,18 @@ services:
             512m
         expose:
           - 27017
+    
+    apigateway:
+        container_name: elvysferrari/apigateway
+        environment:
+            SecretKey: 1130f66f-591f-4f1c-a748-f1f9a1c7c43a
+        ports:
+            - 7000:80
+        depends_on:
+            - rabbitmq        
+        build:
+            context: .
+            dockerfile: Web.BootCampFidelidade.HttpAggregator\Dockerfile
 
     wallet.api:
         image: elvysferrari/wallet.api  
@@ -53,6 +65,10 @@ services:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
           - ASPNETCORE_URLS=http://+:8001
+          - Database=DBFidelidade
+          - DbUser=SA
+          - Password=Suporte59@.!
+          - Datasource=localhost
         ports:
             - 8001:8001
         mem_limit: 
@@ -69,6 +85,10 @@ services:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
           - ASPNETCORE_URLS=http://+:8002
+          - Database=DBFidelidade
+          - DbUser=SA
+          - Password=Suporte59@.!
+          - Datasource=localhost
         ports:
             - 8002:8002
         mem_limit: 
@@ -85,6 +105,10 @@ services:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
           - ASPNETCORE_URLS=http://+:8003
+          - Database=DBFidelidade
+          - DbUser=SA
+          - Password=Suporte59@.!
+          - Datasource=localhost
         ports:
             - 8003:8003
         mem_limit: 
@@ -101,6 +125,10 @@ services:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
           - ASPNETCORE_URLS=http://+:8004
+          - Database=DBFidelidade
+          - DbUser=SA
+          - Password=Suporte59@.!
+          - Datasource=localhost
         ports:
             - 8004:8004
         mem_limit: 
@@ -117,6 +145,10 @@ services:
             - ASPNETCORE_ENVIRONMENT=Development
             - DOCKER_ENVIRONMENT=true
             - ASPNETCORE_URLS=http://+:8005
+            - Database=DBFidelidade
+            - DbUser=SA
+            - Password=Suporte59@.!
+            - Datasource=localhost
         ports:
             - 8005:8005
         mem_limit: 

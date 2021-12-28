@@ -40,7 +40,7 @@ namespace FrwkBootCampFidelidade.Promotion.API
             //EF MSSQL
             //services.AddDbContext<DBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("connection")));
 
-            services.AddScoped<IPromotionContext, PromotionContext>();
+            services.AddScoped<IMongoContext, MongoContext>();
 
             services.AddDBInjector();
 
