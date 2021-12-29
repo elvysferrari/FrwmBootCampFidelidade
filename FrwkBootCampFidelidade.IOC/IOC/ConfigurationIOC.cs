@@ -72,21 +72,13 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 
                 #endregion
 
-                #region Promotion
+                #region Promotion-Product
 
                 cfg.CreateMap<Promotion, PromotionDTO>().ReverseMap();
                 cfg.CreateMap<List<PromotionDTO>, List<Promotion>>().ReverseMap();
-                cfg.CreateMap<Promotion, PromotionCreateDTO>().ReverseMap();
-                cfg.CreateMap<List<PromotionCreateDTO>, List<Promotion>>().ReverseMap();
-                cfg.CreateMap<Promotion, PromotionUpdateDeleteDTO>().ReverseMap();
-                cfg.CreateMap<List<PromotionUpdateDeleteDTO>, List<Promotion>>().ReverseMap();
 
                 cfg.CreateMap<PromotionItem, PromotionItemDTO>().ReverseMap();
                 cfg.CreateMap<List<PromotionItemDTO>, List<PromotionItem>>().ReverseMap();
-                cfg.CreateMap<PromotionItem, PromotionItemCreateDTO>().ReverseMap();
-                cfg.CreateMap<List<PromotionItemCreateDTO>, List<PromotionItem>>().ReverseMap();
-                cfg.CreateMap<PromotionItem, PromotionItemUpdateDeleteDTO>().ReverseMap();
-                cfg.CreateMap<List<PromotionItemUpdateDeleteDTO>, List<PromotionItem>>().ReverseMap();
 
                 cfg.CreateMap<Product, ProductDTO>().ReverseMap();
                 cfg.CreateMap<List<ProductDTO>, List<Product>>().ReverseMap();

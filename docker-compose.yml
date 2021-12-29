@@ -145,10 +145,10 @@ services:
             - ASPNETCORE_ENVIRONMENT=Development
             - DOCKER_ENVIRONMENT=true
             - ASPNETCORE_URLS=http://+:8005
-            - Database=DBFidelidade
-            - DbUser=SA
-            - Password=Suporte59@.!
-            - Datasource=mongo://host.docker.internal, 1433
+            - Database=promotionsdb
+            - DbUser=null
+            - Password=null
+            - Datasource=mongodb://host.docker.internal:27017
         ports:
             - 8005:8005
         mem_limit: 

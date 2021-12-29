@@ -99,7 +99,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                 switch (message.Method)
                 {
                     case MethodConstant.POST:
-                        response = promotionService.Add(JsonConvert.DeserializeObject<PromotionCreateDTO>(message.Content));
+                        response = promotionService.Add(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
                         break;
                     case MethodConstant.GET:
                         response = promotionService.GetAll();
@@ -108,19 +108,19 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                         response = promotionService.GetById(message.Content);
                         break;
                     case MethodConstant.GETPROMOTIONTODAY:
-                        response = promotionService.GetPromotionToday();
+                        response = promotionService.GetPromotionToday(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
                         break;
                     case MethodConstant.GETPROMOTIONBYDATERANGE:
-                        response = promotionService.GetPromotionByDateRange(JsonConvert.DeserializeObject<PromotionRequestDTO>(message.Content));
+                        response = promotionService.GetPromotionByDateRange(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
                         break;
                     case MethodConstant.DELETE:
-                        response = promotionService.Remove(JsonConvert.DeserializeObject<PromotionUpdateDeleteDTO>(message.Content));
+                        response = promotionService.Remove(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
                         break;
                     case MethodConstant.DELETEBYID:
                         response = promotionService.RemoveById(message.Content);
                         break;
                     case MethodConstant.PUT:
-                        response = promotionService.Update(JsonConvert.DeserializeObject<PromotionUpdateDeleteDTO>(message.Content));
+                        response = promotionService.Update(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
                         break;
                     default:
                         break;

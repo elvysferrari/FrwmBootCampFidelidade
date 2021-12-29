@@ -9,9 +9,9 @@ namespace FrwkBootCampFidelidade.Aplicacao.Interfaces
         Task<IEnumerable<PromotionItemDTO>> GetAll();
         Task<PromotionItemDTO> GetById(string id);
         Task<IEnumerable<PromotionItemDTO>> GetPromotionItemsByPromotionId(string promotionId);
-        Task<PromotionItemDTO> Add(PromotionItemCreateDTO promotionItem);
-        Task<bool> Update(PromotionItemUpdateDeleteDTO promotionItem);
+        Task<PromotionItemDTO> Add(PromotionItemDTO promotionItem);
+        Task<bool> Update(PromotionItemDTO promotionItem);
         Task<bool> RemoveById(string id);
-        Task<bool> Remove(PromotionItemUpdateDeleteDTO promotionItem);
+        Task<bool> Remove(PromotionItemDTO promotionItem);
     }
 }
