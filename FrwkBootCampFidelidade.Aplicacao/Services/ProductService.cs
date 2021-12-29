@@ -11,12 +11,12 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 {
     public class ProductService : IProductService
     {
-        private readonly IRpcClientService _rpcClientService;
+        //private readonly IRpcClientService _rpcClientService;
         private readonly IMapper _mapper;
 
-        public ProductService(IMapper mapper, IRpcClientService rpcClientService)
+        public ProductService(IMapper mapper/*, IRpcClientService rpcClientService*/)
         {
-            _rpcClientService = rpcClientService;
+            //_rpcClientService = rpcClientService;
             _mapper = mapper;
         }
 

@@ -1,4 +1,5 @@
 using FluentValidation.AspNetCore;
+using FrwkBootCampFidelidade.Aplicacao.Configuration;
 using FrwkBootCampFidelidade.Dominio.Base.Interfaces;
 using FrwkBootCampFidelidade.DTO.PromotionContext;
 using FrwkBootCampFidelidade.Infraestrutura.Data.Context;
@@ -52,7 +53,7 @@ namespace FrwkBootCampFidelidade.Promotion.API
 
             services.AddDBInjector();
             services.AddServices();
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddSwaggerGen(c =>
             {
