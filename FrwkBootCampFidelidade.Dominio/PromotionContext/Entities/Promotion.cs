@@ -10,11 +10,17 @@ namespace FrwkBootCampFidelidade.Dominio.PromotionContext.Entities
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
+        [BsonElement("DrugstoreId")]
+        public long DrugstoreId { get; set; }
+
+        [BsonElement("UserId")]
+        public long UserId { get; set; }
+
+        [BsonElement("Active")]
+        public bool Active { get; set; }
+
         [BsonElement("Description")]
         public string Description { get; set; }
-
-        [BsonElement("DiscountPercentage")]
-        public double DiscountPercentage { get; set; }
 
         [BsonElement("StartDate")]
         public DateTime StartDate { get; set; }

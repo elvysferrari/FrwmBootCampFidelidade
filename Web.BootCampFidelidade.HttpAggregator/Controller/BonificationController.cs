@@ -1,12 +1,15 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FrwkBootCampFidelidade.Aplicacao.Constants;
+using FrwkBootCampFidelidade.Aplicacao.Interfaces.RpcService;
+using FrwkBootCampFidelidade.Dominio.Base;
+using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Web.BootCampFidelidade.HttpAggregator.Infrastructute.Constants;
-using Web.BootCampFidelidade.HttpAggregator.Models;
 using Web.BootCampFidelidade.HttpAggregator.Models.DTO;
-using Web.BootCampFidelidade.HttpAggregator.Service.Interface;
 
 namespace Web.BootCampFidelidade.HttpAggregator.Controller
 {
@@ -14,71 +17,97 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
     [ApiController]
     public class BonificationController : ControllerBase
     {
-        private readonly IRabbitMqService service;
+        private readonly IRpcClientService service;
 
-        public BonificationController(IRabbitMqService service)
+        public BonificationController(IRpcClientService service)
         {
             this.service = service;
         }
 
-        [HttpGet("GetByUserId/{userId:int}")]
+        [HttpGet("{userId:int}")]
         [Authorize]
-        public ActionResult<BonificationDTO> GetByUserId(int userId)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BonificationDTO), StatusCodes.Status200OK)]
+        public ActionResult<BonificationDTO> GetByUserId([FromQuery(Name = "userId")][Required] int id)
         {
 
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.BONIFICATION,
-                Method = MethodConstant.GETBYUSERID,
-                Content = userId.ToString(),
-            };
+            var message = InputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYCPF, id.ToString());
 
             var response = service.Call(message);
             service.Close();
 
-            var products = JsonSerializer.Deserialize<IEnumerable<BonificationDTO>>(response);
+            if (response.Equals(""))
+                return NotFound("");
 
-            return Ok(new { products });
+            var bonifications = JsonSerializer.Deserialize<IEnumerable<BonificationDTO>>(response);
+
+            return Ok(new { bonifications });
         }
 
-        [HttpGet("GetByCPF/{cpf}")]
+        [HttpGet("{cpf}")]
         [Authorize]
-        public ActionResult<BonificationDTO> GetByCPF(string cpf)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BonificationDTO), StatusCodes.Status200OK)]
+        public ActionResult<BonificationDTO> GetByCPF([FromQuery(Name = "cpf")][Required] string cpf)
         {
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.BONIFICATION,
-                Method = MethodConstant.GETBYCPF,
-                Content = cpf.ToString(),
-            };
+            var message = InputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYCPF, cpf);
 
             var response = service.Call(message);
             service.Close();
 
-            var products = JsonSerializer.Deserialize<IEnumerable<BonificationDTO>>(response);
+            var bonifications = JsonSerializer.Deserialize<IEnumerable<BonificationDTO>>(response);
 
-            return Ok(new { products });
+            return Ok(new { bonifications });
         }
 
         [HttpPost]
         [Authorize]
-        public ActionResult Post([FromBody] BonificationDTO bonificationDTO)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status201Created)]
+        public ActionResult Post([FromBody][Required] BonificationDTO bonificationDTO)
         {
-
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.BONIFICATION,
-                Method = MethodConstant.GETBYCPF,
-                Content = JsonSerializer.Serialize(bonificationDTO),
-            };
+            var message = InputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYCPF, JsonSerializer.Serialize(bonificationDTO));
 
             var response = service.Call(message);
             service.Close();
 
-            var products = JsonSerializer.Deserialize<IEnumerable<BonificationDTO>>(response);
-                
+            var bonifications = JsonSerializer.Deserialize<BonificationDTO>(response);
 
-            return Created($"{Request.Path}", new { products });
+
+            return Created($"{Request.Path}/{bonifications.Id}", new { bonifications });
+        }
+
+        [HttpGet]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(BonificationDTO), StatusCodes.Status200OK)]
+        public IActionResult Get()
+        {
+            var message = InputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYCPF, string.Empty);
+
+            var response = service.Call(message);
+            service.Close();
+
+            if (response.Equals(""))
+                return NotFound("");
+
+            var bonifications = JsonSerializer.Deserialize<List<BonificationDTO>>(response);
+
+            return Ok(new { bonifications });
+
+        }
+
+        protected MessageInputModel InputModel(string queue, string method, string content)
+        {
+            return new MessageInputModel
+            {
+                Queue = queue,
+                Method = method,
+                Content = content
+            };
         }
     }
 }

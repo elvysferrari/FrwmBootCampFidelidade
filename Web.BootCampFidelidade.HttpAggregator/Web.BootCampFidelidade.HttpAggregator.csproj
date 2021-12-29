@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.13" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.14.0" />
@@ -16,7 +17,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FrwkBootCampFidelidade.Aplicacao\FrwkBootCampFidelidade.Aplicacao.csproj" />
+    <ProjectReference Include="..\FrwkBootCampFidelidade.Dominio\FrwkBootCampFidelidade.Dominio.csproj" />
     <ProjectReference Include="..\FrwkBootCampFidelidade.DTO\FrwkBootCampFidelidade.DTO.csproj" />
+    <ProjectReference Include="..\FrwkBootCampFidelidade.IOC\FrwkBootCampFidelidade.Infraestrutura.IOC.csproj" />
   </ItemGroup>
 
 </Project>

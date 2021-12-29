@@ -1,79 +1,99 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using FrwkBootCampFidelidade.Aplicacao.Constants;
+using FrwkBootCampFidelidade.Aplicacao.Interfaces.RpcService;
+using FrwkBootCampFidelidade.Dominio.Base;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
-using System.Threading.Tasks;
-using Web.BootCampFidelidade.HttpAggregator.Infrastructute.Constants;
 using Web.BootCampFidelidade.HttpAggregator.Models;
 using Web.BootCampFidelidade.HttpAggregator.Models.DTO;
-using Web.BootCampFidelidade.HttpAggregator.Service.Interface;
 
 namespace Web.BootCampFidelidade.HttpAggregator.Controller
 {
     [Route("api/v1/[controller]")]
     public class ExtractController : ControllerBase
     {
-        private readonly IRabbitMqService service;
-        public ExtractController(IRabbitMqService service)
+        private readonly IRpcClientService service;
+        public ExtractController(IRpcClientService service)
         {
             this.service = service;
         }
 
-        [HttpGet("GetByUserId/{userId}")]
+        [HttpGet("{id}")]
         [Authorize]
-        public ActionResult<RansomHistoryStatusDTO> GetByUserId(int userId)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(RansomHistoryStatusDTO), StatusCodes.Status200OK)]
+        public ActionResult<RansomHistoryStatusDTO> GetByUserId([FromQuery(Name = "userId")] int id)
         {
             var message = new MessageInputModel()
             {
                 Queue = DomainConstant.EXTRACT,
                 Method = MethodConstant.GETBYUSERID,
-                Content = userId.ToString(),
+                Content = id.ToString(),
             };
 
             var response = service.Call(message);
             service.Close();
 
-            var extract = JsonSerializer.Deserialize<List<RansomHistoryStatusDTO>>(response);
+            if (response.Equals(""))
+                return NotFound();
 
-            return Ok(new { extract });
+            var extracts = JsonSerializer.Deserialize<List<RansomHistoryStatusDTO>>(response);
+
+            return Ok(new { extracts });
         }
 
-        [HttpGet("GetByCPF/{cpf}")]
+        [HttpGet("{cpf}")]
         [Authorize]
-        public ActionResult<RansomHistoryStatusDTO> GetByCPF(string cpf)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(RansomHistoryStatusDTO), StatusCodes.Status200OK)]
+        public ActionResult<RansomHistoryStatusDTO> GetByCPF([FromQuery(Name = "cpf")] string cpf)
         {
             var message = new MessageInputModel()
             {
                 Queue = DomainConstant.EXTRACT,
                 Method = MethodConstant.GETBYCPF,
-                Content = cpf.ToString(),
+                Content = cpf,
             };
 
             var response = service.Call(message);
             service.Close();
 
-            var extract = JsonSerializer.Deserialize<List<RansomHistoryStatusDTO>>(response);
+            if (response.Equals(""))
+                return NotFound();
 
-            return Ok(new { extract });
+            var extracts = JsonSerializer.Deserialize<List<RansomHistoryStatusDTO>>(response);
+
+            return Ok(new { extracts });
         }
 
-        [HttpGet("GetSummaryPointsByUserID/{userId}")]
+        [HttpGet("GetSummaryPointsByUserID/{id:int}")]
         [Authorize]
-        public ActionResult<SummaryPointsDTO> GetSummaryPoints(int userId)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(SummaryPointsDTO), StatusCodes.Status200OK)]
+        public ActionResult<SummaryPointsDTO> GetSummaryPoints([FromQuery(Name = "userId")][Required]int id)
         {
             var message = new MessageInputModel()
             {
                 Queue = DomainConstant.EXTRACT,
                 Method = MethodConstant.GETSUMMARYPOINTSBYUSERID,
-                Content = userId.ToString(),
+                Content = id.ToString(),
             };
 
             var response = service.Call(message);
             service.Close();
 
-            var extract = JsonSerializer.Deserialize<List<RansomHistoryStatusDTO>>(response);
+            if (response.Equals(""))
+                return NotFound();
 
-            return Ok(new { extract });
+            var extracts = JsonSerializer.Deserialize<List<SummaryPointsDTO>>(response);
+
+            return Ok(new { extracts });
         }
     }
 }

@@ -2,7 +2,8 @@
 using FrwkBootCampFidelidade.Aplicacao.Constants;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.Base;
-using FrwkBootCampFidelidade.DTO.PromotionContext;
+using FrwkBootCampFidelidade.DTO.BonificationContext;
+using FrwkBootCampFidelidade.DTO.ExtractContext;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -10,23 +11,25 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 {
-    public class PromotionConsumer : BackgroundService
+    public class ExtractConsumer : BackgroundService
     {
-        private readonly RabbitMqConfiguration _config;
         private readonly IConnection _connection;
         private readonly IModel _channel;
         private readonly IServiceProvider _serviceProvider;
+        private readonly RabbitMqConfiguration _config;
 
-        public PromotionConsumer(IOptions<RabbitMqConfiguration> option, IServiceProvider serviceProvider)
+        public ExtractConsumer(IServiceProvider serviceProvider, IOptions<RabbitMqConfiguration> options)
         {
-            _config = option.Value;
             _serviceProvider = serviceProvider;
+            _config = options.Value;
 
             var factory = new ConnectionFactory
             {
@@ -37,7 +40,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
             _channel = _connection.CreateModel();
 
             _channel.QueueDeclare(
-                        queue: DomainConstant.PROMOTION,
+                        queue: DomainConstant.EXTRACT,
                         durable: false,
                         exclusive: false,
                         autoDelete: false,
@@ -46,11 +49,12 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
             _channel.BasicQos(0, 1, false);
         }
 
+
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var consumer = new EventingBasicConsumer(_channel);
 
-            _channel.BasicConsume(queue: DomainConstant.PROMOTION, autoAck: false, consumer: consumer);
+            _channel.BasicConsume(queue: DomainConstant.EXTRACT, autoAck: false, consumer: consumer);
 
             consumer.Received += (model, ea) =>
             {
@@ -73,7 +77,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                 }
                 catch (Exception e)
                 {
-                    response = "";
+                    response = e.Message;
                 }
                 finally
                 {
@@ -90,44 +94,30 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 
         private string InvokeService(MessageInputModel message)
         {
-            using (var scope = _serviceProvider.CreateScope())
+            using var scope = _serviceProvider.CreateScope();
+            var service = scope.ServiceProvider.GetRequiredService<IExtractService>();
+
+            dynamic response = string.Empty;
+
+            switch (message.Method)
             {
-                var promotionService = scope.ServiceProvider.GetRequiredService<IPromotionService>();
-
-                dynamic response = string.Empty;
-
-                switch (message.Method)
-                {
-                    case MethodConstant.POST:
-                        response = promotionService.Add(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
-                        break;
-                    case MethodConstant.GET:
-                        response = promotionService.GetAll();
-                        break;
-                    case MethodConstant.GETBYID:
-                        response = promotionService.GetById(message.Content);
-                        break;
-                    case MethodConstant.GETPROMOTIONTODAY:
-                        response = promotionService.GetPromotionToday(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
-                        break;
-                    case MethodConstant.GETPROMOTIONBYDATERANGE:
-                        response = promotionService.GetPromotionByDateRange(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
-                        break;
-                    case MethodConstant.DELETE:
-                        response = promotionService.Remove(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
-                        break;
-                    case MethodConstant.DELETEBYID:
-                        response = promotionService.RemoveById(message.Content);
-                        break;
-                    case MethodConstant.PUT:
-                        response = promotionService.Update(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
-                        break;
-                    default:
-                        break;
-                }
-
-                return JsonConvert.SerializeObject(response);
+                case MethodConstant.GETBYCPF:
+                    response = service.GetByCPF(message.Content);
+                    break;
+                case MethodConstant.GETBYUSERID:
+                    response = service.GetByUserId(int.Parse(message.Content));
+                    break;
+                case MethodConstant.GETSUMMARYPOINTSBYUSERID:
+                    response = service.GetSummaryPoints(int.Parse(message.Content));
+                    break;
+                case MethodConstant.POST:
+                    response = service.Add(JsonConvert.DeserializeObject<RansomHistoryStatusDTO>(message.Content));
+                    break;
+                default:
+                    break;
             }
+
+            return JsonConvert.SerializeObject(response);
         }
     }
 }

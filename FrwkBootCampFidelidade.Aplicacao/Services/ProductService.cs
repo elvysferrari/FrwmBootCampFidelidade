@@ -1,28 +1,47 @@
 ﻿using AutoMapper;
+using FrwkBootCampFidelidade.Aplicacao.Constants;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
-using FrwkBootCampFidelidade.Dominio.ProductContext.Interfaces;
+using FrwkBootCampFidelidade.Aplicacao.Interfaces.RpcService;
+using FrwkBootCampFidelidade.Dominio.Base;
+using FrwkBootCampFidelidade.Dominio.ProductContext.Entities;
 using FrwkBootCampFidelidade.DTO.ProductContext;
-using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Aplicacao.Services
 {
     public class ProductService : IProductService
     {
+        //private readonly IRpcClientService _rpcClientService;
         private readonly IMapper _mapper;
-        private readonly IProductRepository _product;
 
-        public ProductService(IMapper mapper, IProductRepository product)
+        public ProductService(IMapper mapper/*, IRpcClientService rpcClientService*/)
         {
+            //_rpcClientService = rpcClientService;
             _mapper = mapper;
-            _product = product;
         }
 
-        public IEnumerable<ProductDTO> GetByPromotion(string promotionId)
+        public async Task<ProductDTO> GetById(long productId)
         {
-           var products = _product.GetByPromotion(promotionId);
-           var productDTO = _mapper.Map<IEnumerable<ProductDTO>>(products);
-           return productDTO;
+            //var message = new MessageInputModel()
+            //{
+            //    Queue = DomainConstant.PRODUCT,
+            //    Method = MethodConstant.GETBYID,
+            //    Content = productId.ToString(),
+            //};
+
+            //var response = _rpcClientService.Call(message);
+            //_rpcClientService.Close();
+
+            var products = new Product
+            {
+                Id = 1,
+                Name = "Nome",
+                Description = "Descrição",
+                Price = 10
+            };
+
+            var productDTO = _mapper.Map<ProductDTO>(products);
+            return productDTO;
         }
     }
 }

@@ -9,36 +9,32 @@ services:
         ports:
             - "1433:1433"
         volumes:
-            - ././mssql:/var/opt/mssql/data   
-        mem_limit: 
-            512m
+            - ./mssql/:/var/opt/mssql/data   
         container_name: 
             mssql
         expose:
           - 1433
 
     rabbitmq:
-        image: rabbitmq:3-management-alpine
-        command: rabbitmq-server
+        image: rabbitmq:3.8-management-alpine
         container_name: rabbitmq
+        environment:
+            - RABBITMQ_DEFAULT_USER=guest
+            - RABBITMQ_DEFAULT_PASS=guest
         ports:
-          - "5672"
-          - "15672"
-        volumes:
-            - ././rabbitmq/etc/:/etc/rabbitmq/
-            - ././rabbitmq/data/:/var/lib/rabbitmq/
-            - ././rabbitmq/logs/:/var/log/rabbitmq/
+            - '5672:5672'
+            - '15672:15672'
         expose:
           - 15672
 
-    mongodb:
+    mongodb:        
         image : mongo
         container_name: mongodb
         environment:
         - PUID=1000
         - PGID=1000
         volumes:
-        - ././mongodb:/data/db
+        - ./mongodb:/data/db
         ports:
         - 27017:27017
         restart: unless-stopped
@@ -46,6 +42,22 @@ services:
             512m
         expose:
           - 27017
+    
+    apigateway:
+        image: elvysferrari/apigateway.api        
+        environment:
+            - SecretKey=1130f66f-591f-4f1c-a748-f1f9a1c7c43a
+            - Database=DBFidelidade
+            - DbUser=SA
+            - Password=Suporte59@.!
+            - Datasource=host.docker.internal, 1433
+        ports:
+            - 7000:80
+        depends_on:
+            - rabbitmq        
+        build:
+            context: .
+            dockerfile: Web.BootCampFidelidade.HttpAggregator\Dockerfile
 
     wallet.api:
         image: elvysferrari/wallet.api  
@@ -53,6 +65,10 @@ services:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
           - ASPNETCORE_URLS=http://+:8001
+          - Database=DBFidelidade
+          - DbUser=SA
+          - Password=Suporte59@.!
+          - Datasource=host.docker.internal, 1433
         ports:
             - 8001:8001
         mem_limit: 
@@ -69,6 +85,10 @@ services:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
           - ASPNETCORE_URLS=http://+:8002
+          - Database=DBFidelidade
+          - DbUser=SA
+          - Password=Suporte59@.!
+          - Datasource=host.docker.internal, 1433
         ports:
             - 8002:8002
         mem_limit: 
@@ -85,6 +105,10 @@ services:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
           - ASPNETCORE_URLS=http://+:8003
+          - Database=DBFidelidade
+          - DbUser=SA
+          - Password=Suporte59@.!
+          - Datasource=host.docker.internal, 1433
         ports:
             - 8003:8003
         mem_limit: 
@@ -101,6 +125,10 @@ services:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
           - ASPNETCORE_URLS=http://+:8004
+          - Database=DBFidelidade
+          - DbUser=SA
+          - Password=Suporte59@.!
+          - Datasource=host.docker.internal, 1433
         ports:
             - 8004:8004
         mem_limit: 
@@ -117,6 +145,10 @@ services:
             - ASPNETCORE_ENVIRONMENT=Development
             - DOCKER_ENVIRONMENT=true
             - ASPNETCORE_URLS=http://+:8005
+            - Database=promotionsdb
+            - DbUser=null
+            - Password=null
+            - Datasource=mongodb://host.docker.internal:27017
         ports:
             - 8005:8005
         mem_limit: 

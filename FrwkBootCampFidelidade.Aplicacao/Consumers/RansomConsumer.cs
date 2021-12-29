@@ -11,6 +11,8 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -74,7 +76,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                 }
                 catch (Exception e)
                 {
-                    response = "";
+                    response = e.Message;
                 }
                 finally
                 {
@@ -100,15 +102,13 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                 switch (message.Method)
                 {
                     case MethodConstant.POST:
-                        var ransomCreateDTO = JsonConvert.DeserializeObject<RansomDTO>(message.Content);
-                        response = ransomService.Add(ransomCreateDTO);
+                        response = ransomService.Add(JsonConvert.DeserializeObject<RansomDTO>(message.Content));
                         break;
                     case MethodConstant.GET:
                         response = ransomService.GetAll();
                         break;
-                    case MethodConstant.GETBYCPF:
-                        var cpf = JsonConvert.DeserializeObject<string>(message.Content);
-                        response = ransomService.GetListByCPF(cpf);
+                    case MethodConstant.GETBYID:
+                        response = ransomService.GetById(int.Parse(message.Content));
                         break;
                     default:
                         break;

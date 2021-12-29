@@ -2,7 +2,7 @@
 using FrwkBootCampFidelidade.Aplicacao.Constants;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.Base;
-using FrwkBootCampFidelidade.DTO.PromotionContext;
+using FrwkBootCampFidelidade.DTO.WalletContext;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -10,20 +10,22 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 {
-    public class PromotionConsumer : BackgroundService
+    public class WalletConsumer : BackgroundService
     {
         private readonly RabbitMqConfiguration _config;
         private readonly IConnection _connection;
         private readonly IModel _channel;
         private readonly IServiceProvider _serviceProvider;
 
-        public PromotionConsumer(IOptions<RabbitMqConfiguration> option, IServiceProvider serviceProvider)
+        public WalletConsumer(IOptions<RabbitMqConfiguration> option, IServiceProvider serviceProvider)
         {
             _config = option.Value;
             _serviceProvider = serviceProvider;
@@ -37,7 +39,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
             _channel = _connection.CreateModel();
 
             _channel.QueueDeclare(
-                        queue: DomainConstant.PROMOTION,
+                        queue: DomainConstant.WALLET,
                         durable: false,
                         exclusive: false,
                         autoDelete: false,
@@ -50,7 +52,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
         {
             var consumer = new EventingBasicConsumer(_channel);
 
-            _channel.BasicConsume(queue: DomainConstant.PROMOTION, autoAck: false, consumer: consumer);
+            _channel.BasicConsume(queue: DomainConstant.WALLET, autoAck: false, consumer: consumer);
 
             consumer.Received += (model, ea) =>
             {
@@ -92,35 +94,18 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
         {
             using (var scope = _serviceProvider.CreateScope())
             {
-                var promotionService = scope.ServiceProvider.GetRequiredService<IPromotionService>();
+                var walletService = scope.ServiceProvider.GetRequiredService<IWalletService>();
 
                 dynamic response = string.Empty;
 
                 switch (message.Method)
                 {
                     case MethodConstant.POST:
-                        response = promotionService.Add(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
-                        break;
-                    case MethodConstant.GET:
-                        response = promotionService.GetAll();
-                        break;
-                    case MethodConstant.GETBYID:
-                        response = promotionService.GetById(message.Content);
-                        break;
-                    case MethodConstant.GETPROMOTIONTODAY:
-                        response = promotionService.GetPromotionToday(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
-                        break;
-                    case MethodConstant.GETPROMOTIONBYDATERANGE:
-                        response = promotionService.GetPromotionByDateRange(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
-                        break;
-                    case MethodConstant.DELETE:
-                        response = promotionService.Remove(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
-                        break;
-                    case MethodConstant.DELETEBYID:
-                        response = promotionService.RemoveById(message.Content);
+                        response = walletService.Add(JsonConvert.DeserializeObject<WalletDTO>(message.Content));
                         break;
                     case MethodConstant.PUT:
-                        response = promotionService.Update(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
+                        walletService.Update(JsonConvert.DeserializeObject<WalletDTO>(message.Content));
+                        response = "sucesso";
                         break;
                     default:
                         break;

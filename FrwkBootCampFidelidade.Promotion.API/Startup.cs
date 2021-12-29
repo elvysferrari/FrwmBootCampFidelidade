@@ -1,5 +1,5 @@
-using Autofac;
 using FluentValidation.AspNetCore;
+using FrwkBootCampFidelidade.Aplicacao.Configuration;
 using FrwkBootCampFidelidade.Dominio.Base.Interfaces;
 using FrwkBootCampFidelidade.DTO.PromotionContext;
 using FrwkBootCampFidelidade.Infraestrutura.Data.Context;
@@ -17,6 +17,7 @@ namespace FrwkBootCampFidelidade.Promotion.API
     public class Startup
     {
 
+        private readonly string DATASOURCE = Environment.GetEnvironmentVariable("Datasource");
         private readonly string DATABASE = Environment.GetEnvironmentVariable("Database");
         private readonly string DBUSER = Environment.GetEnvironmentVariable("DbUser");
         private readonly string DBPASSWORD = Environment.GetEnvironmentVariable("Password");
@@ -33,16 +34,26 @@ namespace FrwkBootCampFidelidade.Promotion.API
                 .AddFluentValidation(x =>
                 {
                     x.RegisterValidatorsFromAssemblyContaining<Startup>();
-                    x.RegisterValidatorsFromAssemblyContaining<PromotionCreateDTO>();
-                    x.RegisterValidatorsFromAssemblyContaining<PromotionUpdateDeleteDTO>();
+                    x.RegisterValidatorsFromAssemblyContaining<PromotionDTO>();
                 });
 
             //EF MSSQL
             //services.AddDbContext<DBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("connection")));
 
-            services.AddScoped<IPromotionContext, PromotionContext>();
+            
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy", builder => builder
+                    .AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                );
+            });
 
             services.AddDBInjector();
+            services.AddServices();
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddSwaggerGen(c =>
             {
@@ -50,10 +61,10 @@ namespace FrwkBootCampFidelidade.Promotion.API
             });
         }
 
-        public void ConfigureContainer(ContainerBuilder Builder)
-        {
-            Builder.RegisterModule(new ModuleIOC());
-        }
+        //public void ConfigureContainer(ContainerBuilder Builder)
+        //{
+        //    Builder.RegisterModule(new ModuleIOC());
+        //}
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -69,7 +80,7 @@ namespace FrwkBootCampFidelidade.Promotion.API
             app.UseRouting();
             app.UseSentryTracing();
             app.UseAuthorization();
-
+            app.UseCors("CorsPolicy");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

@@ -3,8 +3,9 @@ using MongoDB.Driver;
 
 namespace FrwkBootCampFidelidade.Dominio.Base.Interfaces
 {
-    public interface IPromotionContext
+    public interface IMongoContext
     {
-        IMongoCollection<Promotion> Promotions { get; } 
+        IMongoCollection<Promotion> Promotions { get; }
+        IMongoCollection<PromotionItem> PromotionItems { get; }
     }
 }

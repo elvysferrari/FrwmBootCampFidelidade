@@ -1,7 +1,6 @@
 ﻿using FrwkBootCampFidelidade.Dominio.Base.Interfaces;
 using FrwkBootCampFidelidade.Dominio.PromotionContext.Entities;
 using FrwkBootCampFidelidade.Dominio.PromotionContext.Interfaces;
-using FrwkBootCampFidelidade.DTO.PromotionContext;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 using System;
@@ -12,9 +11,9 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Repository
 {
     public class PromotionRepository : IPromotionRepository
     {
-        private readonly IPromotionContext _context;
+        private readonly IMongoContext _context;
 
-        public PromotionRepository(IPromotionContext context)
+        public PromotionRepository(IMongoContext context)
         {
             _context = context;
         }
@@ -62,11 +61,11 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Repository
             return await _context.Promotions.Find(x => x.Id == id).FirstOrDefaultAsync();
         }
 
-        public async Task<IEnumerable<Promotion>> GetPromotionByDateRange(PromotionRequestDTO promotionRequest)
+        public async Task<IEnumerable<Promotion>> GetPromotionByDateRange(Promotion promotion)
         {
             FilterDefinition<Promotion> filter = Builders<Promotion>.Filter
-                .Where(x => x.StartDate >= promotionRequest.StartDate &&
-                    x.EndDate <= promotionRequest.EndDate);
+                .Where(x => x.StartDate >= promotion.StartDate &&
+                    x.EndDate <= promotion.EndDate);
 
             return await _context.Promotions.Find(filter).ToListAsync();
 
@@ -78,11 +77,10 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Repository
             //                            .ToListAsync();
         }
 
-        public async Task<IEnumerable<Promotion>> GetPromotionToday()
+        public async Task<IEnumerable<Promotion>> GetPromotionToday(Promotion promotion)
         {
             FilterDefinition<Promotion> filter = Builders<Promotion>.Filter
-                .Where(x =>x.StartDate >= DateTime.Now &&
-                    x.EndDate <= DateTime.Now);
+                .Where(x =>x.UserId == promotion.UserId && x.DrugstoreId == promotion.DrugstoreId);
 
             return await _context.Promotions.Find(filter).ToListAsync();
 
