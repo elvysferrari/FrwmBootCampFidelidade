@@ -1,12 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FrwkBootCampFidelidade.Aplicacao.Constants;
+using FrwkBootCampFidelidade.Aplicacao.Interfaces.RpcService;
+using FrwkBootCampFidelidade.Dominio.Base;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Web.BootCampFidelidade.HttpAggregator.Infrastructute.Constants;
 using Web.BootCampFidelidade.HttpAggregator.Models.DTO;
-using Web.BootCampFidelidade.HttpAggregator.Models;
-using Web.BootCampFidelidade.HttpAggregator.Service.Interface;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Web.BootCampFidelidade.HttpAggregator.Controller
 {
@@ -14,44 +16,56 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
     [ApiController]
     public class WalletController : ControllerBase
     {
-        private readonly IRabbitMqService service;
-        public WalletController(IRabbitMqService service)
+        private readonly IRpcClientService service;
+        public WalletController(IRpcClientService service)
         {
             this.service = service;
         }
 
-        [HttpGet("GetByUserId/{userId:int}")]
+        [HttpGet("{id:int}")]
         [Authorize]
-        public ActionResult<List<WalletDTO>> GetByUserId(int userId)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status200OK)]
+        public ActionResult<List<WalletDTO>> GetByUserId([FromQuery(Name = "userId")][Required]int id)
         {
             var message = new MessageInputModel()
             {
                 Queue = DomainConstant.WALLET,
                 Method = MethodConstant.GETBYUSERID,
-                Content = userId.ToString(),
+                Content = id.ToString(),
             };
 
             var response = service.Call(message);
             service.Close();
+
+            if (response.Equals(""))
+                return NotFound();
 
             var wallets = JsonSerializer.Deserialize<List<WalletDTO>>(response);
 
             return Ok(new { wallets });
         }
 
-        [HttpGet("GetByUserIdAndType/{userId}/{walletType}")]
+        [HttpGet("{id:int}/{walletType}")]
         [Authorize]
-        public ActionResult<List<WalletDTO>> GetByUserIdAndType(int userId, int walletType)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status200OK)]
+        public ActionResult<List<WalletDTO>> GetByUserIdAndType([FromQuery(Name = "userId")][Required] int id, [FromQuery(Name = "walletType")][Required] int type)
         {
             var message = new MessageInputModel()
             {
                 Queue = DomainConstant.WALLET,
                 Method = MethodConstant.GETBYUSERIDANDTYPE,
-                Content = JsonSerializer.Serialize(new { userId, walletType }),
+                Content = JsonSerializer.Serialize(new { id, type }),
             };
 
             var response = service.Call(message);
             service.Close();
+
+            if (response.Equals(""))
+                return NotFound();
 
             var wallets = JsonSerializer.Deserialize<List<WalletDTO>>(response);
 
@@ -60,7 +74,10 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
 
         [HttpPost]
         [Authorize]
-        public ActionResult<Task<WalletDTO>> Post([FromBody] WalletDTO walletDTO)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status201Created)]
+        public ActionResult<Task<WalletDTO>> Post([FromBody][Required] WalletDTO walletDTO)
         {
             var message = new MessageInputModel()
             {
@@ -72,16 +89,27 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
             var response = service.Call(message);
             service.Close();
 
-            var wallets = JsonSerializer.Deserialize<List<WalletDTO>>(response);
+            if (response.Equals(""))
+                return NotFound();
 
-            return Created($"{Request.Path}", new { wallets });
+            var wallets = JsonSerializer.Deserialize<WalletDTO>(response);
+
+            return Created($"{Request.Path}/{wallets.Id}", new { wallets });
 
         }
 
-        [HttpPut]
+        [HttpPut("{id:int}")]
         [Authorize]
-        public ActionResult Put([FromBody] WalletDTO walletDTO)
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status200OK)]
+        public ActionResult Put([FromQuery(Name = "userId")][Required] int id, [FromBody][Required] WalletDTO walletDTO)
         {
+            if (id == 0)
+               return BadRequest("Usuário é obrigátorio.");
+
+            walletDTO.Id = id;
+
             var message = new MessageInputModel()
             {
                 Queue = DomainConstant.WALLET,
@@ -95,6 +123,35 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
             var wallets = JsonSerializer.Deserialize<List<WalletDTO>>(response);
 
             return Ok(new { wallets });
+        }
+
+        [HttpPost("Transfer")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status201Created)]
+        public async Task<ActionResult> WalletTransfer([FromBody][Required] WalletTransferDTO walletTransferDTO)
+        {
+            if (walletTransferDTO == null)
+                return NotFound();
+
+            var message = new MessageInputModel()
+            {
+                Queue = DomainConstant.WALLET,
+                Method = MethodConstant.TRANSFER,
+                Content = JsonSerializer.Serialize(walletTransferDTO),
+            };
+
+            var response = service.Call(message);
+            service.Close();
+
+            if (response.Equals(""))
+                return NotFound();
+
+            var walletTransfers = JsonSerializer.Deserialize<WalletTransferDTO>(response);
+
+            return Created($"{Request.Path}/{walletTransfers.WalletOriginId}/{walletTransfers.WalletTargetId}", new { walletTransfers });
+
         }
 
     }

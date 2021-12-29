@@ -9,23 +9,21 @@ services:
         ports:
             - "1433:1433"
         volumes:
-            - ././mssql/:/var/opt/mssql/data   
+            - ./mssql/:/var/opt/mssql/data   
         container_name: 
             mssql
         expose:
           - 1433
 
     rabbitmq:
-        image: rabbitmq:3.8.26-management-alpine
-        command: rabbitmq-server
+        image: rabbitmq:3.8-management-alpine
         container_name: rabbitmq
+        environment:
+            - RABBITMQ_DEFAULT_USER=guest
+            - RABBITMQ_DEFAULT_PASS=guest
         ports:
-          - "5672:5672"
-          - "15672:15672"
-        volumes:
-            - ././rabbitmq/etc/:/etc/rabbitmq/
-            - ././rabbitmq/data/:/var/lib/rabbitmq/
-            - ././rabbitmq/logs/:/var/log/rabbitmq/
+            - '5672:5672'
+            - '15672:15672'
         expose:
           - 15672
 
@@ -36,7 +34,7 @@ services:
         - PUID=1000
         - PGID=1000
         volumes:
-        - ././mongodb:/data/db
+        - ./mongodb:/data/db
         ports:
         - 27017:27017
         restart: unless-stopped
@@ -46,9 +44,13 @@ services:
           - 27017
     
     apigateway:
-        image: fernando2022/apigateway.api        
+        image: elvysferrari/apigateway.api        
         environment:
-            SecretKey: 1130f66f-591f-4f1c-a748-f1f9a1c7c43a
+            - SecretKey=1130f66f-591f-4f1c-a748-f1f9a1c7c43a
+            - Database=DBFidelidade
+            - DbUser=SA
+            - Password=Suporte59@.!
+            - Datasource=host.docker.internal, 1433
         ports:
             - 7000:80
         depends_on:
@@ -58,7 +60,7 @@ services:
             dockerfile: Web.BootCampFidelidade.HttpAggregator\Dockerfile
 
     wallet.api:
-        image: fernando2022/wallet.api  
+        image: elvysferrari/wallet.api  
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
@@ -78,7 +80,7 @@ services:
             dockerfile: FrwkBootCampFidelidade.Wallet.API\Dockerfile
 
     bonification.api:
-        image: fernando2022/bonification.api  
+        image: elvysferrari/bonification.api  
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
@@ -98,7 +100,7 @@ services:
             dockerfile: FrwkBootCampFidelidade.Bonification.API\Dockerfile    
             
     ransom.api:
-        image: fernando2022/ransom.api  
+        image: elvysferrari/ransom.api  
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
@@ -118,7 +120,7 @@ services:
             dockerfile: FrwkBootCampFidelidade.Ransom.API\Dockerfile   
             
     extract.api:
-        image: fernando2022/extract.api  
+        image: elvysferrari/extract.api  
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
@@ -138,7 +140,7 @@ services:
             dockerfile: FrwkBootCampFidelidade.Extract.API\Dockerfile
 
     promotion.api:
-        image: fernando2022/promotion.api  
+        image: elvysferrari/promotion.api  
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - DOCKER_ENVIRONMENT=true

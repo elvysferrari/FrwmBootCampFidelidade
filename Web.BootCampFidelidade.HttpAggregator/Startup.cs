@@ -1,20 +1,18 @@
+using FrwkBootCampFidelidade.Aplicacao.Configuration;
+using FrwkBootCampFidelidade.Infraestrutura.Context;
+using FrwkBootCampFidelidade.Infraestrutura.IOC.IOC;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Ocelot.DependencyInjection;
-using Ocelot.Middleware;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Text;
-using System;
 using Microsoft.IdentityModel.Tokens;
-using Web.BootCampFidelidade.HttpAggregator.Service.Interface;
-using Web.BootCampFidelidade.HttpAggregator.Service;
-using Web.BootCampFidelidade.HttpAggregator.Infrastructute.Options;
+using Microsoft.OpenApi.Models;
+using System;
+using System.Text;
 
 namespace Web.BootCampFidelidade.HttpAggregator
 {
@@ -22,6 +20,11 @@ namespace Web.BootCampFidelidade.HttpAggregator
     {
         private readonly IConfiguration configuration;
         private readonly string KEY = Environment.GetEnvironmentVariable("SecretKey");
+        private readonly string DATABASE = Environment.GetEnvironmentVariable("Database");
+        private readonly string DBUSER = Environment.GetEnvironmentVariable("DbUser");
+        private readonly string DBPASSWORD = Environment.GetEnvironmentVariable("Password");
+        private readonly string DATASOURCE = Environment.GetEnvironmentVariable("Datasource");
+        
         public Startup(IConfiguration configuration)
         {
             this.configuration = configuration;
@@ -34,7 +37,13 @@ namespace Web.BootCampFidelidade.HttpAggregator
             services.AddControllers()
                     .SetCompatibilityVersion(CompatibilityVersion.Latest);
 
-            var key = Encoding.ASCII.GetBytes(KEY);
+            services.AddDbContext<DBContext>(options =>
+            options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
+
+            services.AddServices()
+                    .AddDBInjector()
+                    .AddHosted()
+                    .AddAutoMapper(typeof(Startup));
 
             services.AddAuthentication(x =>
             {
@@ -48,7 +57,7 @@ namespace Web.BootCampFidelidade.HttpAggregator
                     x.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuerSigningKey = true,
-                        IssuerSigningKey = new SymmetricSecurityKey(key),
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(KEY)),
                         ValidateIssuer = false,
                         ValidateAudience = false
 
@@ -70,12 +79,13 @@ namespace Web.BootCampFidelidade.HttpAggregator
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api Gateway", Version = "v1" });
             });
 
-            services.AddScoped<IRabbitMqService, RabbitMqService>();
-
             services.Configure<RabbitMqConfiguration>(configuration.GetSection("RabbitMqConfig"));
 
         }
-
+        //public void ConfigureContainer(ContainerBuilder Builder)
+        //{
+        //    Builder.RegisterModule(new ModuleIOC());
+        //}
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -88,11 +98,11 @@ namespace Web.BootCampFidelidade.HttpAggregator
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Api Gateway v1"));
 
-            app.UseHttpsRedirection();
+            app.UseHttpsRedirection()
+                .UseRouting()
+                .UseAuthentication()
+                .UseCors("CorsPolicy");
 
-            app.UseRouting();
-
-            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
