@@ -20,7 +20,6 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
         public AutoMapping()
         {
            CreateMap<Bonification, BonificationDTO>();
-           CreateMap<Bonification, BonificationDTO>();
            CreateMap<BonificationDTO, Bonification>();
            CreateMap<List<BonificationDTO>, List<Bonification>>();
            CreateMap<List<Bonification>, List<BonificationDTO>>();
