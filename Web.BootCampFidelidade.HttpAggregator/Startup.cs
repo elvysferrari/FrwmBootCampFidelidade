@@ -1,20 +1,17 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Ocelot.DependencyInjection;
-using Ocelot.Middleware;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Text;
-using System;
 using Microsoft.IdentityModel.Tokens;
-using Web.BootCampFidelidade.HttpAggregator.Service.Interface;
-using Web.BootCampFidelidade.HttpAggregator.Service;
+using Microsoft.OpenApi.Models;
+using System;
+using System.Text;
 using Web.BootCampFidelidade.HttpAggregator.Infrastructute.Options;
+using Web.BootCampFidelidade.HttpAggregator.Service;
+using Web.BootCampFidelidade.HttpAggregator.Service.Interface;
 
 namespace Web.BootCampFidelidade.HttpAggregator
 {

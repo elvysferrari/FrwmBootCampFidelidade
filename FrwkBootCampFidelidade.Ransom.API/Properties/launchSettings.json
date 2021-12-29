@@ -14,7 +14,9 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SecretKey": "1130f66f-591f-4f1c-a748-f1f9a1c7c43a",
+        "HOST": "host.docker.internal"
       }
     },
     "FrwkBootCampFidelidade.Ransom.API": {
@@ -22,7 +24,9 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "SecretKey": "1130f66f-591f-4f1c-a748-f1f9a1c7c43a",
+        "HOST": "host.docker.internal"
       },
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "dotnetRunMessages": "true"

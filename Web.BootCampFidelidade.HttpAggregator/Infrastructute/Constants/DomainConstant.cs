@@ -7,5 +7,6 @@
         public const string PROMOTION = "PROMOTION";
         public const string WALLET = "WALLET";
         public const string EXTRACT = "EXTRACT";
+        public const string RANSOM = "RANSOM";
     }
 }
