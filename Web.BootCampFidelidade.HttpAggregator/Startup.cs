@@ -43,7 +43,7 @@ namespace Web.BootCampFidelidade.HttpAggregator
             services.AddServices()
                     .AddDBInjector()
                     .AddHosted()
-                    .AddAutoMapper(typeof(Startup));
+                    .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddAuthentication(x =>
             {

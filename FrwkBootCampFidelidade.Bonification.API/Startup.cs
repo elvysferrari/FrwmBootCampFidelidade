@@ -37,7 +37,7 @@ namespace FrwkBootCampFidelidade.Bonification.API
 
             services.AddServices();
             services.AddDBInjector();
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services
                 .AddControllers()
