@@ -19,7 +19,8 @@ namespace FrwkBootCampFidelidade.Aplicacao.Constants
         public const string POST = "POST";
         public const string TRANSFER = "TRANSFER";
         public const string PUT = "PUT";
-        public const string DELETE = "DELETE";
+        public const string DELETE = "DELETE";      
+        public const string INSERT = "INSERT";
         public const string DELETEBYID = "DELETEBYID";
         
     }

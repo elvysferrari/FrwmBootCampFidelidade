@@ -2,8 +2,7 @@
 using FrwkBootCampFidelidade.Aplicacao.Constants;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.Base;
-using FrwkBootCampFidelidade.DTO.BonificationContext;
-using FrwkBootCampFidelidade.DTO.ExtractContext;
+using FrwkBootCampFidelidade.DTO.RansomContext;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -19,17 +18,17 @@ using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 {
-    public class ExtractConsumer : BackgroundService
+    public class RansomConsumer : BackgroundService
     {
+        private readonly RabbitMqConfiguration _config;
         private readonly IConnection _connection;
         private readonly IModel _channel;
         private readonly IServiceProvider _serviceProvider;
-        private readonly RabbitMqConfiguration _config;
 
-        public ExtractConsumer(IServiceProvider serviceProvider, IOptions<RabbitMqConfiguration> options)
+        public RansomConsumer(IOptions<RabbitMqConfiguration> option, IServiceProvider serviceProvider)
         {
+            _config = option.Value;
             _serviceProvider = serviceProvider;
-            _config = options.Value;
 
             var factory = new ConnectionFactory
             {
@@ -40,7 +39,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
             _channel = _connection.CreateModel();
 
             _channel.QueueDeclare(
-                        queue: DomainConstant.EXTRACT,
+                        queue: DomainConstant.RANSOM,
                         durable: false,
                         exclusive: false,
                         autoDelete: false,
@@ -49,12 +48,11 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
             _channel.BasicQos(0, 1, false);
         }
 
-
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
             var consumer = new EventingBasicConsumer(_channel);
 
-            _channel.BasicConsume(queue: DomainConstant.EXTRACT, autoAck: false, consumer: consumer);
+            _channel.BasicConsume(queue: DomainConstant.RANSOM, autoAck: false, consumer: consumer);
 
             consumer.Received += (model, ea) =>
             {
@@ -94,30 +92,29 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 
         private string InvokeService(MessageInputModel message)
         {
-            using var scope = _serviceProvider.CreateScope();
-            var service = scope.ServiceProvider.GetRequiredService<IExtractService>();
-
-            dynamic response = string.Empty;
-
-            switch (message.Method)
+            using (var scope = _serviceProvider.CreateScope())
             {
-                case MethodConstant.GETBYCPF:
-                    response = service.GetByCPF(message.Content);
-                    break;
-                case MethodConstant.GETBYUSERID:
-                    response = service.GetByUserId(int.Parse(message.Content));
-                    break;
-                case MethodConstant.GETSUMMARYPOINTSBYUSERID:
-                    response = service.GetSummaryPoints(int.Parse(message.Content));
-                    break;
-                case MethodConstant.POST:
-                    response = service.Add(JsonConvert.DeserializeObject<RansomHistoryStatusDTO>(message.Content));
-                    break;
-                default:
-                    break;
-            }
+                var ransomService = scope.ServiceProvider.GetRequiredService<IRansomService>();
 
-            return JsonConvert.SerializeObject(response);
+                dynamic response = string.Empty;
+
+                switch (message.Method)
+                {
+                    case MethodConstant.POST:
+                        response = ransomService.Add(JsonConvert.DeserializeObject<RansomDTO>(message.Content));
+                        break;
+                    case MethodConstant.GET:
+                        response = ransomService.GetAll();
+                        break;
+                    case MethodConstant.GETBYID:
+                        response = ransomService.GetById(int.Parse(message.Content));
+                        break;
+                    default:
+                        break;
+                }
+
+                return JsonConvert.SerializeObject(response);
+            }
         }
     }
 }
