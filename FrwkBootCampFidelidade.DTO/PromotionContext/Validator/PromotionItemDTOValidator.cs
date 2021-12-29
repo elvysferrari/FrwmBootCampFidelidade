@@ -2,15 +2,10 @@
 
 namespace FrwkBootCampFidelidade.DTO.PromotionContext.Validator
 {
-    public class PromotionItemUpdateDeleteValidator : AbstractValidator<PromotionItemUpdateDeleteDTO>
+    public class PromotionItemDTOValidator : AbstractValidator<PromotionItemDTO>
     {
-        public PromotionItemUpdateDeleteValidator()
+        public PromotionItemDTOValidator()
         {
-            RuleFor(x => x.Id)
-                .NotNull()
-                .NotEmpty()
-                .WithMessage("Id é obrigatório.");
-
             RuleFor(x => x.ProductId)
                 .NotNull()
                 .NotEmpty()

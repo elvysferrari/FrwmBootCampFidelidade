@@ -3,12 +3,10 @@ using FrwkBootCampFidelidade.Aplicacao.Services.RpcService;
 using FrwkBootCampFidelidade.Dominio.BonificationContext.Interfaces;
 using FrwkBootCampFidelidade.Dominio.ExtractContext.Interfaces;
 using FrwkBootCampFidelidade.Dominio.OrderContext.Interfaces;
-using FrwkBootCampFidelidade.Dominio.ProductContext.Interfaces;
 using FrwkBootCampFidelidade.Dominio.PromotionContext.Interfaces;
 using FrwkBootCampFidelidade.Dominio.RansomContext.Interfaces;
 using FrwkBootCampFidelidade.Dominio.WalletContext.Interfaces;
 using FrwkBootCampFidelidade.Infraestrutura.BonificationContext.Repository;
-using FrwkBootCampFidelidade.Infraestrutura.Data.ProductContext.Repository;
 using FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Repository;
 using FrwkBootCampFidelidade.Infraestrutura.Data.WalletContext.Repository;
 using FrwkBootCampFidelidade.Infraestrutura.ExtractContext.Repository;
@@ -32,7 +30,6 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
             services.AddScoped<IWalletRepository, WalletRepository>();
             services.AddScoped<IWalletTypeRepository, WalletTypeRepository>();
             services.AddScoped<IPromotionRepository, PromotionRepository>();
-            services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IWalletHistoryTransferRepository, WalletHistoryTransferRepository>();
             services.AddScoped<IPromotionItemRepository, PromotionItemRepository>();
         }

@@ -34,8 +34,7 @@ namespace FrwkBootCampFidelidade.Promotion.API
                 .AddFluentValidation(x =>
                 {
                     x.RegisterValidatorsFromAssemblyContaining<Startup>();
-                    x.RegisterValidatorsFromAssemblyContaining<PromotionCreateDTO>();
-                    x.RegisterValidatorsFromAssemblyContaining<PromotionUpdateDeleteDTO>();
+                    x.RegisterValidatorsFromAssemblyContaining<PromotionDTO>();
                 });
 
             //EF MSSQL

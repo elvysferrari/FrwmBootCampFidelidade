@@ -43,8 +43,8 @@ namespace FrwkBootCampFidelidade.Promotion.API.Controllers
             try
             {
                 var promotion = await _promotionService.GetById(id);
-                
-                if(promotion == null)
+
+                if (promotion == null)
                 {
                     return NotFound();
                 }
@@ -60,11 +60,18 @@ namespace FrwkBootCampFidelidade.Promotion.API.Controllers
         [HttpGet("GetPromotionByDateRange")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(IEnumerable<PromotionDTO>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPromotionByDateRange([FromQuery] PromotionRequestDTO promotionRequestDTO)
+        public async Task<IActionResult> GetPromotionByDateRange([FromQuery] long userId, long drugstoreId, DateTime startDate, DateTime endDate)
         {
             try
             {
-                var promotions = await _promotionService.GetPromotionByDateRange(promotionRequestDTO);
+                var promotion = new PromotionDTO
+                {
+                    UserId = userId,
+                    DrugstoreId = drugstoreId,
+                    StartDate = startDate,
+                    EndDate = endDate
+                };
+                var promotions = await _promotionService.GetPromotionByDateRange(promotion);
                 return Ok(promotions);
             }
             catch (Exception e)
@@ -76,11 +83,16 @@ namespace FrwkBootCampFidelidade.Promotion.API.Controllers
         [HttpGet("GetPromotionToday")]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(IEnumerable<PromotionDTO>), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetPromotionToday()
+        public async Task<IActionResult> GetPromotionToday([FromQuery] long userId, long drugstoreId)
         {
             try
             {
-                var promotions = await _promotionService.GetPromotionToday();
+                var promotion = new PromotionDTO
+                {
+                    UserId = userId,
+                    DrugstoreId = drugstoreId,
+                };
+                var promotions = await _promotionService.GetPromotionToday(promotion);
                 return Ok(promotions);
             }
             catch (Exception e)
@@ -89,11 +101,32 @@ namespace FrwkBootCampFidelidade.Promotion.API.Controllers
             }
         }
 
+        //[HttpGet("GetPromotionByUserId")]
+        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        //[ProducesResponseType(typeof(IEnumerable<PromotionDTO>), StatusCodes.Status200OK)]
+        //public async Task<IActionResult> GetPromotionToday([FromQuery] long userId, long drugstoreId)
+        //{
+        //    try
+        //    {
+        //        var promotion = new PromotionDTO
+        //        {
+        //            UserId = userId,
+        //            DrugstoreId = drugstoreId,
+        //        };
+        //        var promotions = await _promotionService.GetPromotionToday(promotion);
+        //        return Ok(promotions);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        return StatusCode(500, e.Message);
+        //    }
+        //}
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Add([FromBody] PromotionCreateDTO promotion)
+        public async Task<IActionResult> Add([FromBody] PromotionDTO promotion)
         {
             try
             {
@@ -116,7 +149,7 @@ namespace FrwkBootCampFidelidade.Promotion.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Update([FromBody] PromotionUpdateDeleteDTO promotion)
+        public async Task<IActionResult> Update([FromBody] PromotionDTO promotion)
         {
             try
             {
@@ -152,7 +185,7 @@ namespace FrwkBootCampFidelidade.Promotion.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Remove([FromBody] PromotionUpdateDeleteDTO promotion)
+        public async Task<IActionResult> Remove([FromBody] PromotionDTO promotion)
         {
             try
             {
