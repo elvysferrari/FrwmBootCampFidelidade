@@ -15,6 +15,8 @@ using FrwkBootCampFidelidade.DTO.RansomContext;
 using System.Collections.Generic;
 using FrwkBootCampFidelidade.Dominio.ExtractContext.Entities;
 using FrwkBootCampFidelidade.DTO.ExtractContext;
+using FrwkBootCampFidelidade.Aplicacao.Services.RpcService;
+using FrwkBootCampFidelidade.Aplicacao.Interfaces.RpcService;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 {
@@ -30,6 +32,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
             builder.RegisterType<ProductService>().As<IProductService>();
             builder.RegisterType<ExtractService>().As<IExtractService>();
             builder.RegisterType<PromotionItemService>().As<IPromotionItemService>();
+            builder.RegisterType<RpcClientService>().As<IRpcClientService>();
             #endregion
 
             #region IOC Mapper

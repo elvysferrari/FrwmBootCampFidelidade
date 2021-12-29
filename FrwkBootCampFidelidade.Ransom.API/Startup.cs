@@ -1,4 +1,3 @@
-using Autofac;
 using FluentValidation.AspNetCore;
 using FrwkBootCampFidelidade.Infraestrutura.Context;
 using FrwkBootCampFidelidade.Infraestrutura.IOC.IOC;
@@ -33,6 +32,8 @@ namespace FrwkBootCampFidelidade.Ransom.API
 
 
             services.AddDBInjector();
+            services.AddServices();
+            services.AddAutoMapper(typeof(Startup));
 
             services
                 .AddControllers()
@@ -53,10 +54,10 @@ namespace FrwkBootCampFidelidade.Ransom.API
             });
         }
 
-        public void ConfigureContainer(ContainerBuilder Builder)
-        {
-            Builder.RegisterModule(new ModuleIOC());
-        }
+        //public void ConfigureContainer(ContainerBuilder Builder)
+        //{
+        //    Builder.RegisterModule(new ModuleIOC());
+        //}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

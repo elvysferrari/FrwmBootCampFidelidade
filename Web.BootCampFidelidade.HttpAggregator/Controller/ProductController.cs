@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FrwkBootCampFidelidade.Aplicacao.Constants;
+using FrwkBootCampFidelidade.Aplicacao.Interfaces.RpcService;
+using FrwkBootCampFidelidade.Dominio.Base;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Text.Json;
-using Web.BootCampFidelidade.HttpAggregator.Infrastructute.Constants;
 using Web.BootCampFidelidade.HttpAggregator.Models.DTO;
-using Web.BootCampFidelidade.HttpAggregator.Models;
-using Web.BootCampFidelidade.HttpAggregator.Service.Interface;
-using Microsoft.AspNetCore.Authorization;
 
 namespace Web.BootCampFidelidade.HttpAggregator.Controller
 {
@@ -13,14 +14,17 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly IRabbitMqService service;
-        public ProductController(IRabbitMqService service)
+        private readonly IRpcClientService service;
+        public ProductController(IRpcClientService service)
         {
             this.service = service;
         }
 
         [HttpGet]
         [Authorize]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ProductDTO), StatusCodes.Status200OK)]
         public ActionResult<ProductDTO> Get()
         {
             var message = new MessageInputModel()

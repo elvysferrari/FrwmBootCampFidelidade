@@ -1,5 +1,4 @@
-﻿using FrwkBootCampFidelidade.Aplicacao.Interfaces.RpcService;
-using FrwkBootCampFidelidade.Aplicacao.Services.RpcService;
+﻿using FrwkBootCampFidelidade.Dominio.Base.Interfaces;
 using FrwkBootCampFidelidade.Dominio.BonificationContext.Interfaces;
 using FrwkBootCampFidelidade.Dominio.ExtractContext.Interfaces;
 using FrwkBootCampFidelidade.Dominio.OrderContext.Interfaces;
@@ -8,6 +7,7 @@ using FrwkBootCampFidelidade.Dominio.PromotionContext.Interfaces;
 using FrwkBootCampFidelidade.Dominio.RansomContext.Interfaces;
 using FrwkBootCampFidelidade.Dominio.WalletContext.Interfaces;
 using FrwkBootCampFidelidade.Infraestrutura.BonificationContext.Repository;
+using FrwkBootCampFidelidade.Infraestrutura.Data.Context;
 using FrwkBootCampFidelidade.Infraestrutura.Data.ProductContext.Repository;
 using FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Repository;
 using FrwkBootCampFidelidade.Infraestrutura.Data.WalletContext.Repository;
@@ -20,21 +20,22 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 {
     public static class DBInjector
     {
-        public static void AddDBInjector(this IServiceCollection services)
+        public static IServiceCollection AddDBInjector(this IServiceCollection services)
         {
-            services.AddScoped<IRpcClientService, RpcClientService>();
+            services.AddTransient<IBonificationRepository, BonificationRepository>();
+            services.AddTransient<IRansomRepository, RansomRepository>();
+            services.AddTransient<IRansomHistoryStatusRepository, RansomHistoryStatusRepository>();
+            services.AddTransient<IOrderRepository, OrderRepository>();
+            services.AddTransient<IOrderItemRepository, OrderItemRepository>();
+            services.AddTransient<IWalletRepository, WalletRepository>();
+            services.AddTransient<IWalletTypeRepository, WalletTypeRepository>();
+            services.AddTransient<IPromotionRepository, PromotionRepository>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IWalletHistoryTransferRepository, WalletHistoryTransferRepository>();
+            services.AddTransient<IPromotionItemRepository, PromotionItemRepository>();
+            services.AddTransient<IMongoContext, MongoContext>();
 
-            services.AddScoped<IBonificationRepository, BonificationRepository>();
-            services.AddScoped<IRansomRepository, RansomRepository>();
-            services.AddScoped<IRansomHistoryStatusRepository, RansomHistoryStatusRepository>();
-            services.AddScoped<IOrderRepository, OrderRepository>();
-            services.AddScoped<IOrderItemRepository, OrderItemRepository>();
-            services.AddScoped<IWalletRepository, WalletRepository>();
-            services.AddScoped<IWalletTypeRepository, WalletTypeRepository>();
-            services.AddScoped<IPromotionRepository, PromotionRepository>();
-            services.AddScoped<IProductRepository, ProductRepository>();
-            services.AddScoped<IWalletHistoryTransferRepository, WalletHistoryTransferRepository>();
-            services.AddScoped<IPromotionItemRepository, PromotionItemRepository>();
+            return services;
         }
     }
 }

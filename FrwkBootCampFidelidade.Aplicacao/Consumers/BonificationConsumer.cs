@@ -3,7 +3,6 @@ using FrwkBootCampFidelidade.Aplicacao.Constants;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.Base;
 using FrwkBootCampFidelidade.DTO.BonificationContext;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -11,8 +10,6 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -75,7 +72,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                 }
                 catch (Exception e)
                 {
-                    response = "";
+                    response = e.Message;
                 }
                 finally
                 {
@@ -92,27 +89,30 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 
         private string InvokeService(MessageInputModel message)
         {
-            using var scope = _serviceProvider.CreateScope();
-            var productService = scope.ServiceProvider.GetRequiredService<IBonificationService>();
-
-            dynamic response = string.Empty;
-
-            switch (message.Method)
+            using (var scope = _serviceProvider.CreateScope())
             {
-                case MethodConstant.GETBYCPF:
-                    response = productService.GetByCPF(message.Content);
-                    break;
-                case MethodConstant.GETBYUSERID:
-                    response = productService.GetByUserId(int.Parse(message.Content));
-                    break;
-                case MethodConstant.GET:
-                    response = productService.Add(JsonConvert.DeserializeObject<BonificationDTO>(message.Content));
-                    break;
-                default:
-                    break;
-            }
+                var service = scope.ServiceProvider.GetRequiredService<IBonificationService>();
 
-            return JsonConvert.SerializeObject(response);
+                dynamic response = string.Empty;
+
+                switch (message.Method)
+                {
+                    case MethodConstant.GETBYCPF:
+                        response = service.GetByCPF(message.Content);
+                        break;
+                    case MethodConstant.GETBYUSERID:
+                        response = service.GetByUserId(int.Parse(message.Content));
+                        break;
+                    case MethodConstant.POST:
+                        response = service.Add(JsonConvert.DeserializeObject<BonificationDTO>(message.Content));
+                        break;
+                    default:
+                        break;
+                }
+
+                return JsonConvert.SerializeObject(response);
+
+            }
         }
     }
 }

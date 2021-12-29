@@ -1,4 +1,3 @@
-using Autofac;
 using FluentValidation.AspNetCore;
 using FrwkBootCampFidelidade.Dominio.Base.Interfaces;
 using FrwkBootCampFidelidade.DTO.PromotionContext;
@@ -41,9 +40,7 @@ namespace FrwkBootCampFidelidade.Promotion.API
             //EF MSSQL
             //services.AddDbContext<DBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("connection")));
 
-            services.AddScoped<IMongoContext, MongoContext>();
-
-            services.AddDBInjector();
+            
 
             services.AddCors(options =>
             {
@@ -54,16 +51,20 @@ namespace FrwkBootCampFidelidade.Promotion.API
                 );
             });
 
+            services.AddDBInjector();
+            services.AddServices();
+            services.AddAutoMapper(typeof(Startup));
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FrwkBootCampFidelidade.Promotion.API", Version = "v1" });
             });
         }
 
-        public void ConfigureContainer(ContainerBuilder Builder)
-        {
-            Builder.RegisterModule(new ModuleIOC());
-        }
+        //public void ConfigureContainer(ContainerBuilder Builder)
+        //{
+        //    Builder.RegisterModule(new ModuleIOC());
+        //}
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

@@ -1,21 +1,14 @@
-using Autofac;
 using FluentValidation.AspNetCore;
 using FrwkBootCampFidelidade.Infraestrutura.Context;
 using FrwkBootCampFidelidade.Infraestrutura.IOC.IOC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Extract.API
 {
@@ -41,15 +34,8 @@ namespace FrwkBootCampFidelidade.Extract.API
             options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
 
             services.AddDBInjector();
-
-            services
-                .AddControllers()
-                .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "FrwkBootCampFidelidade.Extract.API", Version = "v1" });
-            });
+            services.AddServices();
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddCors(options =>
             {
@@ -59,11 +45,20 @@ namespace FrwkBootCampFidelidade.Extract.API
                     .AllowAnyHeader()
                 );
             });
+
+            services
+                .AddControllers()
+                .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "FrwkBootCampFidelidade.Extract.API", Version = "v1" });
+            });
         }
-        public void ConfigureContainer(ContainerBuilder Builder)
-        {
-            Builder.RegisterModule(new ModuleIOC());
-        }
+        //public void ConfigureContainer(ContainerBuilder Builder)
+        //{
+        //    Builder.RegisterModule(new ModuleIOC());
+        //}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

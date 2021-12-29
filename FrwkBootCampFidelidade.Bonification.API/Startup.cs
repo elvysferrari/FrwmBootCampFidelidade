@@ -1,7 +1,5 @@
-using Autofac;
 using FluentValidation.AspNetCore;
 using FrwkBootCampFidelidade.Aplicacao.Configuration;
-using FrwkBootCampFidelidade.Aplicacao.Consumers;
 using FrwkBootCampFidelidade.Infraestrutura.Context;
 using FrwkBootCampFidelidade.Infraestrutura.IOC.IOC;
 using Microsoft.AspNetCore.Builder;
@@ -33,11 +31,14 @@ namespace FrwkBootCampFidelidade.Bonification.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<DBContext>(options =>
-                      options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
+            services.AddDbContext<DBContext>(options => 
+            options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
 
-            services.AddHostedService<BonificationConsumer>();
+
+            services.AddServices();
             services.AddDBInjector();
+            services.AddAutoMapper(typeof(Startup));
+
             services
                 .AddControllers()
                 .AddFluentValidation(x => x.RegisterValidatorsFromAssemblyContaining<Startup>());
@@ -59,10 +60,10 @@ namespace FrwkBootCampFidelidade.Bonification.API
             services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMqConfig"));
 
         }
-        public void ConfigureContainer(ContainerBuilder Builder)
-        {
-            Builder.RegisterModule(new ModuleIOC());
-        }
+        //public void ConfigureContainer(ContainerBuilder Builder)
+        //{
+        //    Builder.RegisterModule(new ModuleIOC());
+        //}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

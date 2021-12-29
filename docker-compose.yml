@@ -9,23 +9,21 @@ services:
         ports:
             - "1433:1433"
         volumes:
-            - ././mssql/:/var/opt/mssql/data   
+            - ./mssql/:/var/opt/mssql/data   
         container_name: 
             mssql
         expose:
           - 1433
 
     rabbitmq:
-        image: rabbitmq:3.8.26-management-alpine
-        command: rabbitmq-server
+        image: rabbitmq:3.8-management-alpine
         container_name: rabbitmq
+        environment:
+            - RABBITMQ_DEFAULT_USER=guest
+            - RABBITMQ_DEFAULT_PASS=guest
         ports:
-          - "5672:5672"
-          - "15672:15672"
-        volumes:
-            - ././rabbitmq/etc/:/etc/rabbitmq/
-            - ././rabbitmq/data/:/var/lib/rabbitmq/
-            - ././rabbitmq/logs/:/var/log/rabbitmq/
+            - '5672:5672'
+            - '15672:15672'
         expose:
           - 15672
 
@@ -36,7 +34,7 @@ services:
         - PUID=1000
         - PGID=1000
         volumes:
-        - ././mongodb:/data/db
+        - ./mongodb:/data/db
         ports:
         - 27017:27017
         restart: unless-stopped
@@ -48,7 +46,11 @@ services:
     apigateway:
         image: elvysferrari/apigateway.api        
         environment:
-            SecretKey: 1130f66f-591f-4f1c-a748-f1f9a1c7c43a
+            - SecretKey=1130f66f-591f-4f1c-a748-f1f9a1c7c43a
+            - Database=DBFidelidade
+            - DbUser=SA
+            - Password=Suporte59@.!
+            - Datasource=host.docker.internal, 1433
         ports:
             - 7000:80
         depends_on:
@@ -146,7 +148,7 @@ services:
             - Database=DBFidelidade
             - DbUser=SA
             - Password=Suporte59@.!
-            - Datasource=host.docker.internal, 1433
+            - Datasource=mongo://host.docker.internal, 1433
         ports:
             - 8005:8005
         mem_limit: 
