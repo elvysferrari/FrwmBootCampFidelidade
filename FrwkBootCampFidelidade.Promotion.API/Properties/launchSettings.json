@@ -14,7 +14,11 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Database": "promotionsdb",
+        "DbUser": "null",
+        "Password": "null",
+        "Datasource": "mongodb://localhost:27017"
       }
     },
     "FrwkBootCampFidelidade.Promotion.API": {

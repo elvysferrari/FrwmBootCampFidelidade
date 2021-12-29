@@ -36,7 +36,7 @@ namespace FrwkBootCampFidelidade.Wallet.API
 
             services.AddDBInjector();
             services.AddServices();
-            services.AddAutoMapper(typeof(Startup));
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services
                .AddControllers()

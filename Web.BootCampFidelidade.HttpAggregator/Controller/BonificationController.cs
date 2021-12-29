@@ -31,12 +31,8 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(typeof(BonificationDTO), StatusCodes.Status200OK)]
         public ActionResult<BonificationDTO> GetByUserId([FromQuery(Name = "userId")][Required] int id)
         {
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.BONIFICATION,
-                Method = MethodConstant.GETBYUSERID,
-                Content = id.ToString(),
-            };
+
+            var message = InputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYCPF, id.ToString());
 
             var response = service.Call(message);
             service.Close();
@@ -56,12 +52,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(typeof(BonificationDTO), StatusCodes.Status200OK)]
         public ActionResult<BonificationDTO> GetByCPF([FromQuery(Name = "cpf")][Required] string cpf)
         {
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.BONIFICATION,
-                Method = MethodConstant.GETBYCPF,
-                Content = cpf,
-            };
+            var message = InputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYCPF, cpf);
 
             var response = service.Call(message);
             service.Close();
@@ -78,13 +69,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status201Created)]
         public ActionResult Post([FromBody][Required] BonificationDTO bonificationDTO)
         {
-
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.BONIFICATION,
-                Method = MethodConstant.GETBYCPF,
-                Content = JsonSerializer.Serialize(bonificationDTO),
-            };
+            var message = InputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYCPF, JsonSerializer.Serialize(bonificationDTO));
 
             var response = service.Call(message);
             service.Close();
@@ -101,12 +86,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(typeof(BonificationDTO), StatusCodes.Status200OK)]
         public IActionResult Get()
         {
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.BONIFICATION,
-                Method = MethodConstant.GET,
-                Content = string.Empty,
-            };
+            var message = InputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYCPF, string.Empty);
 
             var response = service.Call(message);
             service.Close();
@@ -118,6 +98,16 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
 
             return Ok(new { bonifications });
 
+        }
+
+        protected MessageInputModel InputModel(string queue, string method, string content)
+        {
+            return new MessageInputModel
+            {
+                Queue = queue,
+                Method = method,
+                Content = content
+            };
         }
     }
 }
