@@ -1,10 +1,10 @@
 ﻿using FluentValidation;
 
-namespace FrwkBootCampFidelidade.DTO.PromotionContext
+namespace FrwkBootCampFidelidade.DTO.PromotionContext.Validator
 {
-    public class PromotionCreateValidator: AbstractValidator<PromotionCreateDTO>
+    public class PromotionDTOValidator : AbstractValidator<PromotionDTO>
     {
-        public PromotionCreateValidator()
+        public PromotionDTOValidator()
         {
             RuleFor(x => x.Active)
                 .NotNull()

@@ -2,6 +2,7 @@
 using FrwkBootCampFidelidade.Aplicacao.Constants;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.Base;
+using FrwkBootCampFidelidade.DTO.BonificationContext;
 using FrwkBootCampFidelidade.DTO.ExtractContext;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -76,7 +77,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                 }
                 catch (Exception e)
                 {
-                    response = "";
+                    response = e.Message;
                 }
                 finally
                 {
@@ -94,23 +95,23 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
         private string InvokeService(MessageInputModel message)
         {
             using var scope = _serviceProvider.CreateScope();
-            var extractService = scope.ServiceProvider.GetRequiredService<IExtractService>();
+            var service = scope.ServiceProvider.GetRequiredService<IExtractService>();
 
             dynamic response = string.Empty;
 
             switch (message.Method)
             {
                 case MethodConstant.GETBYCPF:
-                    response = extractService.GetByCPF(message.Content);
+                    response = service.GetByCPF(message.Content);
                     break;
                 case MethodConstant.GETBYUSERID:
-                    response = extractService.GetByUserId(int.Parse(message.Content));
+                    response = service.GetByUserId(int.Parse(message.Content));
                     break;
                 case MethodConstant.GETSUMMARYPOINTSBYUSERID:
-                    response = extractService.GetSummaryPoints(int.Parse(message.Content));
+                    response = service.GetSummaryPoints(int.Parse(message.Content));
                     break;
-                case MethodConstant.INSERT:
-                    response = extractService.Add(JsonConvert.DeserializeObject<RansomHistoryStatusDTO>(message.Content));
+                case MethodConstant.POST:
+                    response = service.Add(JsonConvert.DeserializeObject<RansomHistoryStatusDTO>(message.Content));
                     break;
                 default:
                     break;
@@ -120,4 +121,3 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
         }
     }
 }
-

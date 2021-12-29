@@ -8,11 +8,11 @@ namespace FrwkBootCampFidelidade.Aplicacao.Interfaces
     {
         Task<IEnumerable<PromotionDTO>> GetAll();
         Task<PromotionDTO> GetById(string id);
-        Task<IEnumerable<PromotionDTO>> GetPromotionByDateRange(PromotionRequestDTO promotionRequest);
-        Task<IEnumerable<PromotionDTO>> GetPromotionToday();
-        Task<PromotionDTO> Add(PromotionCreateDTO promotion);
-        Task<bool> Update(PromotionUpdateDeleteDTO promotion);
+        Task<IEnumerable<PromotionDTO>> GetPromotionByDateRange(PromotionDTO promotionRequest);
+        Task<IEnumerable<PromotionDTO>> GetPromotionToday(PromotionDTO promotionRequest);
+        Task<PromotionDTO> Add(PromotionDTO promotionRequest);
+        Task<bool> Update(PromotionDTO promotionRequest);
         Task<bool> RemoveById(string id);
-        Task<bool> Remove(PromotionUpdateDeleteDTO promotion);
+        Task<bool> Remove(PromotionDTO promotionRequest);
     }
 }

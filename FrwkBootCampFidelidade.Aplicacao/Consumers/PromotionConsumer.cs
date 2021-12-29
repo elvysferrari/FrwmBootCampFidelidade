@@ -99,34 +99,28 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                 switch (message.Method)
                 {
                     case MethodConstant.POST:
-                        var promotionCreateDTO = JsonConvert.DeserializeObject<PromotionCreateDTO>(message.Content);
-                        response = promotionService.Add(promotionCreateDTO);
+                        response = promotionService.Add(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
                         break;
                     case MethodConstant.GET:
                         response = promotionService.GetAll();
                         break;
                     case MethodConstant.GETBYID:
-                        var id = JsonConvert.DeserializeObject<string>(message.Content);
-                        response = promotionService.GetById(id);
+                        response = promotionService.GetById(message.Content);
                         break;
                     case MethodConstant.GETPROMOTIONTODAY:
-                        response = promotionService.GetPromotionToday();
+                        response = promotionService.GetPromotionToday(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
                         break;
                     case MethodConstant.GETPROMOTIONBYDATERANGE:
-                        var promotionRequestDTO = JsonConvert.DeserializeObject<PromotionRequestDTO>(message.Content);
-                        response = promotionService.GetPromotionByDateRange(promotionRequestDTO);
+                        response = promotionService.GetPromotionByDateRange(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
                         break;
                     case MethodConstant.DELETE:
-                        var promotionUpdateDTO = JsonConvert.DeserializeObject<PromotionUpdateDeleteDTO>(message.Content);
-                        response = promotionService.Remove(promotionUpdateDTO);
+                        response = promotionService.Remove(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
                         break;
-                    case MethodConstant.REMOVEBYID:
-                        var id_r = JsonConvert.DeserializeObject<string>(message.Content);
-                        response = promotionService.RemoveById(id_r);
+                    case MethodConstant.DELETEBYID:
+                        response = promotionService.RemoveById(message.Content);
                         break;
                     case MethodConstant.PUT:
-                        var promotionDeleteDTO = JsonConvert.DeserializeObject<PromotionUpdateDeleteDTO>(message.Content);
-                        response = promotionService.Update(promotionDeleteDTO);
+                        response = promotionService.Update(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
                         break;
                     default:
                         break;

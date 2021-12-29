@@ -94,7 +94,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             return itemDTO;
         }
 
-        public async Task<PromotionItemDTO> Add(PromotionItemCreateDTO promotionItem)
+        public async Task<PromotionItemDTO> Add(PromotionItemDTO promotionItem)
         {
             var item = _mapper.Map<PromotionItem>(promotionItem);
             item.CreatedAt = DateTime.Now;
@@ -105,7 +105,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             return itemDTO;
         }
 
-        public async Task<bool> Update(PromotionItemUpdateDeleteDTO promotionItem)
+        public async Task<bool> Update(PromotionItemDTO promotionItem)
         {
             var item = _mapper.Map<PromotionItem>(promotionItem);
             var itemOld = await _promotionItemRepository.GetById(item.Id);
@@ -125,7 +125,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             return await _promotionItemRepository.RemoveById(id);
         }
 
-        public async Task<bool> Remove(PromotionItemUpdateDeleteDTO promotionItem)
+        public async Task<bool> Remove(PromotionItemDTO promotionItem)
         {
             var item = _mapper.Map<PromotionItem>(promotionItem);
             return await _promotionItemRepository.Remove(item);
