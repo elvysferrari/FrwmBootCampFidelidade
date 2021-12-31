@@ -101,27 +101,6 @@ namespace FrwkBootCampFidelidade.Promotion.API.Controllers
             }
         }
 
-        //[HttpGet("GetPromotionByUserId")]
-        //[ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        //[ProducesResponseType(typeof(IEnumerable<PromotionDTO>), StatusCodes.Status200OK)]
-        //public async Task<IActionResult> GetPromotionToday([FromQuery] long userId, long drugstoreId)
-        //{
-        //    try
-        //    {
-        //        var promotion = new PromotionDTO
-        //        {
-        //            UserId = userId,
-        //            DrugstoreId = drugstoreId,
-        //        };
-        //        var promotions = await _promotionService.GetPromotionToday(promotion);
-        //        return Ok(promotions);
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        return StatusCode(500, e.Message);
-        //    }
-        //}
-
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
