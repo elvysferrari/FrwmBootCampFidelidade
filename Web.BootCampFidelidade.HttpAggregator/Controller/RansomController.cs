@@ -29,14 +29,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status201Created)]
         public ActionResult<RansomDTO> AddRansom([FromBody][Required] RansomDTO ransomDTO)
         {
-            IEnumerable<RansomDTO> ransoms = new List<RansomDTO>();
-
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.RANSOM,
-                Method = MethodConstant.POST,
-                Content = JsonSerializer.Serialize(ransomDTO),
-            };
+            var message = InputModel(DomainConstant.RANSOM, MethodConstant.POST, JsonSerializer.Serialize(ransomDTO));
 
             var response = service.Call(message);
             service.Close();
@@ -97,6 +90,16 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
             var ransoms = JsonSerializer.Deserialize<RansomDTO>(response);
 
             return Ok(new { ransoms });
+        }
+
+        protected MessageInputModel InputModel(string queue, string method, string content)
+        {
+            return new MessageInputModel
+            {
+                Queue = queue,
+                Method = method,
+                Content = content
+            };
         }
 
     }

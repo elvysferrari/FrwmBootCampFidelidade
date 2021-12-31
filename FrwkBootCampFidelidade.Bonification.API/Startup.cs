@@ -31,8 +31,8 @@ namespace FrwkBootCampFidelidade.Bonification.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-            services.AddDbContext<DBContext>(options => 
-            options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
+            services.AddDbContext<DBContext>(options =>
+             options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
 
 
             services.AddServices();
@@ -71,7 +71,7 @@ namespace FrwkBootCampFidelidade.Bonification.API
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-               
+
             }
 
             app.UseSwagger();

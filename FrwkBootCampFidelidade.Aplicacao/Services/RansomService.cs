@@ -6,7 +6,6 @@ using FrwkBootCampFidelidade.DTO.RansomContext;
 using FrwkBootCampFidelidade.DTO.WalletContext;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-//using AutoMapper;
 
 namespace FrwkBootCampFidelidade.Aplicacao.Services
 {
@@ -25,29 +24,38 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
         public async Task Add(RansomDTO ransomDTO)
         {
-            Ransom ransom = _mapper.Map<Ransom>(ransomDTO);
+            if (ransomDTO != null) {
+                Ransom ransom = _mapper.Map<Ransom>(ransomDTO);
 
-            await _walletService.Withdraw(new WalletWithdrawDTO { WalletId = (int)ransomDTO.WalletId, Amount = ransomDTO.Amount });
+                // await _walletService.Withdraw(new WalletWithdrawDTO { WalletId = (int)ransomDTO.WalletId, Amount = ransomDTO.Amount });
 
-            await _ransomRepository.Add(ransom);
+                await _ransomRepository.Add(ransom);
+            }
         }
 
-        public async Task Remove(RansomDTO ransomDTO)
+        public async Task Remove(int id)
         {
-            Ransom ransom = _mapper.Map<Ransom>(ransomDTO);
-            _ransomRepository.Remove(ransom);
-        }
+            Ransom ransom = await _ransomRepository.GetById(id);
 
-        public async Task<RansomDTO> GetById(int Id)
-        {
-            RansomDTO ransomDTO = _mapper.Map<RansomDTO>(await _ransomRepository.GetById(Id));
-            return ransomDTO;
+            if (ransom != null)
+            {
+                try
+                {
+                    _ransomRepository.Remove(ransom);
+                    await _ransomRepository.SaveChanges();
+                }
+                catch
+                {
+
+                }
+            }
         }
 
         public IEnumerable<RansomDTO> GetAll()
         {
-            var teste = _ransomRepository.GetAll();
-            IEnumerable<RansomDTO> ransomDTOs = _mapper.Map<IEnumerable<RansomDTO>>(teste);
+            var ransoms = _ransomRepository.GetAll();
+
+            IEnumerable<RansomDTO> ransomDTOs = _mapper.Map<IEnumerable<RansomDTO>>(ransoms);
 
             return ransomDTOs;
         }
@@ -58,6 +66,10 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             return ransomDTOs;
         }
 
+        public Task<RansomDTO> GetById(int Id)
+        {
+            throw new System.NotImplementedException();
+        }
 
     }
 }

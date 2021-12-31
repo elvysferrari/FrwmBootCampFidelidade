@@ -17,24 +17,34 @@ namespace FrwkBootCampFidelidade.Ransom.API.Controllers
         }
 
         [HttpPost]
-        public RansomDTO AddRansom([FromBody] RansomDTO ransomDTO)
+        public async Task<ActionResult> AddRansom([FromBody] RansomDTO ransomDTO)
         {
-            _ransomService.Add(ransomDTO);
-            return ransomDTO;
+            if (ransomDTO == null)
+                return BadRequest();
+
+            try
+            {
+                await _ransomService.Add(ransomDTO);
+                return Ok(ransomDTO);
+            }
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         [HttpGet]
         public IEnumerable<RansomDTO> GetAll()
         {
-            IEnumerable<RansomDTO> ransoms = _ransomService.GetAll();
+            IEnumerable<RansomDTO> ransoms =  _ransomService.GetAll();
             return ransoms;
         }
 
         [HttpGet("GetByCPF/{cpf}")]
         public async Task<IEnumerable<RansomDTO>> GetByCPF(string cpf)
         {
-            IEnumerable<RansomDTO> bonifications = await _ransomService.GetListByCPF(cpf);
-            return bonifications;
+            IEnumerable<RansomDTO> ransoms = await _ransomService.GetListByCPF(cpf);
+            return ransoms;
         }
     }
 }

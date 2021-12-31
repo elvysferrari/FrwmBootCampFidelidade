@@ -58,8 +58,8 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Base.Repository
         public async Task<int> SaveChanges()
             => await Db.SaveChangesAsync();
 
-        public void Dispose()
-            => Db.Dispose();
+        public void Dispose() =>
+             Db.Dispose();
 
         public IQueryable<TEntity> GetAll(bool asNoTracking = true)
         {
