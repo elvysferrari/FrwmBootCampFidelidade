@@ -13,5 +13,12 @@ namespace FrwkBootCampFidelidade.Dominio.Base
         public string Content { get; set; }
         public DateTime CreatedAt { get; set; } = DateTime.Now;
 
+        public MessageInputModel(string queue, string method, string content)
+        {
+            Queue = queue;
+            Method = method;
+            Content = content;
+        }
+
     }
 }

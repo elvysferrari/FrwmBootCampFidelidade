@@ -1,10 +1,11 @@
 ﻿using FrwkBootCampFidelidade.Dominio.Base;
+using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Aplicacao.Interfaces.RpcService
 {
     public interface IRpcClientService
     {
-        string Call(MessageInputModel message);
+        Task<string> Call(MessageInputModel message);
         void Close();
     }
 }

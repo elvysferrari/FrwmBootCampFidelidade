@@ -4,6 +4,7 @@ using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
 using FrwkBootCampFidelidade.Dominio.BonificationContext.Interfaces;
 using FrwkBootCampFidelidade.DTO.BonificationContext;
 using FrwkBootCampFidelidade.DTO.WalletContext;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;

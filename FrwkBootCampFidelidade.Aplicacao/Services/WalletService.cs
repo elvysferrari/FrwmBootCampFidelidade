@@ -26,35 +26,29 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             _bonification = bonification;
             _mapper = mapper;
         }
+
         public async Task Add(WalletDTO walletDTO)
         {
             var wallet = _mapper.Map<Wallet>(walletDTO);
             wallet.CreatedAt = DateTime.Now;
             wallet.UpdatedAt = DateTime.Now;
 
-            try
-            {
-                await _wallet.Add(wallet);
-                await _wallet.SaveChanges();
+            await _wallet.Add(wallet);
+            await _wallet.SaveChanges();
 
-                if (wallet.WalletTypeId == 1) //pontos
+            if (wallet.WalletTypeId == 1) //pontos
+            {
+                var pendingBonifications = _bonification.GetBy(x => x.CPF == walletDTO.CPF && x.ScoreCreditedAt == null).ToList();
+
+                foreach (var bonification in pendingBonifications)
                 {
-                    var pendingBonifications = _bonification.GetBy(x => x.CPF == walletDTO.CPF && x.ScoreCreditedAt == null).ToList();
-
-                    foreach (var bonification in pendingBonifications)
-                    {
-                        wallet.Amount += bonification.ScoreQuantity;
-                        bonification.ScoreCreditedAt = DateTime.Now;
-                        _bonification.Update(bonification);
-                    }
-
-                    _wallet.Update(wallet);
-                    await _wallet.SaveChanges();
+                    wallet.Amount += bonification.ScoreQuantity;
+                    bonification.ScoreCreditedAt = DateTime.Now;
+                    _bonification.Update(bonification);
                 }
-            }
-            catch
-            {
 
+                _wallet.Update(wallet);
+                await _wallet.SaveChanges();
             }
         }
 
@@ -104,11 +98,11 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
                     await _walletHistory.Add(walletHistory);
                     await _walletHistory.SaveChanges();
                 }
-            }            
+            }
         }
         public async Task Withdraw(WalletWithdrawDTO walletWithdrawDTO)
         {
-            Wallet wallet = await _wallet.GetById(walletWithdrawDTO.WalletId);            
+            Wallet wallet = await _wallet.GetById(walletWithdrawDTO.WalletId);
 
             if (wallet != null && walletWithdrawDTO != null)
             {
@@ -117,7 +111,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
                     wallet.Amount -= walletWithdrawDTO.Amount;
                     wallet.UpdatedAt = DateTime.Now;
 
-                    _wallet.Update(wallet);                    
+                    _wallet.Update(wallet);
 
                     await _wallet.SaveChanges();
                 }

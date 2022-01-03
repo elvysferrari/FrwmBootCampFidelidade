@@ -54,7 +54,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 
             _channel.BasicConsume(queue: DomainConstant.RANSOM, autoAck: false, consumer: consumer);
 
-            consumer.Received += (model, ea) =>
+            consumer.Received += async (model, ea) =>
             {
                 string response = null;
 
@@ -69,7 +69,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                     var incommingMessage = Encoding.UTF8.GetString(contentArray);
                     var message = JsonConvert.DeserializeObject<MessageInputModel>(incommingMessage);
 
-                    var replyMessage = InvokeService(message);
+                    var replyMessage = await InvokeService(message);
 
                     response = replyMessage;
                 }
@@ -90,31 +90,29 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
             return Task.CompletedTask;
         }
 
-        private string InvokeService(MessageInputModel message)
+        private async Task<string> InvokeService(MessageInputModel message)
         {
-            using (var scope = _serviceProvider.CreateScope())
+            using var scope = _serviceProvider.CreateScope();
+            var ransomService = scope.ServiceProvider.GetRequiredService<IRansomService>();
+
+            dynamic response = string.Empty;
+
+            switch (message.Method)
             {
-                var ransomService = scope.ServiceProvider.GetRequiredService<IRansomService>();
-
-                dynamic response = string.Empty;
-
-                switch (message.Method)
-                {
-                    case MethodConstant.POST:
-                        response = ransomService.Add(JsonConvert.DeserializeObject<RansomDTO>(message.Content));
-                        break;
-                    case MethodConstant.GET:
-                        response = ransomService.GetAll();
-                        break;
-                    case MethodConstant.GETBYID:
-                        response = ransomService.GetById(int.Parse(message.Content));
-                        break;
-                    default:
-                        break;
-                }
-
-                return JsonConvert.SerializeObject(response);
+                case MethodConstant.POST:
+                    response = ransomService.Add(JsonConvert.DeserializeObject<RansomDTO>(message.Content));
+                    break;
+                case MethodConstant.GET:
+                    response = ransomService.GetAll();
+                    break;
+                case MethodConstant.GETBYID:
+                    response = await ransomService.GetById(int.Parse(message.Content));
+                    break;
+                default:
+                    break;
             }
+
+            return await JsonConvert.SerializeObject(response);
         }
     }
 }
