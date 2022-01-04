@@ -68,13 +68,6 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Repository
                     x.EndDate <= promotion.EndDate);
 
             return await _context.Promotions.Find(filter).ToListAsync();
-
-            //EF
-            //return await _context.Promotions.Where(x => 
-            //                            x.StartDate >= promotionRequest.StartDate &&
-            //                            x.EndDate <= promotionRequest.EndDate)
-            //                            .AsNoTracking()
-            //                            .ToListAsync();
         }
 
         public async Task<IEnumerable<Promotion>> GetPromotionToday(Promotion promotion)
@@ -83,13 +76,6 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Repository
                 .Where(x =>x.UserId == promotion.UserId && x.DrugstoreId == promotion.DrugstoreId);
 
             return await _context.Promotions.Find(filter).ToListAsync();
-
-            //EF
-            //return await _context.Promotions.Where(x => 
-            //                            x.StartDate >= DateTime.Now &&
-            //                            x.EndDate <= DateTime.Now)
-            //                            .AsNoTracking()
-            //                            .ToListAsync();
         }
     }
 }

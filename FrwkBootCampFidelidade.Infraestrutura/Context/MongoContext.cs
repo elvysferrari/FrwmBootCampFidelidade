@@ -18,14 +18,10 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Context
             var _database = _client.GetDatabase(database);
 
             Promotions = _database.GetCollection<Promotion>("promotions");
-            //PromotionItems = _database.GetCollection<PromotionItem>("promotionsitem");
 
             PromotionContextSeed.SeedData(Promotions);
-            //PromotionItemContextSeed.SeedData(PromotionItems);
         }
 
         public IMongoCollection<Promotion> Promotions { get; }
-
-        //public IMongoCollection<PromotionItem> PromotionItems { get; }
     }
 }

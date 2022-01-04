@@ -13,32 +13,19 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
     {
         private readonly IMapper _mapper;
         private readonly IPromotionRepository _promotionRepository;
-        //private readonly IPromotionItemService _promotionItemService;
 
         public PromotionService(IMapper mapper, 
-            IPromotionRepository promotionRepository
-            /*IPromotionItemService promotionItemService*/)
+            IPromotionRepository promotionRepository)
         {
             _mapper = mapper;
             _promotionRepository = promotionRepository;
-            //_promotionItemService = promotionItemService;
         }
-
-        //private async Task<IEnumerable<PromotionItemDTO>> GetItems(string promotionId)
-        //{
-        //    //return await _promotionItemService.GetPromotionItemsByPromotionId(promotionId);
-        //}
 
         public async Task<IEnumerable<PromotionDTO>> GetPromotionByDateRange(PromotionDTO promotionRequest)
         {
             var promotion = _mapper.Map<Promotion>(promotionRequest);
             var promotions = await _promotionRepository.GetPromotionByDateRange(promotion);
             var promotionsDTO = _mapper.Map<IEnumerable<PromotionDTO>>(promotions);
-
-            //foreach (var pro in promotionsDTO)
-            //{
-            //    pro.PromotionItems = await GetItems(pro.Id);
-            //}
             
             return promotionsDTO;
         }
@@ -49,11 +36,6 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             var promotions = await _promotionRepository.GetPromotionToday(promotion);
             var promotionsDTO = _mapper.Map<IEnumerable<PromotionDTO>>(promotions);
 
-            //foreach (var pro in promotionsDTO)
-            //{
-            //    pro.PromotionItems = await GetItems(pro.Id);
-            //}
-
             return promotionsDTO;
         }
 
@@ -61,11 +43,6 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         {
             var promotions = await _promotionRepository.GetAll();
             var promotionsDTO = _mapper.Map<IEnumerable<PromotionDTO>>(promotions);
-
-            //foreach (var promotion in promotionsDTO)
-            //{
-            //    promotion.PromotionItems = await GetItems(promotion.Id);
-            //}
 
             return promotionsDTO;
         }
@@ -80,7 +57,6 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             }
 
             var promotionDTO = _mapper.Map<PromotionDTO>(promotion);
-            //promotionDTO.PromotionItems = await GetItems(promotion.Id);
 
             return promotionDTO;
         }
