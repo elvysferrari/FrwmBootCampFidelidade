@@ -24,7 +24,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status200OK)]
@@ -43,8 +43,8 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
             return Ok(new { promotions });
         }
 
-        [HttpGet("{id:int}")]
-        //[Authorize]
+        [HttpGet("{id}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status200OK)]
@@ -64,7 +64,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpGet("GetPromotionByDateRange")]
-        //[Authorize]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status200OK)]
@@ -97,7 +97,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpGet("GetPromotionToday")]
-        //[Authorize]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status200OK)]
@@ -119,6 +119,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpPost]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status201Created)]
@@ -141,6 +142,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpPut("{id:int}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
@@ -168,6 +170,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpDelete("{id:int}")]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
         public async Task<IActionResult> Delete([FromRoute][Required] int id)
@@ -190,6 +193,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpDelete]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
