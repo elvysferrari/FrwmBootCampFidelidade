@@ -68,7 +68,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 
                     var replyMessage = await InvokeService(message);
 
-                    response = await replyMessage;
+                    response = replyMessage;
                 }
                 catch (Exception e)
                 {
@@ -77,10 +77,8 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                 finally
                 {
                     var responseBytes = Encoding.UTF8.GetBytes(response);
-                    _channel.BasicPublish(exchange: "", routingKey: props.ReplyTo,
-                      basicProperties: replyProps, body: responseBytes);
-                    _channel.BasicAck(deliveryTag: ea.DeliveryTag,
-                      multiple: false);
+                    _channel.BasicPublish(exchange: "", routingKey: props.ReplyTo, basicProperties: replyProps, body: responseBytes);
+                    _channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
                 }
             };
 
