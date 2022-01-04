@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using System;
+using System.Collections.Generic;
 
 namespace FrwkBootCampFidelidade.Dominio.PromotionContext.Entities
 {
@@ -33,5 +34,8 @@ namespace FrwkBootCampFidelidade.Dominio.PromotionContext.Entities
 
         [BsonElement("UpdatedAt")]
         public DateTime UpdatedAt { get; set; }
+
+        [BsonElement("PromotionItems")]
+        public IEnumerable<PromotionItem> PromotionItems { get; set; }
     }
 }

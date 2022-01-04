@@ -19,9 +19,10 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Mapping
 
         private static IEnumerable<Promotion> GetMyPromotions()
         {
-            DateTime createdAt = DateTime.Now;
-            DateTime blackFridayStart = new DateTime(2021, 11, 1);
-            DateTime blackFridayEnd = new DateTime(2021, 11, 30);
+            var createdAt = DateTime.Now;
+            var updatedAt = createdAt;
+            var blackFridayStart = new DateTime(2021, 11, 1);
+            var blackFridayEnd = new DateTime(2021, 11, 30);
 
             return new[]{
                 new Promotion()
@@ -30,13 +31,32 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Mapping
                     Active = true,
                     DrugstoreId = 1,
                     UserId = 1,
-                    Description="Black Friday",
+                    Description = "Black Friday",
                     StartDate = blackFridayStart,
-                    EndDate=blackFridayEnd,
+                    EndDate = blackFridayEnd,
                     CreatedAt = createdAt,
-                    UpdatedAt = createdAt
+                    UpdatedAt = updatedAt,
+                    PromotionItems = new[]{
+                        new PromotionItem()
+                        {
+                            DiscountPercentage = 10,
+                            ProductId = 1,
+                            PromotionId = "61ca0c75af617fc6b0458414",
+                            CreatedAt = createdAt,
+                            UpdatedAt = updatedAt
+                        },
+                        new PromotionItem()
+                        {
+                            DiscountPercentage = 5,
+                            ProductId = 1,
+                            PromotionId = "61ca0c75af617fc6b0458414",
+                            CreatedAt = createdAt,
+                            UpdatedAt = updatedAt
+                        }
+                    }
                 }
             };
         }
+
     }
 }
