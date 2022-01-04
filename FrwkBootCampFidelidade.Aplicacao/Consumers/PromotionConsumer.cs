@@ -125,7 +125,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                     break;
             }
 
-            return await JsonConvert.SerializeObject(response);
+            return JsonConvert.SerializeObject(response);
         }
     }
 }
