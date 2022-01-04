@@ -28,7 +28,9 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
             services
                 .AddHostedService<PromotionConsumer>()
                 .AddHostedService<BonificationConsumer>()
-                .AddHostedService<ExtractConsumer>();
+                .AddHostedService<ExtractConsumer>()
+                .AddHostedService<RansomConsumer>()
+                .AddHostedService<WalletConsumer>();
 
             return services;
         }

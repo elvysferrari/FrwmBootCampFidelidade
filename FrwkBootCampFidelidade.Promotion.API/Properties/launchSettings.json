@@ -40,7 +40,14 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
       "publishAllPorts": true,
-      "useSSL": true
+      "useSSL": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Database": "promotionsdb",
+        "DbUser": "null",
+        "Password": "null",
+        "Datasource": "mongodb://host.docker.internal:27017"
+      }
     }
   }
 }

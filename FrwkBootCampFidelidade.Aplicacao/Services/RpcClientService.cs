@@ -8,6 +8,7 @@ using RabbitMQ.Client.Events;
 using System;
 using System.Collections.Concurrent;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Aplicacao.Services.RpcService
 {
@@ -57,7 +58,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services.RpcService
                 autoAck: true);
         }
 
-        public string Call(MessageInputModel message)
+        public Task<string> Call(MessageInputModel message)
         {
             var stringfiedMessage = JsonConvert.SerializeObject(message);
             var messageBytes = Encoding.UTF8.GetBytes(stringfiedMessage);
@@ -67,7 +68,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services.RpcService
                 basicProperties: props,
                 body: messageBytes);
 
-            return respQueue.Take();
+            return Task.FromResult(respQueue.Take());
         }
 
         public void Close()

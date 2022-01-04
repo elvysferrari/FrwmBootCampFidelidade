@@ -54,7 +54,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 
             _channel.BasicConsume(queue: DomainConstant.WALLET, autoAck: false, consumer: consumer);
 
-            consumer.Received += (model, ea) =>
+            consumer.Received += async (model, ea) =>
             {
                 string response = null;
 
@@ -69,7 +69,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                     var incommingMessage = Encoding.UTF8.GetString(contentArray);
                     var message = JsonConvert.DeserializeObject<MessageInputModel>(incommingMessage);
 
-                    var replyMessage = InvokeService(message);
+                    var replyMessage = await InvokeService(message);
 
                     response = replyMessage;
                 }
@@ -90,29 +90,36 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
             return Task.CompletedTask;
         }
 
-        private string InvokeService(MessageInputModel message)
+        private async Task<string> InvokeService(MessageInputModel message)
         {
-            using (var scope = _serviceProvider.CreateScope())
+            using var scope = _serviceProvider.CreateScope();
+            var walletService = scope.ServiceProvider.GetRequiredService<IWalletService>();
+
+            dynamic response = string.Empty;
+
+            switch (message.Method)
             {
-                var walletService = scope.ServiceProvider.GetRequiredService<IWalletService>();
-
-                dynamic response = string.Empty;
-
-                switch (message.Method)
-                {
-                    case MethodConstant.POST:
-                        response = walletService.Add(JsonConvert.DeserializeObject<WalletDTO>(message.Content));
-                        break;
-                    case MethodConstant.PUT:
-                        walletService.Update(JsonConvert.DeserializeObject<WalletDTO>(message.Content));
-                        response = "sucesso";
-                        break;
-                    default:
-                        break;
-                }
-
-                return JsonConvert.SerializeObject(response);
+                case MethodConstant.POST:
+                    response = walletService.Add(JsonConvert.DeserializeObject<WalletDTO>(message.Content));
+                    break;
+                case MethodConstant.PUT:
+                    walletService.Update(JsonConvert.DeserializeObject<WalletDTO>(message.Content));
+                    response = "sucesso";
+                    break;
+                case MethodConstant.TRANSFER:
+                    response = walletService.Transfer(JsonConvert.DeserializeObject<WalletTransferDTO>(message.Content));
+                    break;
+                case MethodConstant.GETBYUSERIDANDTYPE:
+                    walletService.Update(JsonConvert.DeserializeObject<WalletDTO>(message.Content));
+                    break;
+                case MethodConstant.GETBYUSERID:
+                    response = await walletService.GetAllByUserId(int.Parse(message.Content));
+                    break;
+                default:
+                    break;
             }
+
+            return await JsonConvert.SerializeObject(response);
         }
     }
 }

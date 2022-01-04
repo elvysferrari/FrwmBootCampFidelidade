@@ -56,7 +56,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 
             _channel.BasicConsume(queue: DomainConstant.EXTRACT, autoAck: false, consumer: consumer);
 
-            consumer.Received += (model, ea) =>
+            consumer.Received += async (model, ea) =>
             {
                 string response = null;
 
@@ -71,7 +71,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                     var incommingMessage = Encoding.UTF8.GetString(contentArray);
                     var message = JsonConvert.DeserializeObject<MessageInputModel>(incommingMessage);
 
-                    var replyMessage = InvokeService(message);
+                    var replyMessage = await InvokeService(message);
 
                     response = replyMessage;
                 }
@@ -92,7 +92,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
             return Task.CompletedTask;
         }
 
-        private string InvokeService(MessageInputModel message)
+        private async Task<string> InvokeService(MessageInputModel message)
         {
             using var scope = _serviceProvider.CreateScope();
             var service = scope.ServiceProvider.GetRequiredService<IExtractService>();
@@ -102,13 +102,13 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
             switch (message.Method)
             {
                 case MethodConstant.GETBYCPF:
-                    response = service.GetByCPF(message.Content);
+                    response = await service.GetByCPF(message.Content);
                     break;
                 case MethodConstant.GETBYUSERID:
-                    response = service.GetByUserId(int.Parse(message.Content));
+                    response = await service.GetByUserId(int.Parse(message.Content));
                     break;
                 case MethodConstant.GETSUMMARYPOINTSBYUSERID:
-                    response = service.GetSummaryPoints(int.Parse(message.Content));
+                    response = await service.GetSummaryPoints(int.Parse(message.Content));
                     break;
                 case MethodConstant.POST:
                     response = service.Add(JsonConvert.DeserializeObject<RansomHistoryStatusDTO>(message.Content));
@@ -117,7 +117,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                     break;
             }
 
-            return JsonConvert.SerializeObject(response);
+            return await JsonConvert.SerializeObject(response);
         }
     }
 }

@@ -40,16 +40,14 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
         public async Task<RansomDTO> GetById(int Id)
         {
-            RansomDTO ransomDTO = _mapper.Map<RansomDTO>(await _ransomRepository.GetById(Id));
-            return ransomDTO;
+            var ransoms = await _ransomRepository.GetById(Id);
+            return _mapper.Map<RansomDTO>(ransoms);
         }
 
         public IEnumerable<RansomDTO> GetAll()
         {
-            var teste = _ransomRepository.GetAll();
-            IEnumerable<RansomDTO> ransomDTOs = _mapper.Map<IEnumerable<RansomDTO>>(teste);
-
-            return ransomDTOs;
+            var ransoms = _ransomRepository.GetAll();
+            return _mapper.Map<IEnumerable<RansomDTO>>(ransoms);
         }
 
         public async Task<List<RansomDTO>> GetListByCPF(string cpf)

@@ -52,7 +52,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 
             _channel.BasicConsume(queue: DomainConstant.PROMOTION, autoAck: false, consumer: consumer);
 
-            consumer.Received += (model, ea) =>
+            consumer.Received += async (model, ea) =>
             {
                 string response = null;
 
@@ -67,7 +67,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                     var incommingMessage = Encoding.UTF8.GetString(contentArray);
                     var message = JsonConvert.DeserializeObject<MessageInputModel>(incommingMessage);
 
-                    var replyMessage = InvokeService(message);
+                    var replyMessage = await InvokeService(message);
 
                     response = replyMessage;
                 }
@@ -88,46 +88,44 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
             return Task.CompletedTask;
         }
 
-        private string InvokeService(MessageInputModel message)
+        private async Task<string> InvokeService(MessageInputModel message)
         {
-            using (var scope = _serviceProvider.CreateScope())
+            using var scope = _serviceProvider.CreateScope();
+            var promotionService = scope.ServiceProvider.GetRequiredService<IPromotionService>();
+
+            dynamic response = string.Empty;
+
+            switch (message.Method)
             {
-                var promotionService = scope.ServiceProvider.GetRequiredService<IPromotionService>();
-
-                dynamic response = string.Empty;
-
-                switch (message.Method)
-                {
-                    case MethodConstant.POST:
-                        response = promotionService.Add(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
-                        break;
-                    case MethodConstant.GET:
-                        response = promotionService.GetAll();
-                        break;
-                    case MethodConstant.GETBYID:
-                        response = promotionService.GetById(message.Content);
-                        break;
-                    case MethodConstant.GETPROMOTIONTODAY:
-                        response = promotionService.GetPromotionToday(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
-                        break;
-                    case MethodConstant.GETPROMOTIONBYDATERANGE:
-                        response = promotionService.GetPromotionByDateRange(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
-                        break;
-                    case MethodConstant.DELETE:
-                        response = promotionService.Remove(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
-                        break;
-                    case MethodConstant.DELETEBYID:
-                        response = promotionService.RemoveById(message.Content);
-                        break;
-                    case MethodConstant.PUT:
-                        response = promotionService.Update(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
-                        break;
-                    default:
-                        break;
-                }
-
-                return JsonConvert.SerializeObject(response);
+                case MethodConstant.POST:
+                    response = await promotionService.Add(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
+                    break;
+                case MethodConstant.GET:
+                    response = await promotionService.GetAll();
+                    break;
+                case MethodConstant.GETBYID:
+                    response = await promotionService.GetById(message.Content);
+                    break;
+                case MethodConstant.GETPROMOTIONTODAY:
+                    response = await promotionService.GetPromotionToday(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
+                    break;
+                case MethodConstant.GETPROMOTIONBYDATERANGE:
+                    response = await promotionService.GetPromotionByDateRange(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
+                    break;
+                case MethodConstant.DELETE:
+                    response = await promotionService.Remove(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
+                    break;
+                case MethodConstant.DELETEBYID:
+                    response = await promotionService.RemoveById(message.Content);
+                    break;
+                case MethodConstant.PUT:
+                    response = await promotionService.Update(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
+                    break;
+                default:
+                    break;
             }
+
+            return await JsonConvert.SerializeObject(response);
         }
     }
 }

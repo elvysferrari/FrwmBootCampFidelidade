@@ -5,9 +5,9 @@ using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Web.BootCampFidelidade.HttpAggregator.Models.DTO;
 
@@ -24,40 +24,40 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
             this.service = service;
         }
 
-        [HttpGet("{userId:int}")]
+        [HttpGet("GetByUserId")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BonificationDTO), StatusCodes.Status200OK)]
-        public ActionResult<BonificationDTO> GetByUserId([FromQuery(Name = "userId")][Required] int id)
+        public async Task<IActionResult> GetByUserId([FromQuery(Name = "userId")][Required] int id)
         {
 
-            var message = InputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYCPF, id.ToString());
+            var message = new MessageInputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYUSERID, id.ToString());
 
-            var response = service.Call(message);
+            var response = await service.Call(message);
             service.Close();
 
             if (response.Equals(""))
                 return NotFound("");
 
-            var bonifications = JsonSerializer.Deserialize<IEnumerable<BonificationDTO>>(response);
+            var bonifications = JsonConvert.DeserializeObject<IEnumerable<BonificationDTO>>(response);
 
             return Ok(new { bonifications });
         }
 
-        [HttpGet("{cpf}")]
+        [HttpGet("GetByCPF")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BonificationDTO), StatusCodes.Status200OK)]
-        public ActionResult<BonificationDTO> GetByCPF([FromQuery(Name = "cpf")][Required] string cpf)
+        public async Task<IActionResult> GetByCPF([FromQuery(Name = "cpf")][Required] string cpf)
         {
-            var message = InputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYCPF, cpf);
+            var message = new MessageInputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYCPF, cpf);
 
-            var response = service.Call(message);
+            var response = await service.Call(message);
             service.Close();
 
-            var bonifications = JsonSerializer.Deserialize<IEnumerable<BonificationDTO>>(response);
+            var bonifications = JsonConvert.DeserializeObject<IEnumerable<BonificationDTO>>(response);
 
             return Ok(new { bonifications });
         }
@@ -67,14 +67,14 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status201Created)]
-        public ActionResult Post([FromBody][Required] BonificationDTO bonificationDTO)
+        public async Task<IActionResult> Post([FromBody][Required] BonificationDTO bonificationDTO)
         {
-            var message = InputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYCPF, JsonSerializer.Serialize(bonificationDTO));
+            var message = new MessageInputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYCPF, JsonConvert.SerializeObject(bonificationDTO));
 
-            var response = service.Call(message);
+            var response = await service.Call(message);
             service.Close();
 
-            var bonifications = JsonSerializer.Deserialize<BonificationDTO>(response);
+            var bonifications = JsonConvert.DeserializeObject<BonificationDTO>(response);
 
 
             return Created($"{Request.Path}/{bonifications.Id}", new { bonifications });
@@ -84,30 +84,20 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BonificationDTO), StatusCodes.Status200OK)]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var message = InputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYCPF, string.Empty);
+            var message = new MessageInputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYCPF, string.Empty);
 
-            var response = service.Call(message);
+            var response = await service.Call(message);
             service.Close();
 
             if (response.Equals(""))
                 return NotFound("");
 
-            var bonifications = JsonSerializer.Deserialize<List<BonificationDTO>>(response);
+            var bonifications = JsonConvert.DeserializeObject<List<BonificationDTO>>(response);
 
             return Ok(new { bonifications });
 
-        }
-
-        protected MessageInputModel InputModel(string queue, string method, string content)
-        {
-            return new MessageInputModel
-            {
-                Queue = queue,
-                Method = method,
-                Content = content
-            };
         }
     }
 }

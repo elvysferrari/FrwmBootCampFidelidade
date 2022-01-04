@@ -4,9 +4,9 @@ using FrwkBootCampFidelidade.Dominio.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
+using System.Threading.Tasks;
 using Web.BootCampFidelidade.HttpAggregator.Models.DTO;
 
 namespace Web.BootCampFidelidade.HttpAggregator.Controller
@@ -27,22 +27,17 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status201Created)]
-        public ActionResult<RansomDTO> AddRansom([FromBody][Required] RansomDTO ransomDTO)
+        public async Task<IActionResult> AddRansom([FromBody][Required] RansomDTO ransomDTO)
         {
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.RANSOM,
-                Method = MethodConstant.POST,
-                Content = JsonSerializer.Serialize(ransomDTO),
-            };
+            var message = new MessageInputModel(DomainConstant.RANSOM, MethodConstant.POST, JsonConvert.SerializeObject(ransomDTO));
 
-            var response = service.Call(message);
+            var response = await service.Call(message);
             service.Close();
 
             if (response.Equals(""))
                 return NotFound();
 
-            var ransoms = JsonSerializer.Deserialize<RansomDTO>(response);
+            var ransoms = JsonConvert.DeserializeObject<RansomDTO>(response);
 
             return Created($"{Request.Path}/{ransoms.Id}", new { ransoms });
         }
@@ -52,47 +47,37 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<RansomDTO>> GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.RANSOM,
-                Method = MethodConstant.GET,
-                Content = string.Empty,
-            };
+            var message = new MessageInputModel(DomainConstant.RANSOM, MethodConstant.GET, string.Empty);
 
-            var response = service.Call(message);
+            var response = await service.Call(message);
             service.Close();
 
             if (response.Equals(""))
                 return NotFound();
 
-            var ransoms = JsonSerializer.Deserialize<RansomDTO>(response);
+            var ransoms = JsonConvert.DeserializeObject<RansomDTO>(response);
 
             return Ok(new { ransoms });
         }
 
-        [HttpGet("{cpf}")]
+        [HttpGet("GetByCPF")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status200OK)]
-        public ActionResult<IEnumerable<RansomDTO>> GetByCPF([FromQuery(Name = "cpf")][Required] string cpf)
+        public async Task<IActionResult> GetByCPF([FromQuery(Name = "cpf")][Required] string cpf)
         {
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.RANSOM,
-                Method = MethodConstant.GETBYCPF,
-                Content = cpf,
-            };
+            var message = new MessageInputModel(DomainConstant.RANSOM, MethodConstant.GETBYCPF, cpf);
 
-            var response = service.Call(message);
+            var response = await service.Call(message);
             service.Close();
 
             if (response.Equals(""))
                 return NotFound();
 
-            var ransoms = JsonSerializer.Deserialize<RansomDTO>(response);
+            var ransoms = JsonConvert.DeserializeObject<RansomDTO>(response);
 
             return Ok(new { ransoms });
         }

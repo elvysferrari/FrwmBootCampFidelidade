@@ -4,9 +4,10 @@ using FrwkBootCampFidelidade.Dominio.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json;
 using System.Threading.Tasks;
 using Web.BootCampFidelidade.HttpAggregator.Models.DTO;
 
@@ -27,41 +28,37 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status200OK)]
-        public IActionResult Get()
+        public async Task<IActionResult> Get()
         {
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.PROMOTION,
-                Method = MethodConstant.GET,
-                Content = string.Empty,
-            };
+            var message = new MessageInputModel(
+               DomainConstant.PROMOTION,
+               MethodConstant.GET,
+               string.Empty);
 
-            var response = service.Call(message);
+            var response = await service.Call(message);
             service.Close();
 
-            var promotions = JsonSerializer.Deserialize<IEnumerable<PromotionDTO>>(response);
+            var promotions = JsonConvert.DeserializeObject<IEnumerable<PromotionDTO>>(response);
 
             return Ok(new { promotions });
         }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("GetById")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status200OK)]
-        public IActionResult GetById([FromQuery(Name = "id")] int id)
+        public async Task<IActionResult> GetById([FromQuery(Name = "id")] int id)
         {
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.PROMOTION,
-                Method = MethodConstant.GETBYID,
-                Content = id.ToString(),
-            };
+            var message = new MessageInputModel(
+                DomainConstant.PROMOTION,
+                MethodConstant.GETBYID,
+                id.ToString());
 
-            var response = service.Call(message);
+            var response = await service.Call(message);
             service.Close();
 
-            var promotions = JsonSerializer.Deserialize<IEnumerable<PromotionDTO>>(response);
+            var promotions = JsonConvert.DeserializeObject<IEnumerable<PromotionDTO>>(response);
 
             return Ok(new { promotions });
         }
@@ -71,19 +68,17 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status200OK)]
-        public IActionResult GetPromotionByDateRange([FromBody] PromotionDTO promotionRequestDTO)
+        public async Task<IActionResult> GetPromotionByDateRange([FromQuery] long userId, long drugstoreId, string startDate, string endDate)
         {
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.PROMOTION,
-                Method = MethodConstant.GETPROMOTIONBYDATERANGE,
-                Content = JsonSerializer.Serialize(promotionRequestDTO),
-            };
+            var message = new MessageInputModel(
+               DomainConstant.PROMOTION,
+               MethodConstant.GETPROMOTIONBYDATERANGE,
+               JsonConvert.SerializeObject(new PromotionDTO { UserId = userId, DrugstoreId = drugstoreId, StartDate = DateTime.Parse(startDate), EndDate = DateTime.Parse(endDate) }));
 
-            var response = service.Call(message);
+            var response = await service.Call(message);
             service.Close();
 
-            var promotions = JsonSerializer.Deserialize<IEnumerable<PromotionDTO>>(response);
+            var promotions = JsonConvert.DeserializeObject<IEnumerable<PromotionDTO>>(response);
 
             return Ok(new { promotions });
         }
@@ -93,19 +88,17 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status200OK)]
-        public IActionResult GetPromotionToday()
+        public async Task<IActionResult> GetPromotionToday()
         {
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.PROMOTION,
-                Method = MethodConstant.GETBYUSERID,
-                Content = string.Empty,
-            };
+            var message = new MessageInputModel(
+                DomainConstant.PROMOTION,
+                MethodConstant.GETBYUSERID,
+                string.Empty);
 
-            var response = service.Call(message);
+            var response = await service.Call(message);
             service.Close();
 
-            var promotions = JsonSerializer.Deserialize<IEnumerable<PromotionDTO>>(response);
+            var promotions = JsonConvert.DeserializeObject<IEnumerable<PromotionDTO>>(response);
 
             return Ok(new { promotions });
         }
@@ -117,17 +110,15 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         public async Task<IActionResult> Post([FromBody] PromotionDTO promotion)
         {
 
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.PROMOTION,
-                Method = MethodConstant.GETPROMOTIONBYDATERANGE,
-                Content = JsonSerializer.Serialize(promotion),
-            };
+            var message = new MessageInputModel(
+                DomainConstant.PROMOTION,
+                MethodConstant.GETPROMOTIONBYDATERANGE,
+                JsonConvert.SerializeObject(promotion));
 
-            var response = service.Call(message);
+            var response = await service.Call(message);
             service.Close();
 
-            var promotions = JsonSerializer.Deserialize<PromotionDTO>(response);
+            var promotions = JsonConvert.DeserializeObject<PromotionDTO>(response);
 
             return CreatedAtAction(nameof(GetById), new { id = promotions.Id }, promotions);
         }
@@ -136,24 +127,23 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Put([FromQuery(Name = "id")][Required] int id, [FromBody][Required] PromotionDTO promotion)
+        public async Task<IActionResult> Put([FromRoute][Required] int id, [FromBody][Required] PromotionDTO promotion)
         {
 
-            if (id == 0) return BadRequest("Id do usuário é obrigatório.");
+            if (id == 0) 
+                return BadRequest("Id do usuário é obrigatório.");
 
-            promotion.Id = id;
+            promotion.Id = id.ToString();
 
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.PROMOTION,
-                Method = MethodConstant.GETPROMOTIONBYDATERANGE,
-                Content = JsonSerializer.Serialize(promotion),
-            };
+            var message = new MessageInputModel(
+                DomainConstant.PROMOTION,
+                MethodConstant.GETPROMOTIONBYDATERANGE,
+                JsonConvert.SerializeObject(promotion));
 
-            var response = service.Call(message);
+            var response = await service.Call(message);
             service.Close();
 
-            var promotions = JsonSerializer.Deserialize<PromotionDTO>(response);
+            var promotions = JsonConvert.DeserializeObject<PromotionDTO>(response);
 
             return Ok(new { promotions });
         }
@@ -165,42 +155,29 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         {
             if (id == 0) return BadRequest("Id do usuário é obrigatório.");
 
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.PROMOTION,
-                Method = MethodConstant.GETPROMOTIONBYDATERANGE,
-                Content = id.ToString(),
-            };
+            var message = new MessageInputModel(DomainConstant.PROMOTION, MethodConstant.GETPROMOTIONBYDATERANGE, id.ToString());
 
-            var response = service.Call(message);
+            var response = await service.Call(message);
             service.Close();
 
-            var promotions = JsonSerializer.Deserialize<PromotionDTO>(response);
+            var promotions = JsonConvert.DeserializeObject<PromotionDTO>(response);
 
             return Ok(new { promotions });
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete([FromRoute][Required] int id, [FromBody][Required] PromotionDTO promotion)
+        public async Task<IActionResult> Delete([FromBody][Required] PromotionDTO promotion)
         {
-            if (id == 0) return BadRequest("Id do usuário é obrigatório.");
 
-            promotion.Id = id;
+            var message = new MessageInputModel(DomainConstant.PROMOTION, MethodConstant.GETPROMOTIONBYDATERANGE, JsonConvert.SerializeObject(promotion));
 
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.PROMOTION,
-                Method = MethodConstant.GETPROMOTIONBYDATERANGE,
-                Content = id.ToString(),
-            };
-
-            var response = service.Call(message);
+            var response = await service.Call(message);
             service.Close();
 
-            var promotions = JsonSerializer.Deserialize<PromotionDTO>(response);
+            var promotions = JsonConvert.DeserializeObject<PromotionDTO>(response);
 
             return Ok(new { promotions });
         }
