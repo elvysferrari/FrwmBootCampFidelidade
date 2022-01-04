@@ -52,11 +52,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Mobile.bff", "Mobile.bff", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkBootCampFidelidade.Wallet.API", "FrwkBootCampFidelidade.Wallet.API\FrwkBootCampFidelidade.Wallet.API.csproj", "{E810F36A-CD6F-4997-9375-79852CB0355A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrwkBootCampFidelidade.Promotion.Tests", "FrwkBootCampFidelidade.Promotion.Tests\FrwkBootCampFidelidade.Promotion.Tests.csproj", "{5010EED4-ABAE-43EF-A2CD-F840C735132E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkBootCampFidelidade.Promotion.Tests", "FrwkBootCampFidelidade.Promotion.Tests\FrwkBootCampFidelidade.Promotion.Tests.csproj", "{5010EED4-ABAE-43EF-A2CD-F840C735132E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Promotion", "Promotion", "{984BFF90-E575-4262-ADC5-3B8BAAF31630}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Promotions", "Promotions", "{984BFF90-E575-4262-ADC5-3B8BAAF31630}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FrwkBootCampFidelidade.Promotion.FakeData", "FrwkBootCampFidelidade.Promotion.FakeData\FrwkBootCampFidelidade.Promotion.FakeData.csproj", "{DE824EA3-CABB-4919-AB31-6134A4BEFC47}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrwkBootCampFidelidade.Promotion.FakeData", "FrwkBootCampFidelidade.Promotion.FakeData\FrwkBootCampFidelidade.Promotion.FakeData.csproj", "{DE824EA3-CABB-4919-AB31-6134A4BEFC47}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

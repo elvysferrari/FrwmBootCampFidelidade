@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FrwkBootCampFidelidade.Dominio\FrwkBootCampFidelidade.Dominio.csproj" />
     <ProjectReference Include="..\FrwkBootCampFidelidade.DTO\FrwkBootCampFidelidade.DTO.csproj" />
   </ItemGroup>
 
