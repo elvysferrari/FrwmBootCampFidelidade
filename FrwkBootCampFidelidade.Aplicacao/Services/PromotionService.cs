@@ -24,10 +24,10 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         public async Task<IEnumerable<PromotionDTO>> GetPromotionByDateRange(PromotionDTO promotionRequest)
         {
             var promotion = _mapper.Map<Promotion>(promotionRequest);
+
             var promotions = await _promotionRepository.GetPromotionByDateRange(promotion);
-            var promotionsDTO = _mapper.Map<IEnumerable<PromotionDTO>>(promotions);
-            
-            return promotionsDTO;
+
+            return _mapper.Map<IEnumerable<PromotionDTO>>(promotions);
         }
 
         public async Task<IEnumerable<PromotionDTO>> GetPromotionToday(PromotionDTO promotionRequest)
@@ -51,10 +51,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         {
             var promotion = await _promotionRepository.GetById(id);
 
-            if (promotion == null)
-            {
-                return null;
-            }
+            if (promotion == null) return null;
 
             var promotionDTO = _mapper.Map<PromotionDTO>(promotion);
 
@@ -64,11 +61,16 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         public async Task<PromotionDTO> Add(PromotionDTO promotionRequest)
         {
             var promotion = _mapper.Map<Promotion>(promotionRequest);
-            promotion.CreatedAt = DateTime.Now;
-            promotion.UpdatedAt = DateTime.Now;
+
+            var createdAt = DateTime.Now;
+            var updatedAt = createdAt;
+
+            promotion.CreatedAt = createdAt;
+            promotion.UpdatedAt = updatedAt;
 
             promotion = await _promotionRepository.Add(promotion);
             var promotionDTO = _mapper.Map<PromotionDTO>(promotion);
+
             return promotionDTO;
         }
 
