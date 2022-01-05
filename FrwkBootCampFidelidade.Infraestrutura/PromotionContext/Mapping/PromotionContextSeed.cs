@@ -1,4 +1,5 @@
 ﻿using FrwkBootCampFidelidade.Dominio.PromotionContext.Entities;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Mapping
                     PromotionItems = new[]{
                         new PromotionItem()
                         {
-                            Id = Guid.NewGuid().ToString(),
+                            Id = ObjectId.GenerateNewId().ToString(),
                             DiscountPercentage = 10,
                             ProductId = 1,
                             PromotionId = "61ca0c75af617fc6b0458414",
@@ -48,7 +49,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Mapping
                         },
                         new PromotionItem()
                         {
-                            Id = Guid.NewGuid().ToString(),
+                            Id = ObjectId.GenerateNewId().ToString(),
                             DiscountPercentage = 5,
                             ProductId = 1,
                             PromotionId = "61ca0c75af617fc6b0458414",
