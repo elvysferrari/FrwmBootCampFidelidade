@@ -68,12 +68,6 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             promotion.CreatedAt = createdAt;
             promotion.UpdatedAt = updatedAt;
 
-            foreach (var item in promotion.PromotionItems)
-            {
-                item.UpdatedAt = updatedAt;
-                item.CreatedAt = createdAt;
-            }
-
             promotion = await _promotionRepository.Add(promotion);
             var promotionDTO = _mapper.Map<PromotionDTO>(promotion);
 

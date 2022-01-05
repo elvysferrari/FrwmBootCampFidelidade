@@ -40,21 +40,13 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Mapping
                     PromotionItems = new[]{
                         new PromotionItem()
                         {
-                            Id = ObjectId.GenerateNewId().ToString(),
                             DiscountPercentage = 10,
-                            ProductId = 1,
-                            PromotionId = "61ca0c75af617fc6b0458414",
-                            CreatedAt = createdAt,
-                            UpdatedAt = updatedAt
+                            ProductId = 1
                         },
                         new PromotionItem()
                         {
-                            Id = ObjectId.GenerateNewId().ToString(),
                             DiscountPercentage = 5,
-                            ProductId = 1,
-                            PromotionId = "61ca0c75af617fc6b0458414",
-                            CreatedAt = createdAt,
-                            UpdatedAt = updatedAt
+                            ProductId = 1
                         }
                     }
                 }
