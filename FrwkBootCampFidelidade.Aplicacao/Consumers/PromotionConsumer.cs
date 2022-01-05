@@ -92,7 +92,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
             switch (message.Method)
             {
                 case MethodConstant.POST:
-                    response = await _promotionService.Add(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
+                    response = await _promotionService.Add(JsonConvert.DeserializeObject<PromotionCreateDTO>(message.Content));
                     break;
                 case MethodConstant.GET:
                     response = await _promotionService.GetAll();

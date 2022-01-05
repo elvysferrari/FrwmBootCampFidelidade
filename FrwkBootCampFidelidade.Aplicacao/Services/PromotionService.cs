@@ -58,7 +58,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             return promotionDTO;
         }
 
-        public async Task<PromotionDTO> Add(PromotionDTO promotionRequest)
+        public async Task<PromotionDTO> Add(PromotionCreateDTO promotionRequest)
         {
             var promotion = _mapper.Map<Promotion>(promotionRequest);
 
@@ -67,6 +67,12 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
             promotion.CreatedAt = createdAt;
             promotion.UpdatedAt = updatedAt;
+
+            foreach (var item in promotion.PromotionItems)
+            {
+                item.UpdatedAt = updatedAt;
+                item.CreatedAt = createdAt;
+            }
 
             promotion = await _promotionRepository.Add(promotion);
             var promotionDTO = _mapper.Map<PromotionDTO>(promotion);

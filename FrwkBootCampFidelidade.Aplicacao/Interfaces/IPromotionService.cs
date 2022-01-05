@@ -10,7 +10,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Interfaces
         Task<PromotionDTO> GetById(string id);
         Task<IEnumerable<PromotionDTO>> GetPromotionByDateRange(PromotionDTO promotionRequest);
         Task<IEnumerable<PromotionDTO>> GetPromotionToday(PromotionDTO promotionRequest);
-        Task<PromotionDTO> Add(PromotionDTO promotionRequest);
+        Task<PromotionDTO> Add(PromotionCreateDTO promotionRequest);
         Task<bool> Update(PromotionDTO promotionRequest);
         Task<bool> RemoveById(string id);
         Task<bool> Remove(PromotionDTO promotionRequest);
