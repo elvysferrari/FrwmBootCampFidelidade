@@ -25,7 +25,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpGet]
-        //[Authorize]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status200OK)]
@@ -120,7 +120,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status201Created)]
-        public async Task<IActionResult> Post([FromBody] PromotionDTO promotion)
+        public async Task<IActionResult> Post([FromBody] PromotionCreateUpdateRemoveDTO promotion)
         {
 
             var message = new MessageInputModel(
@@ -141,7 +141,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Put([FromQuery(Name = "id")][Required] string id, [FromBody][Required] PromotionDTO promotion)
+        public async Task<IActionResult> Put([FromQuery(Name = "id")][Required] string id, [FromBody][Required] PromotionCreateUpdateRemoveDTO promotion)
         {
 
             if (string.IsNullOrEmpty(id) || id.Equals("0"))
@@ -189,7 +189,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(bool), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Delete([FromBody][Required] PromotionDTO promotion)
+        public async Task<IActionResult> Delete([FromBody][Required] PromotionCreateUpdateRemoveDTO promotion)
         {
             var message = new MessageInputModel(
                 DomainConstant.PROMOTION,

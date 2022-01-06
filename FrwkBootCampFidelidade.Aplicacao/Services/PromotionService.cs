@@ -58,7 +58,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             return promotionDTO;
         }
 
-        public async Task<PromotionDTO> Add(PromotionCreateDTO promotionRequest)
+        public async Task<PromotionDTO> Add(PromotionCreateUpdateRemoveDTO promotionRequest)
         {
             var promotion = _mapper.Map<Promotion>(promotionRequest);
 
@@ -74,7 +74,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             return promotionDTO;
         }
 
-        public async Task<bool> Update(PromotionDTO promotionRequest)
+        public async Task<bool> Update(PromotionCreateUpdateRemoveDTO promotionRequest)
         {
             var promotion = _mapper.Map<Promotion>(promotionRequest);
             var promotionOld = await _promotionRepository.GetById(promotion.Id);
@@ -94,7 +94,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             return await _promotionRepository.RemoveById(id);
         }
 
-        public async Task<bool> Remove(PromotionDTO promotionRequest)
+        public async Task<bool> Remove(PromotionCreateUpdateRemoveDTO promotionRequest)
         {
             var promotion = _mapper.Map<Promotion>(promotionRequest);
             return await _promotionRepository.Remove(promotion);

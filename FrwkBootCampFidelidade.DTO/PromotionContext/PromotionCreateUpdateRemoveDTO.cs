@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace FrwkBootCampFidelidade.DTO.PromotionContext
 {
-    public class PromotionCreateDTO
+    public class PromotionCreateUpdateRemoveDTO
     {
         public string Id { get; set; }
         public long DrugstoreId { get; set; }
@@ -12,6 +12,6 @@ namespace FrwkBootCampFidelidade.DTO.PromotionContext
         public string Description { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public IEnumerable<PromotionItemCreateDTO> PromotionItems { get; set; }
+        public IEnumerable<PromotionItemCreateUpdateRemoveDTO> PromotionItems { get; set; }
     }
 }

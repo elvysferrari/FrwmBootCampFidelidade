@@ -46,13 +46,13 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 
             CreateMap<Promotion, PromotionDTO>().ReverseMap();
             CreateMap<List<PromotionDTO>, List<Promotion>>().ReverseMap();
-            CreateMap<Promotion, PromotionCreateDTO>().ReverseMap();
-            CreateMap<List<Promotion>, List<PromotionCreateDTO>>().ReverseMap();
+            CreateMap<Promotion, PromotionCreateUpdateRemoveDTO>().ReverseMap();
+            CreateMap<List<Promotion>, List<PromotionCreateUpdateRemoveDTO>>().ReverseMap();
 
             CreateMap<PromotionItem, PromotionItemDTO>().ReverseMap();
             CreateMap<List<PromotionItemDTO>, List<PromotionItem>>().ReverseMap();
-            CreateMap<PromotionItem, PromotionItemCreateDTO>().ReverseMap();
-            CreateMap<List<PromotionItem>, List<PromotionItemCreateDTO>>().ReverseMap();
+            CreateMap<PromotionItem, PromotionItemCreateUpdateRemoveDTO>().ReverseMap();
+            CreateMap<List<PromotionItem>, List<PromotionItemCreateUpdateRemoveDTO>>().ReverseMap();
 
             CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<List<ProductDTO>, List<Product>>().ReverseMap();

@@ -105,7 +105,7 @@ namespace FrwkBootCampFidelidade.Promotion.API.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Add([FromBody] PromotionCreateDTO promotion)
+        public async Task<IActionResult> Add([FromBody] PromotionCreateUpdateRemoveDTO promotion)
         {
             try
             {

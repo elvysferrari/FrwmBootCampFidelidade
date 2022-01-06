@@ -92,7 +92,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
             switch (message.Method)
             {
                 case MethodConstant.POST:
-                    response = await _promotionService.Add(JsonConvert.DeserializeObject<PromotionCreateDTO>(message.Content));
+                    response = await _promotionService.Add(JsonConvert.DeserializeObject<PromotionCreateUpdateRemoveDTO>(message.Content));
                     break;
                 case MethodConstant.GET:
                     response = await _promotionService.GetAll();
@@ -107,13 +107,13 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                     response = await _promotionService.GetPromotionByDateRange(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
                     break;
                 case MethodConstant.DELETE:
-                    response = await _promotionService.Remove(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
+                    response = await _promotionService.Remove(JsonConvert.DeserializeObject<PromotionCreateUpdateRemoveDTO>(message.Content));
                     break;
                 case MethodConstant.DELETEBYID:
                     response = await _promotionService.RemoveById(message.Content);
                     break;
                 case MethodConstant.PUT:
-                    response = await _promotionService.Update(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
+                    response = await _promotionService.Update(JsonConvert.DeserializeObject<PromotionCreateUpdateRemoveDTO>(message.Content));
                     break;
             }
 
