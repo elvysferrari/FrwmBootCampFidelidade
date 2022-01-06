@@ -37,8 +37,6 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Repository
             var promotions = new PromotionFaker().Generate(100);
             foreach (var promotion in promotions)
             {
-                promotion.CreatedAt = DateTime.Now;
-                promotion.UpdatedAt = DateTime.Now;
                 await _promotionRepository.Add(promotion);
             }
             return promotions;
@@ -67,7 +65,7 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Repository
         [Fact]
         public async Task GetPromotionByDateRange_Empty()
         {
-            await RemoveAllCollection(); 
+            await RemoveAllCollection();
 
             var result = await _promotionRepository.GetPromotionByDateRange(
                 new Dominio.PromotionContext.Entities.Promotion());
@@ -83,12 +81,14 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Repository
 
             var result = await _promotionRepository.GetPromotionByDateRange(promotions.First());
 
-            result.Should().BeEquivalentTo(promotions.Where(x => x.StartDate >= promotions.First().StartDate &&
-                                             x.EndDate >= promotions.First().EndDate &&
-                                             x.UserId == promotions.First().UserId &&
-                                             x.DrugstoreId == promotions.First().DrugstoreId));
+            result.Should().BeEquivalentTo(promotions
+                .Where(x => x.StartDate >= promotions.First().StartDate &&
+                        x.EndDate <= promotions.First().EndDate &&
+                        x.UserId == promotions.First().UserId &&
+                        x.DrugstoreId == promotions.First().DrugstoreId));
         }
 
+        [Fact]
         public async Task GetPromotionToday_Empty()
         {
             await RemoveAllCollection();
@@ -107,10 +107,11 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Repository
 
             var result = await _promotionRepository.GetPromotionToday(promotions.First());
 
-            result.Should().BeEquivalentTo(promotions.Where(x => x.StartDate == DateTime.Now &&
-                                                                 x.EndDate == DateTime.Now &&
-                                                                 x.UserId == promotions.First().UserId &&
-                                                                 x.DrugstoreId == promotions.First().DrugstoreId));
+            result.Should().BeEquivalentTo(promotions
+                .Where(x => x.StartDate.Date >= DateTime.Now.Date &&
+                        x.EndDate.Date <= DateTime.Now.Date &&
+                        x.UserId == promotions.First().UserId &&
+                        x.DrugstoreId == promotions.First().DrugstoreId));
         }
 
         [Fact]
@@ -133,5 +134,94 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Repository
 
             result.Should().BeEquivalentTo(promotions.First());
         }
+
+        [Fact]
+        public async Task Add_Created()
+        {
+            await RemoveAllCollection();
+            var promotion = new PromotionFaker().Generate();
+
+            var result = await _promotionRepository.Add(promotion);
+
+            result.Should().BeEquivalentTo(promotion);
+        }
+
+        [Fact]
+        public async Task Update_True()
+        {
+            await RemoveAllCollection();
+            var promotions = await InsertDefaultInCollection();
+
+            promotions.First().Description = "TESTE";
+
+            var result = await _promotionRepository.Update(promotions.First());
+
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Update_Unmodified_False()
+        {
+            await RemoveAllCollection();
+            var promotions = await InsertDefaultInCollection();
+
+            var result = await _promotionRepository.Update(promotions.First());
+
+            result.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task Update_False()
+        {
+            await RemoveAllCollection();
+            var promotion = new PromotionFaker().Generate();
+
+            var result = await _promotionRepository.Update(promotion);
+
+            result.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task Delete_True()
+        {
+            await RemoveAllCollection();
+            var promotions = await InsertDefaultInCollection();
+
+            var result = await _promotionRepository.Remove(promotions.First());
+
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task Delete_False()
+        {
+            await RemoveAllCollection();
+
+            var result = await _promotionRepository.Remove(new Dominio.PromotionContext.Entities.Promotion());
+
+            result.Should().BeFalse();
+        }
+
+        [Fact]
+        public async Task DeleteById_True()
+        {
+            await RemoveAllCollection();
+            var promotions = await InsertDefaultInCollection();
+
+            var result = await _promotionRepository.RemoveById(promotions.First().Id);
+
+            result.Should().BeTrue();
+        }
+
+        [Fact]
+        public async Task DeleteById_False()
+        {
+            await RemoveAllCollection();
+
+            var result = await _promotionRepository.RemoveById("aaaaaaaaaaaaaaaaaaaaaaaa");
+
+            result.Should().BeFalse();
+        }
+
     }
 }
