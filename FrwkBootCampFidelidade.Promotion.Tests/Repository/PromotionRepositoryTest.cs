@@ -4,6 +4,7 @@ using FrwkBootCampFidelidade.Dominio.PromotionContext.Interfaces;
 using FrwkBootCampFidelidade.Infraestrutura.Data.Context;
 using FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Repository;
 using FrwkBootCampFidelidade.Promotions.FakeData.PromotionData;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +21,6 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Repository
         {
             _mongoContext = new MongoContext("mongodb://localhost:27017", "testeBd");
             _promotionRepository = new PromotionRepository(_mongoContext);
-            
         }
 
         private async Task RemoveAllCollection()
@@ -37,6 +37,8 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Repository
             var promotions = new PromotionFaker().Generate(100);
             foreach (var promotion in promotions)
             {
+                promotion.CreatedAt = DateTime.Now;
+                promotion.UpdatedAt = DateTime.Now;
                 await _promotionRepository.Add(promotion);
             }
             return promotions;
@@ -62,61 +64,63 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Repository
             result.Should().BeEquivalentTo(promotions);
         }
 
-        //[Fact]
-        //public async Task GetPromotionByDateRange_Empty()
-        //{
-        //    await RemoveAllCollection();
-        //    var list = new List<Dominio.PromotionContext.Entities.Promotion>();                                            ) 
-        //    var promotion = new Dominio.PromotionContext.Entities.Promotion();
+        [Fact]
+        public async Task GetPromotionByDateRange_Empty()
+        {
+            await RemoveAllCollection(); 
 
-        //    var result = await _promotionRepository.GetPromotionByDateRange(promotion);
+            var result = await _promotionRepository.GetPromotionByDateRange(
+                new Dominio.PromotionContext.Entities.Promotion());
 
-        //    result.Should().BeEquivalentTo(list);
-        //}
+            result.Should().HaveCount(0);
+        }
 
-        //[Fact]
-        //public async Task GetPromotionByDateRange_NotEmpty()
-        //{
-        //    await RemoveAllCollection();
-        //    var promotions = await InsertDefaultInCollection();
-        //    var list = promotions.Where(x => x.StartDate >= promotions.First().StartDate &&
-        //                                     x.EndDate >= promotions.First().EndDate &&
-        //                                     x.UserId == promotions.First().UserId &&
-        //                                     x.DrugstoreId == promotions.First().DrugstoreId)                                             ) 
+        [Fact]
+        public async Task GetPromotionByDateRange_NotEmpty()
+        {
+            await RemoveAllCollection();
+            var promotions = await InsertDefaultInCollection();
 
-        //    var result = await _promotionRepository.GetPromotionByDateRange(promotions.First());
+            var result = await _promotionRepository.GetPromotionByDateRange(promotions.First());
 
-        //    result.Should().BeEquivalentTo(list);
-        //}
+            result.Should().BeEquivalentTo(promotions.Where(x => x.StartDate >= promotions.First().StartDate &&
+                                             x.EndDate >= promotions.First().EndDate &&
+                                             x.UserId == promotions.First().UserId &&
+                                             x.DrugstoreId == promotions.First().DrugstoreId));
+        }
 
-        //public async Task GetPromotionToday_Empty()
-        //{
-        //    await RemoveAllCollection();
+        public async Task GetPromotionToday_Empty()
+        {
+            await RemoveAllCollection();
 
-        //    var result = await _promotionRepository.GetPromotionToday();
-        //    result.Should().HaveCount(0);
-        //}
+            var result = await _promotionRepository.GetPromotionToday(
+                new Dominio.PromotionContext.Entities.Promotion());
 
-        //[Fact]
-        //public async Task GetPromotionToday_NotEmpty()
-        //{
-        //    await RemoveAllCollection();
-        //    var promotions = await InsertDefaultInCollection();
+            result.Should().HaveCount(0);
+        }
 
-        //    var result = await _promotionRepository.GetPromotionToday();
+        [Fact]
+        public async Task GetPromotionToday_NotEmpty()
+        {
+            await RemoveAllCollection();
+            var promotions = await InsertDefaultInCollection();
 
-        //    result.Should().BeEquivalentTo(promotions);
-        //}
+            var result = await _promotionRepository.GetPromotionToday(promotions.First());
+
+            result.Should().BeEquivalentTo(promotions.Where(x => x.StartDate == DateTime.Now &&
+                                                                 x.EndDate == DateTime.Now &&
+                                                                 x.UserId == promotions.First().UserId &&
+                                                                 x.DrugstoreId == promotions.First().DrugstoreId));
+        }
 
         [Fact]
         public async Task GetById_Empty()
         {
             await RemoveAllCollection();
-            var promotions = await InsertDefaultInCollection();
 
-            var result = await _promotionRepository.GetById("");
+            var result = await _promotionRepository.GetById("aaaaaaaaaaaaaaaaaaaaaaaa");
 
-            result.Should().BeEquivalentTo(promotions.First());
+            result.Should().BeNull();
         }
 
         [Fact]
