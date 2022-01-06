@@ -8,7 +8,7 @@ namespace FrwkBootCampFidelidade.Promotion.FakeData.PromotionData
     {
         public PromotionDTOFaker()
         {
-            var id = new Faker().Random.Hexadecimal(24);
+            var id = new Faker().Random.String2(24);
             var drugstoreId = new Faker().Random.Number(1, 999999);
             var userId = new Faker().Random.Number(1, 999999);
             RuleFor(x => x.Id, f => id);
