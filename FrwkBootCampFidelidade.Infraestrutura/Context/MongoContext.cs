@@ -9,9 +9,9 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Context
 {
     public class MongoContext : IMongoContext
     {
-        public MongoContext(string datasource = null, string dataBase = null)
+        public MongoContext(string dataSource = null, string dataBase = null)
         {
-            var datasource = string.IsNullOrEmpty(datasource) ? Environment.GetEnvironmentVariable("MongoDbDatasource") : datasource;
+            var datasource = string.IsNullOrEmpty(dataSource) ? Environment.GetEnvironmentVariable("MongoDbDatasource") : dataSource;
             var database = string.IsNullOrEmpty(dataBase) ? Environment.GetEnvironmentVariable("MongoDbDatabase") : dataBase;
 
             var _client = new MongoClient(datasource);
