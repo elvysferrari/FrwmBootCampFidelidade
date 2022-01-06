@@ -99,11 +99,11 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Controller
         [Fact]
         public async Task Add_Created()
         {
-            _promotionService.Add(Arg.Any<PromotionDTO>()).Returns(_promotionDTO.CloneTyped());
+            _promotionService.Add(Arg.Any<PromotionCreateUpdateRemoveDTO>()).Returns(_promotionDTO.CloneTyped());
 
             var result = (ObjectResult)await _controller.Add(_promotionDTO);
 
-            await _promotionService.Received().Add(Arg.Any<PromotionDTO>());
+            await _promotionService.Received().Add(Arg.Any<PromotionCreateUpdateRemoveDTO>());
             result.StatusCode.Should().Be(StatusCodes.Status201Created);
             result.Value.Should().BeEquivalentTo(_promotionDTO);
         }

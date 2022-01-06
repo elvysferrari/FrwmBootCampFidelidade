@@ -11,8 +11,6 @@ namespace FrwkBootCampFidelidade.Promotion.FakeData.PromotionItemData
             var id = new Faker().Random.Hexadecimal(24);
             var promotionId = new Faker().Random.Hexadecimal(24);
             var productId = new Faker().Random.Number(0, 999999);
-            RuleFor(x => x.Id, f => id);
-            RuleFor(x => x.PromotionId, f => promotionId);
             RuleFor(x => x.ProductId, f => productId);
             RuleFor(x => x.DiscountPercentage, f => new Faker().Random.Double(0, 100));
             RuleFor(x => x.Product, f => new ProductDTOFaker().Generate());

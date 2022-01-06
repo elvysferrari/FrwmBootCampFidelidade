@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Dominio.Base
 {
@@ -19,6 +15,5 @@ namespace FrwkBootCampFidelidade.Dominio.Base
             Method = method;
             Content = content;
         }
-
     }
 }

@@ -3,7 +3,6 @@ using FrwkBootCampFidelidade.Aplicacao.Constants;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.Base;
 using FrwkBootCampFidelidade.DTO.PromotionContext;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -21,12 +20,12 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
         private readonly RabbitMqConfiguration _config;
         private readonly IConnection _connection;
         private readonly IModel _channel;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IPromotionService _promotionService;
 
-        public PromotionConsumer(IOptions<RabbitMqConfiguration> option, IServiceProvider serviceProvider)
+        public PromotionConsumer(IOptions<RabbitMqConfiguration> option, IPromotionService promotionService)
         {
             _config = option.Value;
-            _serviceProvider = serviceProvider;
+            _promotionService = promotionService;
 
             var factory = new ConnectionFactory
             {
@@ -78,10 +77,8 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                 finally
                 {
                     var responseBytes = Encoding.UTF8.GetBytes(response);
-                    _channel.BasicPublish(exchange: "", routingKey: props.ReplyTo,
-                      basicProperties: replyProps, body: responseBytes);
-                    _channel.BasicAck(deliveryTag: ea.DeliveryTag,
-                      multiple: false);
+                    _channel.BasicPublish(exchange: "", routingKey: props.ReplyTo, basicProperties: replyProps, body: responseBytes);
+                    _channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
                 }
             };
 
@@ -90,42 +87,40 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 
         private async Task<string> InvokeService(MessageInputModel message)
         {
-            using var scope = _serviceProvider.CreateScope();
-            var promotionService = scope.ServiceProvider.GetRequiredService<IPromotionService>();
-
             dynamic response = string.Empty;
 
             switch (message.Method)
             {
                 case MethodConstant.POST:
-                    response = await promotionService.Add(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
+                    response = await _promotionService.Add(JsonConvert.DeserializeObject<PromotionCreateUpdateRemoveDTO>(message.Content));
                     break;
                 case MethodConstant.GET:
-                    response = await promotionService.GetAll();
+                    response = await _promotionService.GetAll();
                     break;
                 case MethodConstant.GETBYID:
-                    response = await promotionService.GetById(message.Content);
+                    response = await _promotionService.GetById(message.Content);
                     break;
                 case MethodConstant.GETPROMOTIONTODAY:
-                    response = await promotionService.GetPromotionToday(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
+                    response = await _promotionService.GetPromotionToday(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
                     break;
                 case MethodConstant.GETPROMOTIONBYDATERANGE:
-                    response = await promotionService.GetPromotionByDateRange(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
+                    response = await _promotionService.GetPromotionByDateRange(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
                     break;
                 case MethodConstant.DELETE:
-                    response = await promotionService.Remove(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
+                    response = await _promotionService.Remove(JsonConvert.DeserializeObject<PromotionCreateUpdateRemoveDTO>(message.Content));
                     break;
                 case MethodConstant.DELETEBYID:
-                    response = await promotionService.RemoveById(message.Content);
+                    response = await _promotionService.RemoveById(message.Content);
                     break;
                 case MethodConstant.PUT:
-                    response = await promotionService.Update(JsonConvert.DeserializeObject<PromotionDTO>(message.Content));
-                    break;
-                default:
+                    response = await _promotionService.Update(JsonConvert.DeserializeObject<PromotionCreateUpdateRemoveDTO>(message.Content));
                     break;
             }
 
-            return JsonConvert.SerializeObject(response);
+            return JsonConvert.SerializeObject(response, new JsonSerializerSettings
+            {
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+            });
         }
     }
 }
