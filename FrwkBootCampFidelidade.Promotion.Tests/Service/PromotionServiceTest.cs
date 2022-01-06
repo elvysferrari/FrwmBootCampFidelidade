@@ -16,11 +16,8 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Service
     public class PromotionServiceTest
     {
         private readonly IPromotionRepository _promotionRepository;
-        private readonly IPromotionItemRepository _promotionItemRepository;
         private readonly IMapper _mapper;
 
-        private readonly ProductService _productService;
-        private readonly PromotionItemService _promotionItemService;
         private readonly PromotionService _promotionService;
 
         private readonly Dominio.PromotionContext.Entities.Promotion _promotion;
@@ -28,28 +25,25 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Service
         public PromotionServiceTest()
         {
             _promotionRepository = Substitute.For<IPromotionRepository>();
-            _promotionItemRepository = Substitute.For<IPromotionItemRepository>();
             _mapper = new MapperConfiguration(p => p.AddProfile<AutoMapping>()).CreateMapper();
 
-            _productService = new ProductService(_mapper);
-            _promotionItemService = new PromotionItemService(_promotionItemRepository, _mapper, _productService);
-            _promotionService = new PromotionService(_mapper, _promotionRepository, _promotionItemService);
+            _promotionService = new PromotionService(_mapper, _promotionRepository);
 
             _promotion = new PromotionFaker().Generate();
         }
 
-        //[Fact]
-        //public async Task GetPromotionByDateRange_NotEmpty()
-        //{
-        //    var list = new PromotionFaker().Generate(10);
-        //    var control = _mapper.Map<IEnumerable<PromotionDTO>>(list);
-        //    _promotionRepository.GetPromotionByDateRange(Arg.Any<Dominio.PromotionContext.Entities.Promotion>()).Returns(list);
+        [Fact]
+        public async Task GetPromotionByDateRange_NotEmpty()
+        {
+            var list = new PromotionFaker().Generate(10);
+            var control = _mapper.Map<IEnumerable<PromotionDTO>>(list);
+            _promotionRepository.GetPromotionByDateRange(Arg.Any<Dominio.PromotionContext.Entities.Promotion>()).Returns(list);
 
-        //    var result = await _promotionService.GetPromotionByDateRange(new PromotionDTO());
+            var result = await _promotionService.GetPromotionByDateRange(new PromotionDTO());
 
-        //    await _promotionRepository.Received().GetPromotionByDateRange(Arg.Any<Dominio.PromotionContext.Entities.Promotion>());
-        //    result.Should().BeEquivalentTo(control);
-        //}
+            await _promotionRepository.Received().GetPromotionByDateRange(Arg.Any<Dominio.PromotionContext.Entities.Promotion>());
+            result.Should().BeEquivalentTo(control);
+        }
 
         [Fact]
         public async Task GetPromotionByDateRange_Empty()
@@ -64,18 +58,18 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Service
             result.Should().BeEquivalentTo(control);
         }
 
-        //[Fact]
-        //public async Task GetPromotionToday_NotEmpty()
-        //{
-        //    var list = new PromotionFaker().Generate(10);
-        //    var control = _mapper.Map<IEnumerable<PromotionDTO>>(list);
-        //    _promotionRepository.GetPromotionToday(Arg.Any<Dominio.PromotionContext.Entities.Promotion>()).Returns(list);
+        [Fact]
+        public async Task GetPromotionToday_NotEmpty()
+        {
+            var list = new PromotionFaker().Generate(10);
+            var control = _mapper.Map<IEnumerable<PromotionDTO>>(list);
+            _promotionRepository.GetPromotionToday(Arg.Any<Dominio.PromotionContext.Entities.Promotion>()).Returns(list);
 
-        //    var result = await _promotionService.GetPromotionToday(new PromotionDTO());
+            var result = await _promotionService.GetPromotionToday(new PromotionDTO());
 
-        //    await _promotionRepository.Received().GetPromotionToday(Arg.Any<Dominio.PromotionContext.Entities.Promotion>());
-        //    result.Should().BeEquivalentTo(control);
-        //}
+            await _promotionRepository.Received().GetPromotionToday(Arg.Any<Dominio.PromotionContext.Entities.Promotion>());
+            result.Should().BeEquivalentTo(control);
+        }
 
         [Fact]
         public async Task GetPromotionToday_Empty()
@@ -90,18 +84,18 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Service
             result.Should().BeEquivalentTo(control);
         }
 
-        //[Fact]
-        //public async Task GetAll_NotEmpty()
-        //{
-        //    var list = new PromotionFaker().Generate(10);
-        //    var control = _mapper.Map<IEnumerable<PromotionDTO>>(list);
-        //    _promotionRepository.GetAll().Returns(list);
+        [Fact]
+        public async Task GetAll_NotEmpty()
+        {
+            var list = new PromotionFaker().Generate(10);
+            var control = _mapper.Map<IEnumerable<PromotionDTO>>(list);
+            _promotionRepository.GetAll().Returns(list);
 
-        //    var result = await _promotionService.GetAll();
+            var result = await _promotionService.GetAll();
 
-        //    await _promotionRepository.Received().GetAll();
-        //    result.Should().BeEquivalentTo(control);
-        //}
+            await _promotionRepository.Received().GetAll();
+            result.Should().BeEquivalentTo(control);
+        }
 
         [Fact]
         public async Task GetAll_Empty()
@@ -128,12 +122,24 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Service
         }
 
         [Fact]
+        public async Task GetById_NotNull()
+        {
+            var control = _mapper.Map<PromotionDTO>(_promotion);
+            _promotionRepository.GetById(Arg.Any<string>()).Returns(_promotion);
+
+            var result = await _promotionService.GetById("");
+
+            await _promotionRepository.Received().GetById(Arg.Any<string>());
+            result.Should().BeEquivalentTo(control);
+        }
+
+        [Fact]
         public async Task Add_Success()
         {
             var control = _mapper.Map<PromotionDTO>(_promotion);
             _promotionRepository.Add(Arg.Any<Dominio.PromotionContext.Entities.Promotion>()).Returns(_promotion);
 
-            var result = await _promotionService.Add(new PromotionDTO());
+            var result = await _promotionService.Add(new PromotionCreateUpdateRemoveDTO());
 
             await _promotionRepository.Received().Add(Arg.Any<Dominio.PromotionContext.Entities.Promotion>());
             result.Should().BeEquivalentTo(control);
@@ -142,10 +148,10 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Service
         [Fact]
         public async Task Update_True()
         {
-            _promotionRepository.GetById(Arg.Any<string>()).Returns(new Dominio.PromotionContext.Entities.Promotion());
+            _promotionRepository.GetById(Arg.Any<string>()).Returns(_promotion);
             _promotionRepository.Update(Arg.Any<Dominio.PromotionContext.Entities.Promotion>()).Returns(true);
 
-            var result = await _promotionService.Update(new PromotionDTO());
+            var result = await _promotionService.Update(new PromotionCreateUpdateRemoveDTO());
 
             await _promotionRepository.Received().GetById(Arg.Any<string>());
             await _promotionRepository.Received().Update(Arg.Any<Dominio.PromotionContext.Entities.Promotion>());
@@ -156,9 +162,9 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Service
         public async Task Update_False()
         {
             _promotionRepository.GetById(Arg.Any<string>()).ReturnsNull();
-            _promotionRepository.Update(Arg.Any<Dominio.PromotionContext.Entities.Promotion>()).ReturnsNull();
+            _promotionRepository.Update(Arg.Any<Dominio.PromotionContext.Entities.Promotion>()).Returns(false);
 
-            var result = await _promotionService.Update(new PromotionDTO());
+            var result = await _promotionService.Update(new PromotionCreateUpdateRemoveDTO());
 
             await _promotionRepository.Received().GetById(Arg.Any<string>());
             result.Should().BeFalse();
@@ -169,7 +175,7 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Service
         {
             _promotionRepository.Remove(Arg.Any<Dominio.PromotionContext.Entities.Promotion>()).Returns(true);
 
-            var result = await _promotionService.Remove(new PromotionDTO());
+            var result = await _promotionService.Remove(new PromotionCreateUpdateRemoveDTO());
 
             await _promotionRepository.Received().Remove(Arg.Any<Dominio.PromotionContext.Entities.Promotion>());
             result.Should().BeTrue();
@@ -180,7 +186,7 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Service
         {
             _promotionRepository.Remove(Arg.Any<Dominio.PromotionContext.Entities.Promotion>()).Returns(false);
 
-            var result = await _promotionService.Remove(new PromotionDTO());
+            var result = await _promotionService.Remove(new PromotionCreateUpdateRemoveDTO());
 
             await _promotionRepository.Received().Remove(Arg.Any<Dominio.PromotionContext.Entities.Promotion>());
             result.Should().BeFalse();

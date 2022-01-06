@@ -74,8 +74,7 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Controller
             _listPromotionDTO.ToList().ForEach(x => control.Add(x.CloneTyped()));
             _promotionService.GetPromotionByDateRange(Arg.Any<PromotionDTO>()).Returns(_listPromotionDTO);
 
-            var result = (ObjectResult)await _controller.GetPromotionByDateRange(1,
-                1, DateTime.Now, DateTime.Now);
+            var result = (ObjectResult)await _controller.GetPromotionByDateRange(1, 1, DateTime.Now, DateTime.Now);
 
             await _promotionService.Received().GetPromotionByDateRange(Arg.Any<PromotionDTO>());
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
@@ -101,7 +100,7 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Controller
         {
             _promotionService.Add(Arg.Any<PromotionCreateUpdateRemoveDTO>()).Returns(_promotionDTO.CloneTyped());
 
-            var result = (ObjectResult)await _controller.Add(_promotionDTO);
+            var result = (ObjectResult)await _controller.Add(new PromotionCreateUpdateRemoveDTO());
 
             await _promotionService.Received().Add(Arg.Any<PromotionCreateUpdateRemoveDTO>());
             result.StatusCode.Should().Be(StatusCodes.Status201Created);
@@ -111,11 +110,11 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Controller
         [Fact]
         public async Task Update_Ok()
         {
-            _promotionService.Update(Arg.Any<PromotionDTO>()).Returns(true);
+            _promotionService.Update(Arg.Any<PromotionCreateUpdateRemoveDTO>()).Returns(true);
 
-            var result = (ObjectResult)await _controller.Update(_promotionDTO);
+            var result = (ObjectResult)await _controller.Update(new PromotionCreateUpdateRemoveDTO());
 
-            await _promotionService.Received().Update(Arg.Any<PromotionDTO>());
+            await _promotionService.Received().Update(Arg.Any<PromotionCreateUpdateRemoveDTO>());
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
             result.Value.Should().BeEquivalentTo(true);
         }
@@ -131,11 +130,11 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Controller
         [Fact]
         public async Task Remove_Ok()
         {
-            _promotionService.Remove(Arg.Any<PromotionDTO>()).Returns(true);
+            _promotionService.Remove(Arg.Any<PromotionCreateUpdateRemoveDTO>()).Returns(true);
 
-            var result = (ObjectResult)await _controller.Remove(_promotionDTO);
+            var result = (ObjectResult)await _controller.Remove(new PromotionCreateUpdateRemoveDTO());
 
-            await _promotionService.Received().Remove(Arg.Any<PromotionDTO>());
+            await _promotionService.Received().Remove(Arg.Any<PromotionCreateUpdateRemoveDTO>());
             result.StatusCode.Should().Be(StatusCodes.Status200OK);
             result.Value.Should().BeEquivalentTo(true);
         }
@@ -143,7 +142,7 @@ namespace FrwkBootCampFidelidade.Promotion.Tests.Controller
         [Fact]
         public async Task Remove_BedRequest()
         {
-            PromotionDTO promotionDTO_null = null;
+            PromotionCreateUpdateRemoveDTO promotionDTO_null = null;
             var result = (StatusCodeResult)await _controller.Remove(promotionDTO_null);
 
             result.StatusCode.Should().Be(StatusCodes.Status400BadRequest);
