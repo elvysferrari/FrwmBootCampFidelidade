@@ -35,6 +35,7 @@ namespace FrwkBootCampFidelidade.Dominio.PromotionContext.Entities
         [BsonElement("UpdatedAt")]
         public DateTime UpdatedAt { get; set; }
 
+        [BsonElement("PromotionItems")]
         public IEnumerable<PromotionItem> PromotionItems { get; set; }
     }
 }
