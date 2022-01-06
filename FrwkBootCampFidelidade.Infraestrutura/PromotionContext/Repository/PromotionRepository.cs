@@ -74,7 +74,8 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Repository
             FilterDefinition<Promotion> filter = Builders<Promotion>.Filter
                 .Where(x => x.UserId == promotion.UserId &&
                        x.DrugstoreId == promotion.DrugstoreId &&
-                       x.EndDate >= DateTime.Now.Date);
+                       x.StartDate >= DateTime.Now.Date &&
+                       x.EndDate <= DateTime.Now.Date);
                         
             return await _context.Promotions.Find(filter).ToListAsync();
         }
