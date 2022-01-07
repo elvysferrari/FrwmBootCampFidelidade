@@ -7,7 +7,6 @@ using FrwkBootCampFidelidade.DTO.WalletContext;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Aplicacao.Services
@@ -64,10 +63,11 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             return _mapper.Map<List<WalletDTO>>(wallets);
         }
 
-        public async void Update(WalletDTO walletDTO)
+        public async Task Update(WalletDTO walletDTO)
         {
             var wallet = _mapper.Map<Wallet>(walletDTO);
             wallet.UpdatedAt = DateTime.Now;
+
             _wallet.Update(wallet);
             await _wallet.SaveChanges();
         }
@@ -100,6 +100,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
                 }
             }
         }
+
         public async Task Withdraw(WalletWithdrawDTO walletWithdrawDTO)
         {
             Wallet wallet = await _wallet.GetById(walletWithdrawDTO.WalletId);
@@ -115,6 +116,18 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
                     await _wallet.SaveChanges();
                 }
+            }
+        }
+
+        public async Task UpdateWalletAmountValue(int userId, float scoreQuantity)
+        {
+            var wallets = await GetByUserIdAndType(userId, 1);
+
+            if (wallets.Any())
+            {
+                var wallet = wallets.First();
+                wallet.Amount += scoreQuantity;
+                await Update(wallet);
             }
         }
     }

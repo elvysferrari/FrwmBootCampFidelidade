@@ -1,8 +1,5 @@
 ﻿using FrwkBootCampFidelidade.DTO.WalletContext;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Aplicacao.Interfaces
@@ -15,6 +12,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Interfaces
         Task<List<WalletDTO>> GetByUserIdAndType(int userId, int walletType);
         Task Transfer(WalletTransferDTO walletTransferDTO);
         Task Withdraw(WalletWithdrawDTO walletWithdrawDTO);
+        Task UpdateWalletAmountValue(int userId, float scoreQuantity);
     }
 }
 

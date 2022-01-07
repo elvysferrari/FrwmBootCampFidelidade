@@ -4,7 +4,6 @@ using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
 using FrwkBootCampFidelidade.Dominio.BonificationContext.Interfaces;
 using FrwkBootCampFidelidade.DTO.BonificationContext;
 using FrwkBootCampFidelidade.DTO.WalletContext;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +15,8 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
     {
         private readonly IBonificationRepository _bonification;
         private readonly IMapper _mapper;
-
         private readonly IWalletService _walletService;
+
         public BonificationService(IBonificationRepository bonification, IMapper mapper, IWalletService walletService)
         {
             _bonification = bonification;
@@ -30,38 +29,27 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             var bonification = _mapper.Map<Bonification>(bonificationDTO);
 
             if (bonificationDTO != null)
-            {                                
-                bonification.ScoreQuantity = (bonificationDTO.TotalValue / 100) * 1;                
+            {
+                bonification.ScoreQuantity = CalculateScoreByValue(bonificationDTO.TotalValue);
+
                 bonification.Date = DateTime.Now;
                 bonification.CreatedAt = bonification.Date;
                 bonification.UpdatedAt = bonification.Date;
 
-                try
-                {
-                    await _bonification.Add(bonification);
-                    await _bonification.SaveChanges();
+                await _bonification.Add(bonification);
+                await _bonification.SaveChanges();
 
-                    //Atualizar carteira com o saldo novo
-                    List<WalletDTO> walletsDTO = await _walletService.GetByUserIdAndType(Convert.ToInt32(bonification.UserId), 1);
-                    if(walletsDTO.Count > 0) {
-                        WalletDTO walletDTO = walletsDTO.FirstOrDefault();
-                        walletDTO.Amount += bonification.ScoreQuantity;
-                        _walletService.Update(walletDTO);                        
+                _walletService.UpdateWalletAmountValue();
+            }
+        }
 
-                        bonification.ScoreCreditedAt = DateTime.Now;
-                        _bonification.Update(bonification);
-                        await _bonification.SaveChanges();
-                    }
-                }
-                catch 
-                {
-
-                }
-            }            
+        private float CalculateScoreByValue(float totalValue)
+        {
+            return totalValue / 100 * 1;
         }
 
         public async Task<IEnumerable<BonificationDTO>> GetByCPF(string CPF)
-        {            
+        {
             var bonifications = await _bonification.GetByCPF(CPF);
             return _mapper.Map<IEnumerable<BonificationDTO>>(bonifications);
         }
@@ -78,10 +66,11 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
             return _mapper.Map<IEnumerable<BonificationDTO>>(bonifications);
         }
+
         public async Task Remove(int Id)
         {
             Bonification bonification = await _bonification.GetById(Id);
-            if(bonification != null)
+            if (bonification != null)
             {
                 try
                 {
