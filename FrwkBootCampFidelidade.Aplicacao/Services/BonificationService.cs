@@ -43,7 +43,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
                 await UpdateScheduleScoreCredit(bonification);
             }
-        }        
+        }
 
         public async Task<IEnumerable<BonificationDTO>> GetByCPF(string CPF)
         {
@@ -103,6 +103,25 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             bonification.ScoreCreditedAt = DateTime.Now;
             _bonification.Update(bonification);
             await _bonification.SaveChanges();
+        }
+
+        public async Task<float> GetPendingBonificationsByCpf(string cpf)
+        {
+            var ret = 0f;
+
+            var pendingBonifications = _bonification.GetBy(x => x.CPF.Equals(cpf) && x.ScoreCreditedAt == null)?.ToList();
+
+            if (pendingBonifications?.Any() ?? false)
+            {
+                foreach (var bonification in pendingBonifications)
+                {
+                    ret += bonification.ScoreQuantity;
+
+                    await UpdateScheduleScoreCredit(bonification);
+                }
+            }
+
+            return ret;
         }
     }
 }

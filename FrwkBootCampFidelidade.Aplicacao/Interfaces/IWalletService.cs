@@ -1,4 +1,5 @@
-﻿using FrwkBootCampFidelidade.DTO.WalletContext;
+﻿using FrwkBootCampFidelidade.Dominio.WalletContext.Entities;
+using FrwkBootCampFidelidade.DTO.WalletContext;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,7 +7,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Interfaces
 {
     public interface IWalletService
     {
-        Task Add(WalletDTO wallet);
+        Task<WalletDTO> Add(WalletDTO wallet);
         Task Update(WalletDTO wallet);
         Task<List<WalletDTO>> GetAllByUserId(int userId);
         Task<List<WalletDTO>> GetByUserIdAndType(int userId, int walletType);
