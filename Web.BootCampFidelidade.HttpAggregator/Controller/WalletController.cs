@@ -27,7 +27,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetByUserId([FromQuery(Name = "userId")][Required]int id)
+        public async Task<IActionResult> GetByUserId([FromQuery(Name = "userId")][Required] int id)
         {
             var message = new MessageInputModel(DomainConstant.WALLET, MethodConstant.GETBYUSERID, id.ToString());
 
@@ -49,7 +49,12 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetByUserIdAndType([FromQuery(Name = "userId")][Required] int id, [FromQuery(Name = "walletType")][Required] int type)
         {
-            var message = new MessageInputModel(DomainConstant.WALLET, MethodConstant.GETBYUSERIDANDTYPE, JsonConvert.SerializeObject(new WalletDTO { Id = id, WalletTypeId = type }));
+            var message = new MessageInputModel(DomainConstant.WALLET, MethodConstant.GETBYUSERIDANDTYPE, JsonConvert.SerializeObject(
+                new WalletDTO
+                {
+                    UserId = id,
+                    WalletTypeId = type
+                }));
 
             var response = await service.Call(message);
             service.Close();
@@ -91,11 +96,11 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         public async Task<IActionResult> Put([FromRoute][Required] int id, [FromBody][Required] WalletDTO walletDTO)
         {
             if (id == 0)
-               return BadRequest("Usuário é obrigátorio.");
+                return BadRequest("Usuário é obrigátorio.");
 
             walletDTO.Id = id;
 
-            var message = new MessageInputModel(DomainConstant.WALLET, MethodConstant.POST, JsonConvert.SerializeObject(walletDTO));
+            var message = new MessageInputModel(DomainConstant.WALLET, MethodConstant.PUT, JsonConvert.SerializeObject(walletDTO));
 
             var response = await service.Call(message);
             service.Close();
@@ -126,7 +131,6 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
             var walletTransfers = JsonConvert.DeserializeObject<WalletTransferDTO>(response);
 
             return Created($"{Request.Path}/{walletTransfers.WalletOriginId}/{walletTransfers.WalletTargetId}", new { walletTransfers });
-
         }
 
     }
