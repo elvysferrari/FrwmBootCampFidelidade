@@ -24,26 +24,25 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             _mapper = mapper;
         }
 
-        public async Task Add(BonificationDTO bonificationDTO)
+        public async Task<BonificationDTO> Add(BonificationDTO bonificationDTO)
         {
             var bonification = _mapper.Map<Bonification>(bonificationDTO);
 
-            if (bonificationDTO != null)
-            {
-                bonification.ScoreQuantity = CalculateScoreByValue(bonificationDTO.TotalValue);
+            bonification.ScoreQuantity = CalculateScoreByValue(bonificationDTO.TotalValue);
 
-                bonification.Date = DateTime.Now;
-                bonification.CreatedAt = bonification.Date;
-                bonification.UpdatedAt = bonification.Date;
+            bonification.Date = DateTime.Now;
+            bonification.CreatedAt = bonification.Date;
+            bonification.UpdatedAt = bonification.Date;
 
-                await _bonification.Add(bonification);
-                await _bonification.SaveChanges();
+            await _bonification.Add(bonification);
+            await _bonification.SaveChanges();
 
-                await _walletService.UpdateWalletAmountValue(bonification?.UserId ?? 0, bonification.ScoreQuantity);
+            await _walletService.UpdateWalletAmountValue(bonification?.UserId ?? 0, bonification.ScoreQuantity);
 
-                // Verificar depois esta atualizando o score debito sem carteira
-                await UpdateScheduleScoreCredit(bonification);
-            }
+            // Verificar depois esta atualizando o score debito sem carteira
+            await UpdateScheduleScoreCredit(bonification);
+
+            return _mapper.Map<BonificationDTO>(bonification);
         }
 
         public async Task<IEnumerable<BonificationDTO>> GetByCPF(string CPF)

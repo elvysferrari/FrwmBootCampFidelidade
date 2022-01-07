@@ -76,9 +76,9 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
             var response = await service.Call(message);
             service.Close();
 
-            var bonifications = JsonConvert.DeserializeObject<BonificationDTO>(response);
+            var bonification = JsonConvert.DeserializeObject<BonificationDTO>(response);
 
-            return Created($"{Request.Path}/{bonifications.Id}", new { bonifications });
+            return Created($"{Request.Path}/{bonification.Id}", bonification);
         }
 
         [HttpGet]
