@@ -79,12 +79,11 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
             var response = await service.Call(message);
             service.Close();
 
-            if (response.Equals(""))
-                return NotFound();
+            if (response.Equals("")) return NotFound();
 
-            var wallets = JsonConvert.DeserializeObject<WalletDTO>(response);
+            var wallet = JsonConvert.DeserializeObject<WalletDTO>(response);
 
-            return Created($"{Request.Path}/{wallets.Id}", new { wallets });
+            return Created($"{Request.Path}/{wallet.Id}", new { wallet });
 
         }
 

@@ -20,12 +20,10 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         public WalletService(
             IWalletRepository wallet, 
             IMapper mapper, 
-            IWalletHistoryTransferRepository walletHistory,
-            IBonificationService bonification)
+            IWalletHistoryTransferRepository walletHistory)
         {
             _wallet = wallet;
             _walletHistory = walletHistory;
-            _bonification = bonification;
             _mapper = mapper;
         }
 

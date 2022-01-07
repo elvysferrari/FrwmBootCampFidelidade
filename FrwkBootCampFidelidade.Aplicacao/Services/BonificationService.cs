@@ -41,6 +41,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
                 await _walletService.UpdateWalletAmountValue(bonification?.UserId ?? 0, bonification.ScoreQuantity);
 
+                // Verificar depois esta atualizando o score debito sem carteira
                 await UpdateScheduleScoreCredit(bonification);
             }
         }
@@ -83,7 +84,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
                         if (walletDTO.Amount < 0)
                             walletDTO.Amount = 0;
 
-                        _walletService.Update(walletDTO);
+                        await _walletService.Update(walletDTO);
                     }
                 }
                 catch

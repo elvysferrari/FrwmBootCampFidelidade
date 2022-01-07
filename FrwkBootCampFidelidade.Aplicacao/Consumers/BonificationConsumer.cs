@@ -103,7 +103,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                     response = await service.GetByUserId(int.Parse(message.Content));
                     break;
                 case MethodConstant.POST:
-                    response = service.Add(JsonConvert.DeserializeObject<BonificationDTO>(message.Content));
+                    await service.Add(JsonConvert.DeserializeObject<BonificationDTO>(message.Content));
                     break;
                 default:
                     break;

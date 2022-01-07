@@ -21,12 +21,12 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
         private readonly RabbitMqConfiguration _config;
         private readonly IConnection _connection;
         private readonly IModel _channel;
-        private readonly IWalletService _wallet;
+        private readonly IServiceProvider _serviceProvider;
 
-        public WalletConsumer(IOptions<RabbitMqConfiguration> option, IWalletService wallet)
+        public WalletConsumer(IOptions<RabbitMqConfiguration> option, IServiceProvider serviceProvider)
         {
             _config = option.Value;
-            _wallet = wallet;
+            _serviceProvider = serviceProvider;
 
             var factory = new ConnectionFactory
             {
@@ -86,13 +86,15 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 
         private async Task<string> InvokeService(MessageInputModel message)
         {
+            using var scope = _serviceProvider.CreateScope();
+            var _wallet = scope.ServiceProvider.GetRequiredService<IWalletService>();
+
             dynamic response = string.Empty;
 
             switch (message.Method)
             {
                 case MethodConstant.POST:
-                    await _wallet.Add(JsonConvert.DeserializeObject<WalletDTO>(message.Content));
-                    response = "sucesso";
+                    response = await _wallet.Add(JsonConvert.DeserializeObject<WalletDTO>(message.Content));
                     break;
                 case MethodConstant.PUT:
                     await _wallet.Update(JsonConvert.DeserializeObject<WalletDTO>(message.Content));
