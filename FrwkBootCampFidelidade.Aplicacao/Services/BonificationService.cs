@@ -39,14 +39,11 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
                 await _bonification.Add(bonification);
                 await _bonification.SaveChanges();
 
-                _walletService.UpdateWalletAmountValue();
-            }
-        }
+                await _walletService.UpdateWalletAmountValue(bonification?.UserId ?? 0, bonification.ScoreQuantity);
 
-        private float CalculateScoreByValue(float totalValue)
-        {
-            return totalValue / 100 * 1;
-        }
+                await UpdateScheduleScoreCredit(bonification);
+            }
+        }        
 
         public async Task<IEnumerable<BonificationDTO>> GetByCPF(string CPF)
         {
@@ -94,6 +91,18 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
                 }
             }
+        }
+
+        private float CalculateScoreByValue(float totalValue)
+        {
+            return totalValue / 100 * 1;
+        }
+
+        private async Task UpdateScheduleScoreCredit(Bonification bonification)
+        {
+            bonification.ScoreCreditedAt = DateTime.Now;
+            _bonification.Update(bonification);
+            await _bonification.SaveChanges();
         }
     }
 }
