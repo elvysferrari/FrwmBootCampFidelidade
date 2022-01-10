@@ -16,7 +16,6 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
     {
         private readonly IWalletRepository _wallet;
         private readonly IWalletHistoryTransferRepository _walletHistory;
-        private readonly IBonificationService _bonification;
         private readonly IMapper _mapper;
         private readonly IServiceProvider _serviceProvider;
 

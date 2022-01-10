@@ -55,7 +55,5 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             List<RansomDTO> ransomDTOs = _mapper.Map<List<RansomDTO>>(await _ransomRepository.GetListByCPF(cpf));
             return ransomDTOs;
         }
-
-
     }
 }

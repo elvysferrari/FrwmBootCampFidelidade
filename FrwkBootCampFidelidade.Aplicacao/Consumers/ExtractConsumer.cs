@@ -2,7 +2,6 @@
 using FrwkBootCampFidelidade.Aplicacao.Constants;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.Base;
-using FrwkBootCampFidelidade.DTO.BonificationContext;
 using FrwkBootCampFidelidade.DTO.ExtractContext;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -11,8 +10,6 @@ using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -71,9 +68,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                     var incommingMessage = Encoding.UTF8.GetString(contentArray);
                     var message = JsonConvert.DeserializeObject<MessageInputModel>(incommingMessage);
 
-                    var replyMessage = await InvokeService(message);
-
-                    response = replyMessage;
+                    response = await InvokeService(message);
                 }
                 catch (Exception e)
                 {

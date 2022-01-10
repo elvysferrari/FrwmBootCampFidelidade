@@ -19,24 +19,6 @@ namespace FrwkBootCampFidelidade.Infraestrutura.ExtractContext.Repository
             _context = context;
         }
 
-        public async Task<List<RansomHistoryStatusDTO>> GetByUserId(int userId)
-        {
-            var query = from extracts in _context.RansomHistoryStatus
-                        join ransom in _context.Ransoms on extracts.RansomId equals ransom.Id
-                        join wallet in _context.Wallets on ransom.WalletId equals wallet.Id
-                        where userId == wallet.UserId
-                        orderby extracts.Date descending
-                        select new RansomHistoryStatusDTO()
-                        {
-                            Id = extracts.Id,
-                            WalletId = wallet.Id,
-                            Amount = ransom.Amount,
-                            Date = extracts.Date
-                        };
-
-            return await query.ToListAsync();
-        }
-
         public async Task<List<RansomHistoryStatusDTO>> GetByCPF(string cpf)
         {
             var query = from extracts in _context.RansomHistoryStatus
@@ -70,6 +52,36 @@ namespace FrwkBootCampFidelidade.Infraestrutura.ExtractContext.Repository
                         };
 
             return await query.ToListAsync();
+        }
+
+        public async Task<IEnumerable<ExtractDTO>> GetByUserId(int userId)
+        {
+            var ransomList = await (from ransom in _context.Ransoms
+                                    join wallet in _context.Wallets on ransom.WalletId equals wallet.Id
+                                    where userId == wallet.UserId
+                                    orderby ransom.Date descending
+                                    select new ExtractDTO()
+                                    {
+                                        Id = ransom.Id,
+                                        Amount = ransom.Amount,
+                                        Date = ransom.Date,
+                                        TransactionType = EnumTransactionType.ransom
+                                    }).ToListAsync();
+
+            var transferList = await (from transfer in _context.WalletHistoryTransfers
+                                      join walletOrigin in _context.Wallets on transfer.WalletOriginId equals walletOrigin.Id
+                                      join walletTarget in _context.Wallets on transfer.WalletTargetId equals walletTarget.Id
+                                      where userId == walletOrigin.UserId && userId == walletTarget.UserId
+                                      orderby transfer.CreatedAt descending
+                                      select new ExtractDTO()
+                                      {
+                                          Id = transfer.Id,
+                                          Amount = transfer.Quantity,
+                                          Date = transfer.CreatedAt,
+                                          TransactionType = EnumTransactionType.transfer
+                                      }).ToListAsync();
+
+            return transferList.Union(ransomList);
         }
     }
 }

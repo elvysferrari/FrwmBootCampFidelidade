@@ -129,7 +129,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
 
             var walletTransfers = JsonConvert.DeserializeObject<WalletTransferDTO>(response);
 
-            return Created($"{Request.Path}/{walletTransfers.WalletOriginId}/{walletTransfers.WalletTargetId}", new { walletTransfers });
+            return Created($"{Request.Path}/{walletTransfers.WalletOriginId}/{walletTransfers.WalletTargetId}", walletTransfers);
         }
 
     }
