@@ -19,10 +19,10 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
                 .AddTransient<IRansomService, RansomService>()
                 .AddTransient<IPromotionService, PromotionService>()
                 .AddTransient<IExtractService, ExtractService>();
-                //.AddTransient<IPromotionItemService, PromotionItemService>();
 
             return services;
         }
+
         public static IServiceCollection AddHosted(this IServiceCollection services)
         {
             services

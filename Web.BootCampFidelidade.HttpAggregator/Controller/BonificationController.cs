@@ -1,7 +1,6 @@
 ﻿using FrwkBootCampFidelidade.Aplicacao.Constants;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces.RpcService;
 using FrwkBootCampFidelidade.Dominio.Base;
-using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -66,18 +65,20 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(PromotionDTO), StatusCodes.Status201Created)]
-        public async Task<IActionResult> Post([FromBody][Required] BonificationDTO bonificationDTO)
+        [ProducesResponseType(typeof(BonificationDTO), StatusCodes.Status201Created)]
+        public async Task<IActionResult> Post([FromBody] BonificationDTO bonificationDTO)
         {
-            var message = new MessageInputModel(DomainConstant.BONIFICATION, MethodConstant.GETBYCPF, JsonConvert.SerializeObject(bonificationDTO));
+            var message = new MessageInputModel(
+                DomainConstant.BONIFICATION, 
+                MethodConstant.POST,
+                JsonConvert.SerializeObject(bonificationDTO));
 
             var response = await service.Call(message);
             service.Close();
 
-            var bonifications = JsonConvert.DeserializeObject<BonificationDTO>(response);
+            var bonification = JsonConvert.DeserializeObject<BonificationDTO>(response);
 
-
-            return Created($"{Request.Path}/{bonifications.Id}", new { bonifications });
+            return Created($"{Request.Path}/{bonification.Id}", bonification);
         }
 
         [HttpGet]

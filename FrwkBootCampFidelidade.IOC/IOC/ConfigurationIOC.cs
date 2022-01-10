@@ -31,7 +31,6 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
             builder.RegisterType<PromotionService>().As<IPromotionService>();
             builder.RegisterType<ProductService>().As<IProductService>();
             builder.RegisterType<ExtractService>().As<IExtractService>();
-            //builder.RegisterType<PromotionItemService>().As<IPromotionItemService>();
             builder.RegisterType<RpcClientService>().As<IRpcClientService>();
             #endregion
 

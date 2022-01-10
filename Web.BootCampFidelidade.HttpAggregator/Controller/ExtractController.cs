@@ -34,10 +34,9 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
             var response = await service.Call(message);
             service.Close();
 
-            if (response.Equals(""))
-                return NotFound();
+            if (response.Equals("")) return NotFound();
 
-            var extracts = JsonConvert.DeserializeObject<List<RansomHistoryStatusDTO>>(response);
+            var extracts = JsonConvert.DeserializeObject<List<ExtractDTO>>(response);
 
             return Ok(new { extracts });
         }

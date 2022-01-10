@@ -10,33 +10,31 @@ namespace FrwkBootCampFidelidade.API.Controllers
     [ApiController]
     public class ExtractController : ControllerBase
     {
-        private readonly IExtractService _ExtractService;
+        private readonly IExtractService _extractService;
         public ExtractController(IExtractService ExtractService)
         {
-            _ExtractService = ExtractService;
+            _extractService = ExtractService;
         }
 
         [HttpGet("GetByUserId/{userId}")]        
-        public async Task<List<RansomHistoryStatusDTO>> GetByUserId(int userId)
+        public async Task<IList<ExtractDTO>> GetByUserId(int userId)
         {
-            List<RansomHistoryStatusDTO> extracts = await _ExtractService.GetByUserId(userId);
+            var extracts = await _extractService.GetByUserId(userId);
             return extracts;
         }
 
         [HttpGet("GetByCPF/{cpf}")]        
         public async Task<List<RansomHistoryStatusDTO>> GetByCPF(string cpf)
         {
-            List<RansomHistoryStatusDTO> extracts = await _ExtractService.GetByCPF(cpf);
+            List<RansomHistoryStatusDTO> extracts = await _extractService.GetByCPF(cpf);
             return extracts;
         }
 
         [HttpGet("GetSummaryPointsByUserID/{userId}")]
         public async Task<List<SummaryPointsDTO>> GetSummaryPoints(int userId)
         {
-            List<SummaryPointsDTO> extracts = await _ExtractService.GetSummaryPoints(userId);
+            List<SummaryPointsDTO> extracts = await _extractService.GetSummaryPoints(userId);
             return extracts;
         }
-
-
     }
 }

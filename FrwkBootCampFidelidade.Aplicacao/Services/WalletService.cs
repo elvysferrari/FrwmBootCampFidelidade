@@ -1,13 +1,13 @@
 ﻿using AutoMapper;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
-using FrwkBootCampFidelidade.Dominio.BonificationContext.Interfaces;
+using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
 using FrwkBootCampFidelidade.Dominio.WalletContext.Entities;
 using FrwkBootCampFidelidade.Dominio.WalletContext.Interfaces;
 using FrwkBootCampFidelidade.DTO.WalletContext;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Aplicacao.Services
@@ -16,40 +16,33 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
     {
         private readonly IWalletRepository _wallet;
         private readonly IWalletHistoryTransferRepository _walletHistory;
-        private readonly IBonificationRepository _bonification;
         private readonly IMapper _mapper;
+        private readonly IServiceProvider _serviceProvider;
 
-        public WalletService(IWalletRepository wallet, IMapper mapper, IWalletHistoryTransferRepository walletHistory, IBonificationRepository bonification)
+        public WalletService(
+            IWalletRepository wallet, 
+            IMapper mapper, 
+            IWalletHistoryTransferRepository walletHistory,
+            IServiceProvider serviceProvider)
         {
             _wallet = wallet;
             _walletHistory = walletHistory;
-            _bonification = bonification;
             _mapper = mapper;
+            _serviceProvider = serviceProvider;            
         }
 
-        public async Task Add(WalletDTO walletDTO)
+        public async Task<WalletDTO> Add(WalletDTO walletDTO)
         {
             var wallet = _mapper.Map<Wallet>(walletDTO);
             wallet.CreatedAt = DateTime.Now;
-            wallet.UpdatedAt = DateTime.Now;
+            wallet.UpdatedAt = wallet.CreatedAt;
 
             await _wallet.Add(wallet);
             await _wallet.SaveChanges();
 
-            if (wallet.WalletTypeId == 1) //pontos
-            {
-                var pendingBonifications = _bonification.GetBy(x => x.CPF == walletDTO.CPF && x.ScoreCreditedAt == null).ToList();
+            await PendingBonificationForWalletScore(wallet, walletDTO.CPF);
 
-                foreach (var bonification in pendingBonifications)
-                {
-                    wallet.Amount += bonification.ScoreQuantity;
-                    bonification.ScoreCreditedAt = DateTime.Now;
-                    _bonification.Update(bonification);
-                }
-
-                _wallet.Update(wallet);
-                await _wallet.SaveChanges();
-            }
+            return _mapper.Map<WalletDTO>(wallet);
         }
 
         public async Task<List<WalletDTO>> GetAllByUserId(int userId)
@@ -64,22 +57,24 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             return _mapper.Map<List<WalletDTO>>(wallets);
         }
 
-        public async void Update(WalletDTO walletDTO)
+        public async Task Update(WalletDTO walletDTO)
         {
             var wallet = _mapper.Map<Wallet>(walletDTO);
             wallet.UpdatedAt = DateTime.Now;
+
             _wallet.Update(wallet);
             await _wallet.SaveChanges();
         }
 
-        public async Task Transfer(WalletTransferDTO walletTransferDTO)
+        public async Task<WalletTransferDTO> Transfer(WalletTransferDTO walletTransferDTO)
         {
+            WalletTransferDTO retorno = null;
+
             Wallet originWallet = await _wallet.GetById(walletTransferDTO.WalletOriginId);
             Wallet targetWallet = await _wallet.GetById(walletTransferDTO.WalletTargetId);
 
             if (originWallet != null && targetWallet != null && (originWallet.UserId == targetWallet.UserId))
             {
-
                 if (originWallet.Amount >= walletTransferDTO.Quantity)
                 {
                     originWallet.Amount -= walletTransferDTO.Quantity;
@@ -97,9 +92,14 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
                     walletHistory.CreatedAt = DateTime.Now;
                     await _walletHistory.Add(walletHistory);
                     await _walletHistory.SaveChanges();
+
+                    retorno = _mapper.Map<WalletTransferDTO>(walletTransferDTO);
                 }
             }
+
+            return retorno;
         }
+
         public async Task Withdraw(WalletWithdrawDTO walletWithdrawDTO)
         {
             Wallet wallet = await _wallet.GetById(walletWithdrawDTO.WalletId);
@@ -115,6 +115,41 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
                     await _wallet.SaveChanges();
                 }
+            }
+        }
+
+        public async Task UpdateWalletAmountValue(Bonification bonification)
+        {
+            if (bonification == null) throw new ArgumentException();
+
+            var wallets = await GetByUserIdAndType(bonification?.UserId ?? 0, 1);
+
+            if (wallets.Any())
+            {
+                using var scope = _serviceProvider.CreateScope();
+                var _bonification = scope.ServiceProvider.GetRequiredService<IBonificationService>();
+
+                var wallet = wallets.First();
+                wallet.Amount += bonification.ScoreQuantity;
+                await Update(wallet);
+
+                await _bonification.UpdateScheduleScoreCredit(bonification);
+            }
+        }
+
+        private async Task PendingBonificationForWalletScore(Wallet wallet, string cpf)
+        {
+            if (wallet.WalletTypeId == 1)
+            {
+                using var scope = _serviceProvider.CreateScope();
+                var _bonification = scope.ServiceProvider.GetRequiredService<IBonificationService>();
+
+                var amoutWallet = await _bonification.GetPendingBonificationsByCpf(cpf);
+
+                wallet.Amount = amoutWallet;
+
+                _wallet.Update(wallet);
+                await _wallet.SaveChanges();
             }
         }
     }

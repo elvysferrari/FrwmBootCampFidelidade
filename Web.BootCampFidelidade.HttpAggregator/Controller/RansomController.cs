@@ -39,7 +39,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
 
             var ransoms = JsonConvert.DeserializeObject<RansomDTO>(response);
 
-            return Created($"{Request.Path}/{ransoms.Id}", new { ransoms });
+            return Created($"{Request.Path}/{ransoms.Id}", ransoms);
         }
 
         [HttpGet]

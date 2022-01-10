@@ -4,6 +4,7 @@ using FrwkBootCampFidelidade.Dominio.RansomContext.Entities;
 using FrwkBootCampFidelidade.Dominio.RansomContext.Interfaces;
 using FrwkBootCampFidelidade.DTO.RansomContext;
 using FrwkBootCampFidelidade.DTO.WalletContext;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 //using AutoMapper;
@@ -23,13 +24,19 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             _mapper = mapper;
         }
 
-        public async Task Add(RansomDTO ransomDTO)
+        public async Task<RansomDTO> Add(RansomDTO ransomDTO)
         {
             Ransom ransom = _mapper.Map<Ransom>(ransomDTO);
+
+            ransom.Date = DateTime.Now;
+            ransom.Created = ransom.Date;
+            ransom.Created = ransom.Date;
 
             await _walletService.Withdraw(new WalletWithdrawDTO { WalletId = (int)ransomDTO.WalletId, Amount = ransomDTO.Amount });
 
             await _ransomRepository.Add(ransom);
+
+            return _mapper.Map<RansomDTO>(ransom);
         }
 
         public async Task Remove(RansomDTO ransomDTO)
@@ -55,7 +62,5 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             List<RansomDTO> ransomDTOs = _mapper.Map<List<RansomDTO>>(await _ransomRepository.GetListByCPF(cpf));
             return ransomDTOs;
         }
-
-
     }
 }

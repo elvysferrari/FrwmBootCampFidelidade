@@ -8,8 +8,7 @@ namespace FrwkBootCampFidelidade.Dominio.ExtractContext.Interfaces
 {
     public interface IRansomHistoryStatusRepository : IBaseRepository<RansomHistoryStatus>
     {
-        //GetByUserId
-        Task<List<RansomHistoryStatusDTO>> GetByUserId(int userId);
+        Task<IEnumerable<ExtractDTO>> GetByUserId(int userId);
         Task<List<RansomHistoryStatusDTO>> GetByCPF(string CPF);
         Task<List<SummaryPointsDTO>> GetSummaryPoints(int userId);
     }

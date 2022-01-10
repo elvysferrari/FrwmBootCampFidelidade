@@ -27,7 +27,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.WalletContext.Repository
                         join walletTypes in _context.WalletTypes on wallets.WalletTypeId equals walletTypes.Id
                         where userId == wallets.UserId
                         orderby wallets.Id
-                        select new WalletDTO() { Id = wallets.Id, Amount = wallets.Amount, DrugstoreId = wallets.DrugstoreId, Name = walletTypes.Name, UserId = wallets.UserId, WalletTypeId = wallets.WalletTypeId };
+                        select new WalletDTO() { Id = wallets.Id, Amount = wallets.Amount, DrugstoreId = wallets.DrugstoreId, UserId = wallets.UserId, WalletTypeId = wallets.WalletTypeId };
 
             return await query.ToListAsync();
         }
@@ -38,7 +38,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.WalletContext.Repository
                         join walletTypes in _context.WalletTypes on wallets.WalletTypeId equals walletTypes.Id
                         where userId == wallets.UserId && walletTypes.Id == walletType
                         orderby wallets.Id
-                        select new WalletDTO() { Id = wallets.Id, Amount = wallets.Amount, DrugstoreId = wallets.DrugstoreId, Name = walletTypes.Name, UserId = wallets.UserId, WalletTypeId = wallets.WalletTypeId };
+                        select new WalletDTO() { Id = wallets.Id, Amount = wallets.Amount, DrugstoreId = wallets.DrugstoreId, UserId = wallets.UserId, WalletTypeId = wallets.WalletTypeId };
 
             return await query.ToListAsync();
         }
