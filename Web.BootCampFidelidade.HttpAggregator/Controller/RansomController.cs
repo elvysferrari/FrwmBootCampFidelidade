@@ -23,7 +23,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status201Created)]

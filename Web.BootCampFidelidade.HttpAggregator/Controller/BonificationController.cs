@@ -24,7 +24,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpGet("GetByUserId")]
-        //[Authorize]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BonificationDTO), StatusCodes.Status200OK)]
@@ -45,7 +45,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpGet("GetByCPF")]
-        //[Authorize]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BonificationDTO), StatusCodes.Status200OK)]
@@ -62,7 +62,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpPost]
-        //[Authorize]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(BonificationDTO), StatusCodes.Status201Created)]

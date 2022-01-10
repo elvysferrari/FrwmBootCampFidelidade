@@ -23,7 +23,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpGet("GetByUserId")]
-        //[Authorize]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(RansomHistoryStatusDTO), StatusCodes.Status200OK)]
