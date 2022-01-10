@@ -37,10 +37,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             await _bonification.Add(bonification);
             await _bonification.SaveChanges();
 
-            await _walletService.UpdateWalletAmountValue(bonification?.UserId ?? 0, bonification.ScoreQuantity);
-
-            // Verificar depois esta atualizando o score debito sem carteira
-            await UpdateScheduleScoreCredit(bonification);
+            await _walletService.UpdateWalletAmountValue(bonification);
 
             return _mapper.Map<BonificationDTO>(bonification);
         }
@@ -98,10 +95,11 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             return totalValue / 100 * 1;
         }
 
-        private async Task UpdateScheduleScoreCredit(Bonification bonification)
+        public async Task UpdateScheduleScoreCredit(Bonification bonification)
         {
             bonification.ScoreCreditedAt = DateTime.Now;
             _bonification.Update(bonification);
+
             await _bonification.SaveChanges();
         }
 

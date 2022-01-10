@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
+using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
 using FrwkBootCampFidelidade.Dominio.WalletContext.Entities;
 using FrwkBootCampFidelidade.Dominio.WalletContext.Interfaces;
 using FrwkBootCampFidelidade.DTO.WalletContext;
+using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,15 +18,18 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         private readonly IWalletHistoryTransferRepository _walletHistory;
         private readonly IBonificationService _bonification;
         private readonly IMapper _mapper;
+        private readonly IServiceProvider _serviceProvider;
 
         public WalletService(
             IWalletRepository wallet, 
             IMapper mapper, 
-            IWalletHistoryTransferRepository walletHistory)
+            IWalletHistoryTransferRepository walletHistory,
+            IServiceProvider serviceProvider)
         {
             _wallet = wallet;
             _walletHistory = walletHistory;
             _mapper = mapper;
+            _serviceProvider = serviceProvider;            
         }
 
         public async Task<WalletDTO> Add(WalletDTO walletDTO)
@@ -108,15 +113,22 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             }
         }
 
-        public async Task UpdateWalletAmountValue(int userId, float scoreQuantity)
+        public async Task UpdateWalletAmountValue(Bonification bonification)
         {
-            var wallets = await GetByUserIdAndType(userId, 1);
+            if (bonification == null) throw new ArgumentException();
+
+            var wallets = await GetByUserIdAndType(bonification?.UserId ?? 0, 1);
 
             if (wallets.Any())
             {
+                using var scope = _serviceProvider.CreateScope();
+                var _bonification = scope.ServiceProvider.GetRequiredService<IBonificationService>();
+
                 var wallet = wallets.First();
-                wallet.Amount += scoreQuantity;
+                wallet.Amount += bonification.ScoreQuantity;
                 await Update(wallet);
+
+                await _bonification.UpdateScheduleScoreCredit(bonification);
             }
         }
 
@@ -124,6 +136,9 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         {
             if (wallet.WalletTypeId == 1)
             {
+                using var scope = _serviceProvider.CreateScope();
+                var _bonification = scope.ServiceProvider.GetRequiredService<IBonificationService>();
+
                 var amoutWallet = await _bonification.GetPendingBonificationsByCpf(cpf);
 
                 wallet.Amount = amoutWallet;

@@ -23,7 +23,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpGet("GetByUserId")]
-        [Authorize]
+        //[Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status200OK)]
@@ -43,7 +43,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpGet("GetByUserIdAndType")]
-        [Authorize]
+        //[Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status200OK)]
@@ -68,7 +68,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status201Created)]
@@ -83,12 +83,12 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
 
             var wallet = JsonConvert.DeserializeObject<WalletDTO>(response);
 
-            return Created($"{Request.Path}/{wallet.Id}", new { wallet });
+            return Created($"{Request.Path}/{wallet.Id}", wallet);
 
         }
 
         [HttpPut("{id:int}")]
-        [Authorize]
+        //[Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status200OK)]
@@ -110,7 +110,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpPost("Transfer")]
-        [Authorize]
+        //[Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status201Created)]

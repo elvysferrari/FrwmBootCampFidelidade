@@ -13,5 +13,6 @@ namespace FrwkBootCampFidelidade.Aplicacao.Interfaces
         Task<IEnumerable<BonificationDTO>> GetByCPF(string CPF);
         IEnumerable<BonificationDTO> GetPendingBonification(string CPF);
         Task<float> GetPendingBonificationsByCpf(string cpf);
+        Task UpdateScheduleScoreCredit(Bonification bonification);
     }
 }

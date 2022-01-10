@@ -1,4 +1,4 @@
-﻿using FrwkBootCampFidelidade.Dominio.WalletContext.Entities;
+﻿using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
 using FrwkBootCampFidelidade.DTO.WalletContext;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,7 +13,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Interfaces
         Task<List<WalletDTO>> GetByUserIdAndType(int userId, int walletType);
         Task Transfer(WalletTransferDTO walletTransferDTO);
         Task Withdraw(WalletWithdrawDTO walletWithdrawDTO);
-        Task UpdateWalletAmountValue(int userId, float scoreQuantity);
+        Task UpdateWalletAmountValue(Bonification bonification);
     }
 }
 
