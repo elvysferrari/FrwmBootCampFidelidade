@@ -101,8 +101,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                     response = "sucesso";
                     break;
                 case MethodConstant.TRANSFER:
-                    await _wallet.Transfer(JsonConvert.DeserializeObject<WalletTransferDTO>(message.Content));
-                    response = "sucesso";
+                    response = await _wallet.Transfer(JsonConvert.DeserializeObject<WalletTransferDTO>(message.Content));
                     break;
                 case MethodConstant.GETBYUSERIDANDTYPE:
                     var walletDTO = JsonConvert.DeserializeObject<WalletDTO>(message.Content);

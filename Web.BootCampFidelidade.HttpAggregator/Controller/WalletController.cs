@@ -131,6 +131,5 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
 
             return Created($"{Request.Path}/{walletTransfers.WalletOriginId}/{walletTransfers.WalletTargetId}", walletTransfers);
         }
-
     }
 }

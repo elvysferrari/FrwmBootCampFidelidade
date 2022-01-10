@@ -66,8 +66,10 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             await _wallet.SaveChanges();
         }
 
-        public async Task Transfer(WalletTransferDTO walletTransferDTO)
+        public async Task<WalletTransferDTO> Transfer(WalletTransferDTO walletTransferDTO)
         {
+            WalletTransferDTO retorno = null;
+
             Wallet originWallet = await _wallet.GetById(walletTransferDTO.WalletOriginId);
             Wallet targetWallet = await _wallet.GetById(walletTransferDTO.WalletTargetId);
 
@@ -90,8 +92,12 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
                     walletHistory.CreatedAt = DateTime.Now;
                     await _walletHistory.Add(walletHistory);
                     await _walletHistory.SaveChanges();
+
+                    retorno = _mapper.Map<WalletTransferDTO>(walletTransferDTO);
                 }
             }
+
+            return retorno;
         }
 
         public async Task Withdraw(WalletWithdrawDTO walletWithdrawDTO)

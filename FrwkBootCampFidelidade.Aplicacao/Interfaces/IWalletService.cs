@@ -11,7 +11,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Interfaces
         Task Update(WalletDTO wallet);
         Task<List<WalletDTO>> GetAllByUserId(int userId);
         Task<List<WalletDTO>> GetByUserIdAndType(int userId, int walletType);
-        Task Transfer(WalletTransferDTO walletTransferDTO);
+        Task<WalletTransferDTO> Transfer(WalletTransferDTO walletTransferDTO);
         Task Withdraw(WalletWithdrawDTO walletWithdrawDTO);
         Task UpdateWalletAmountValue(Bonification bonification);
     }

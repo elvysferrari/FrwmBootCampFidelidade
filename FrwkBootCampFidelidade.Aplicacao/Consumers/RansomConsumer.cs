@@ -100,15 +100,13 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
             switch (message.Method)
             {
                 case MethodConstant.POST:
-                    response = ransomService.Add(JsonConvert.DeserializeObject<RansomDTO>(message.Content));
+                    response = await ransomService.Add(JsonConvert.DeserializeObject<RansomDTO>(message.Content));
                     break;
                 case MethodConstant.GET:
                     response = ransomService.GetAll();
                     break;
                 case MethodConstant.GETBYID:
                     response = await ransomService.GetById(int.Parse(message.Content));
-                    break;
-                default:
                     break;
             }
 

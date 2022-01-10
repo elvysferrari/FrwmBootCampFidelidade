@@ -23,7 +23,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(RansomDTO), StatusCodes.Status201Created)]
@@ -39,7 +39,7 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
 
             var ransoms = JsonConvert.DeserializeObject<RansomDTO>(response);
 
-            return Created($"{Request.Path}/{ransoms.Id}", new { ransoms });
+            return Created($"{Request.Path}/{ransoms.Id}", ransoms);
         }
 
         [HttpGet]
