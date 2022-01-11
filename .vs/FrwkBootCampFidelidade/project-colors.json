@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "dd430941-0125-4b71-a3ad-eca9ec39e2c9": {
+      "ProjectGuid": "dd430941-0125-4b71-a3ad-eca9ec39e2c9",
+      "DisplayName": "Web.BootCampFidelidade.HttpAggregator",
+      "ColorIndex": 0
+    },
+    "5185177b-045d-421a-bfee-7f4d4f623d07": {
+      "ProjectGuid": "5185177b-045d-421a-bfee-7f4d4f623d07",
+      "DisplayName": "FrwkBootCampFidelidade.Aplicacao",
+      "ColorIndex": 1
+    },
+    "6e47f3cf-f4e2-434e-ac56-7607b8ee1f41": {
+      "ProjectGuid": "6e47f3cf-f4e2-434e-ac56-7607b8ee1f41",
+      "DisplayName": "FrwkBootCampFidelidade.Infraestrutura.Data",
+      "ColorIndex": 2
+    },
+    "d755a7ef-17ed-4ef8-b1ec-49cb3cfcb2dd": {
+      "ProjectGuid": "d755a7ef-17ed-4ef8-b1ec-49cb3cfcb2dd",
+      "DisplayName": "FrwkBootCampFidelidade.Infraestrutura.IOC",
+      "ColorIndex": 3
+    },
+    "dbf407e1-cbf2-4e96-8aec-dcc5a6169151": {
+      "ProjectGuid": "dbf407e1-cbf2-4e96-8aec-dcc5a6169151",
+      "DisplayName": "FrwkBootCampFidelidade.API",
+      "ColorIndex": 4
+    },
+    "886b9580-de28-44f6-b4d4-4f945331525c": {
+      "ProjectGuid": "886b9580-de28-44f6-b4d4-4f945331525c",
+      "DisplayName": "FrwkBootCampFidelidade.Bonification.API",
+      "ColorIndex": 5
+    },
+    "bd1ac1c5-e099-48bd-9c41-a16b6e24240d": {
+      "ProjectGuid": "bd1ac1c5-e099-48bd-9c41-a16b6e24240d",
+      "DisplayName": "FrwkBootCampFidelidade.Dominio",
+      "ColorIndex": 6
+    },
+    "71a24d4e-0aad-4a0e-9ec2-6e94b854b0fd": {
+      "ProjectGuid": "71a24d4e-0aad-4a0e-9ec2-6e94b854b0fd",
+      "DisplayName": "FrwkBootCampFidelidade.DTO",
+      "ColorIndex": 7
+    },
+    "d8cf6b72-7bd0-44d5-8300-eddc21678ab2": {
+      "ProjectGuid": "d8cf6b72-7bd0-44d5-8300-eddc21678ab2",
+      "DisplayName": "FrwkBootCampFidelidade.Extract.API",
+      "ColorIndex": 8
+    },
+    "feaf9d44-62a8-4b34-88e9-89c5e4f91711": {
+      "ProjectGuid": "feaf9d44-62a8-4b34-88e9-89c5e4f91711",
+      "DisplayName": "FrwkBootCampFidelidade.Promotion.API",
+      "ColorIndex": 9
+    },
+    "39bdb102-bc18-42d7-923d-085cd64d5c04": {
+      "ProjectGuid": "39bdb102-bc18-42d7-923d-085cd64d5c04",
+      "DisplayName": "FrwkBootCampFidelidade.Ransom.API",
+      "ColorIndex": 10
+    },
+    "e810f36a-cd6f-4997-9375-79852cb0355a": {
+      "ProjectGuid": "e810f36a-cd6f-4997-9375-79852cb0355a",
+      "DisplayName": "FrwkBootCampFidelidade.Wallet.API",
+      "ColorIndex": 11
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "Arquivos Diversos",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 12
+}
