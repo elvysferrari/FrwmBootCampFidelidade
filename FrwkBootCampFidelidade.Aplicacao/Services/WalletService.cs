@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FrwkBootCampFidelidade.Aplicacao.Functions;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
 using FrwkBootCampFidelidade.Dominio.WalletContext.Entities;
@@ -20,15 +21,15 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         private readonly IServiceProvider _serviceProvider;
 
         public WalletService(
-            IWalletRepository wallet, 
-            IMapper mapper, 
+            IWalletRepository wallet,
+            IMapper mapper,
             IWalletHistoryTransferRepository walletHistory,
             IServiceProvider serviceProvider)
         {
             _wallet = wallet;
             _walletHistory = walletHistory;
             _mapper = mapper;
-            _serviceProvider = serviceProvider;            
+            _serviceProvider = serviceProvider;
         }
 
         public async Task<WalletDTO> Add(WalletDTO walletDTO)
@@ -70,28 +71,25 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         {
             WalletTransferDTO retorno = null;
 
-            Wallet originWallet = await _wallet.GetById(walletTransferDTO.WalletOriginId);
-            Wallet targetWallet = await _wallet.GetById(walletTransferDTO.WalletTargetId);
+            var originWallet = await _wallet.GetById(walletTransferDTO.WalletOriginId) ?? throw new InvalidOperationException();
+            var targetWallet = await _wallet.GetById(walletTransferDTO.WalletTargetId) ?? throw new InvalidOperationException();
 
-            if (originWallet != null && targetWallet != null && (originWallet.UserId == targetWallet.UserId))
+            if (originWallet.UserId == targetWallet.UserId)
             {
                 if (originWallet.Amount >= walletTransferDTO.Quantity)
                 {
-                    originWallet.Amount -= walletTransferDTO.Quantity;
-                    targetWallet.Amount += walletTransferDTO.Quantity;
+                    originWallet.Amount -= TransferCalculation(walletTransferDTO.Quantity, originWallet.WalletTypeId);
+                    targetWallet.Amount += TransferCalculation(walletTransferDTO.Quantity, targetWallet.WalletTypeId);
 
                     originWallet.UpdatedAt = DateTime.Now;
-                    targetWallet.UpdatedAt = DateTime.Now;
+                    targetWallet.UpdatedAt = originWallet.UpdatedAt;
 
                     _wallet.Update(originWallet);
                     _wallet.Update(targetWallet);
 
                     await _wallet.SaveChanges();
 
-                    var walletHistory = _mapper.Map<WalletHistoryTransfer>(walletTransferDTO);
-                    walletHistory.CreatedAt = DateTime.Now;
-                    await _walletHistory.Add(walletHistory);
-                    await _walletHistory.SaveChanges();
+                    await InsertWalletHistoryTransfer(walletTransferDTO);
 
                     retorno = _mapper.Map<WalletTransferDTO>(walletTransferDTO);
                 }
@@ -151,6 +149,24 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
                 _wallet.Update(wallet);
                 await _wallet.SaveChanges();
             }
+        }
+
+        private static float TransferCalculation(float quantity, int walletType)
+        {
+            if (walletType == 1)
+                return quantity;
+
+            return ScoreCalculator.CalculateValueByScore(quantity);
+        }
+
+        private async Task InsertWalletHistoryTransfer(WalletTransferDTO walletTransferDTO)
+        {
+            var walletHistory = _mapper.Map<WalletHistoryTransfer>(walletTransferDTO);
+
+            walletHistory.CreatedAt = DateTime.Now;
+
+            await _walletHistory.Add(walletHistory);
+            await _walletHistory.SaveChanges();
         }
     }
 }
