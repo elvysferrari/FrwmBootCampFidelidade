@@ -2,8 +2,10 @@
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.RansomContext.Entities;
 using FrwkBootCampFidelidade.Dominio.RansomContext.Interfaces;
+using FrwkBootCampFidelidade.Dominio.RansomContext.Validator;
 using FrwkBootCampFidelidade.DTO.RansomContext;
 using FrwkBootCampFidelidade.DTO.WalletContext;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -24,13 +26,26 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
         public async Task Add(RansomDTO ransomDTO)
         {
-            if (ransomDTO != null) {
-                Ransom ransom = _mapper.Map<Ransom>(ransomDTO);
+            if (ransomDTO == null) return;
 
-                // await _walletService.Withdraw(new WalletWithdrawDTO { WalletId = (int)ransomDTO.WalletId, Amount = ransomDTO.Amount });
+            var ransom = _mapper.Map<Ransom>(ransomDTO);
+
+            if (!EhValido(ransom)) return;
+
+            ransom.Created = DateTime.Now;
+            ransom.Updated = DateTime.Now;
+
+            try
+            {
+                await _walletService.Withdraw(new WalletWithdrawDTO { WalletId = (int)ransomDTO.WalletId, Amount = ransomDTO.Amount });
 
                 await _ransomRepository.Add(ransom);
             }
+            catch
+            {
+            }
+
+            return;
         }
 
         public async Task Remove(int id)
@@ -55,9 +70,16 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         {
             var ransoms = _ransomRepository.GetAll();
 
-            IEnumerable<RansomDTO> ransomDTOs = _mapper.Map<IEnumerable<RansomDTO>>(ransoms);
+            try
+            {
+                var ransomDTOs = _mapper.Map<IEnumerable<RansomDTO>>(ransoms);
 
-            return ransomDTOs;
+                return ransomDTOs;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<List<RansomDTO>> GetListByCPF(string cpf)
@@ -69,6 +91,11 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         public Task<RansomDTO> GetById(int Id)
         {
             throw new System.NotImplementedException();
+        }
+
+        private bool EhValido(Ransom ransom)
+        {
+            return new RansomValidator().Validate(ransom).IsValid;
         }
 
     }

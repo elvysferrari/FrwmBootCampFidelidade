@@ -12,6 +12,7 @@ using FrwkBootCampFidelidade.DTO.PromotionContext;
 using FrwkBootCampFidelidade.DTO.RansomContext;
 using FrwkBootCampFidelidade.DTO.WalletContext;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 {
@@ -19,39 +20,40 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
     {
         public AutoMapping()
         {
-           CreateMap<Bonification, BonificationDTO>();
-           CreateMap<BonificationDTO, Bonification>();
-           CreateMap<List<BonificationDTO>, List<Bonification>>();
-           CreateMap<List<Bonification>, List<BonificationDTO>>();
+            CreateMap<Bonification, BonificationDTO>();
+            CreateMap<BonificationDTO, Bonification>();
+            CreateMap<List<BonificationDTO>, List<Bonification>>();
+            CreateMap<List<Bonification>, List<BonificationDTO>>();
 
-           CreateMap<Wallet, WalletDTO>();
-           CreateMap<WalletDTO, Wallet>();
-           CreateMap<List<WalletDTO>, List<Wallet>>();
-           CreateMap<List<Wallet>, List<WalletDTO>>();
+            CreateMap<Wallet, WalletDTO>();
+            CreateMap<WalletDTO, Wallet>();
+            CreateMap<List<WalletDTO>, List<Wallet>>();
+            CreateMap<List<Wallet>, List<WalletDTO>>();
 
-           CreateMap<WalletHistoryTransfer, WalletTransferDTO>();
-           CreateMap<WalletTransferDTO, WalletHistoryTransfer>();
-           CreateMap<List<WalletTransferDTO>, List<WalletHistoryTransfer>>();
-           CreateMap<List<WalletHistoryTransfer>, List<WalletTransferDTO>>();
+            CreateMap<WalletHistoryTransfer, WalletTransferDTO>();
+            CreateMap<WalletTransferDTO, WalletHistoryTransfer>();
+            CreateMap<List<WalletTransferDTO>, List<WalletHistoryTransfer>>();
+            CreateMap<List<WalletHistoryTransfer>, List<WalletTransferDTO>>();
 
-           CreateMap<Ransom, RansomDTO>();
-           CreateMap<RansomDTO, Ransom>();
-           CreateMap<List<RansomDTO>, List<Ransom>>();
-           CreateMap<List<Ransom>, List<RansomDTO>>();
+            CreateMap<Ransom, RansomDTO>();
+            CreateMap<RansomDTO, Ransom>();
+            CreateMap<List<RansomDTO>, List<Ransom>>();
+            CreateMap<IEnumerable<Ransom>, IEnumerable<RansomDTO>>();
+            CreateMap<IEnumerable<RansomDTO>, IQueryable<RansomDTO>>();
 
-           CreateMap<RansomHistoryStatus, RansomHistoryStatusDTO>();
-           CreateMap<RansomHistoryStatusDTO, RansomHistoryStatus>();
-           CreateMap<List<RansomHistoryStatusDTO>, List<RansomHistoryStatus>>();
-           CreateMap<List<RansomHistoryStatus>, List<RansomHistoryStatusDTO>>();
+            CreateMap<RansomHistoryStatus, RansomHistoryStatusDTO>();
+            CreateMap<RansomHistoryStatusDTO, RansomHistoryStatus>();
+            CreateMap<List<RansomHistoryStatusDTO>, List<RansomHistoryStatus>>();
+            CreateMap<List<RansomHistoryStatus>, List<RansomHistoryStatusDTO>>();
 
-           CreateMap<Promotion, PromotionDTO>().ReverseMap();
-           CreateMap<List<PromotionDTO>, List<Promotion>>().ReverseMap();
+            CreateMap<Promotion, PromotionDTO>().ReverseMap();
+            CreateMap<List<PromotionDTO>, List<Promotion>>().ReverseMap();
 
-           CreateMap<PromotionItem, PromotionItemDTO>().ReverseMap();
-           CreateMap<List<PromotionItemDTO>, List<PromotionItem>>().ReverseMap();
+            CreateMap<PromotionItem, PromotionItemDTO>().ReverseMap();
+            CreateMap<List<PromotionItemDTO>, List<PromotionItem>>().ReverseMap();
 
-           CreateMap<Product, ProductDTO>().ReverseMap();
-           CreateMap<List<ProductDTO>, List<Product>>().ReverseMap();
-        } 
+            CreateMap<Product, ProductDTO>().ReverseMap();
+            CreateMap<List<ProductDTO>, List<Product>>().ReverseMap();
+        }
     }
 }

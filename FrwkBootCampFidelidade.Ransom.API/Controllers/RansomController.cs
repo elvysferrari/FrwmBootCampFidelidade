@@ -1,4 +1,5 @@
-﻿using FrwkBootCampFidelidade.Aplicacao.Interfaces;
+﻿using AutoMapper;
+using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.DTO.RansomContext;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
@@ -11,16 +12,18 @@ namespace FrwkBootCampFidelidade.Ransom.API.Controllers
     public class RansomController : ControllerBase
     {
         private readonly IRansomService _ransomService;
-        public RansomController(IRansomService ransomService)
+        private readonly IMapper _mapper;
+
+        public RansomController(IRansomService ransomService, IMapper mapper)
         {
             _ransomService = ransomService;
+            _mapper = mapper;
         }
 
         [HttpPost]
         public async Task<ActionResult> AddRansom([FromBody] RansomDTO ransomDTO)
         {
-            if (ransomDTO == null)
-                return BadRequest();
+            if (ransomDTO == null) return BadRequest();
 
             try
             {
@@ -34,10 +37,13 @@ namespace FrwkBootCampFidelidade.Ransom.API.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<RansomDTO> GetAll()
+        public ActionResult<IEnumerable<RansomDTO>> GetAll()
         {
-            IEnumerable<RansomDTO> ransoms =  _ransomService.GetAll();
-            return ransoms;
+            var ransomsDTO = _ransomService.GetAll();
+
+            if (ransomsDTO == null) return NotFound("Sem registros");
+
+            return Ok(ransomsDTO);
         }
 
         [HttpGet("GetByCPF/{cpf}")]
