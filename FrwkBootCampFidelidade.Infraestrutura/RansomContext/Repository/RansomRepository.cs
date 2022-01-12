@@ -4,6 +4,7 @@ using FrwkBootCampFidelidade.DTO.RansomContext;
 using FrwkBootCampFidelidade.Infraestrutura.Base.Repository;
 using FrwkBootCampFidelidade.Infraestrutura.Context;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -22,8 +23,15 @@ namespace FrwkBootCampFidelidade.Infraestrutura.RansomContext.Repository
         public async override Task<Ransom> Add(Ransom ransom)
         {
             await _context.Set<Ransom>().AddAsync(ransom);
-            await _context.SaveChangesAsync();
-
+            try
+            {
+                var sucesso = await _context.SaveChangesAsync() > 0;
+            }
+            catch ( Exception ex)
+            {
+                var msg = ex.Message;
+            }
+               
             return ransom;
         }
 
@@ -56,5 +64,6 @@ namespace FrwkBootCampFidelidade.Infraestrutura.RansomContext.Repository
 
             return await query.ToListAsync();
         }
+
     }
 }

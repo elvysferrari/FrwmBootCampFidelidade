@@ -2,6 +2,7 @@
 using FrwkBootCampFidelidade.Aplicacao.Constants;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.Base;
+using FrwkBootCampFidelidade.DTO.PromotionContext;
 using FrwkBootCampFidelidade.DTO.RansomContext;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;

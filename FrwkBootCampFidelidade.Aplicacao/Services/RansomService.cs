@@ -2,12 +2,12 @@
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.RansomContext.Entities;
 using FrwkBootCampFidelidade.Dominio.RansomContext.Interfaces;
+using FrwkBootCampFidelidade.Dominio.RansomContext.Validator;
 using FrwkBootCampFidelidade.DTO.RansomContext;
 using FrwkBootCampFidelidade.DTO.WalletContext;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-//using AutoMapper;
 
 namespace FrwkBootCampFidelidade.Aplicacao.Services
 {
@@ -26,35 +26,60 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
         public async Task<RansomDTO> Add(RansomDTO ransomDTO)
         {
-            Ransom ransom = _mapper.Map<Ransom>(ransomDTO);
+            if (ransomDTO == null) return null;
 
-            ransom.Date = DateTime.Now;
-            ransom.Created = ransom.Date;
-            ransom.Created = ransom.Date;
+            var ransom = _mapper.Map<Ransom>(ransomDTO);
 
-            await _walletService.Withdraw(new WalletWithdrawDTO { WalletId = (int)ransomDTO.WalletId, Amount = ransomDTO.Amount });
+            if (!EhValido(ransom)) return null;
 
-            await _ransomRepository.Add(ransom);
+            ransom.Created = DateTime.Now;
+            ransom.Updated = DateTime.Now;
 
-            return _mapper.Map<RansomDTO>(ransom);
+            try
+            {
+                await _walletService.Withdraw(new WalletWithdrawDTO { WalletId = (int)ransomDTO.WalletId, Amount = ransomDTO.Amount });
+
+                await _ransomRepository.Add(ransom);
+            }
+            catch
+            {
+            }
+
+            return null;
         }
 
-        public async Task Remove(RansomDTO ransomDTO)
+        public async Task Remove(int id)
         {
-            Ransom ransom = _mapper.Map<Ransom>(ransomDTO);
-            _ransomRepository.Remove(ransom);
-        }
+            Ransom ransom = await _ransomRepository.GetById(id);
 
-        public async Task<RansomDTO> GetById(int Id)
-        {
-            var ransoms = await _ransomRepository.GetById(Id);
-            return _mapper.Map<RansomDTO>(ransoms);
+            if (ransom != null)
+            {
+                try
+                {
+                    _ransomRepository.Remove(ransom);
+                    await _ransomRepository.SaveChanges();
+                }
+                catch
+                {
+
+                }
+            }
         }
 
         public IEnumerable<RansomDTO> GetAll()
         {
             var ransoms = _ransomRepository.GetAll();
-            return _mapper.Map<IEnumerable<RansomDTO>>(ransoms);
+
+            try
+            {
+                var ransomDTOs = _mapper.Map<IEnumerable<RansomDTO>>(ransoms);
+
+                return ransomDTOs;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public async Task<List<RansomDTO>> GetListByCPF(string cpf)
@@ -62,5 +87,16 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             List<RansomDTO> ransomDTOs = _mapper.Map<List<RansomDTO>>(await _ransomRepository.GetListByCPF(cpf));
             return ransomDTOs;
         }
+
+        public Task<RansomDTO> GetById(int Id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private bool EhValido(Ransom ransom)
+        {
+            return new RansomValidator().Validate(ransom).IsValid;
+        }
+
     }
 }

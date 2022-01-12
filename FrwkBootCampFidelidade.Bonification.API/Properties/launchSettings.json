@@ -14,7 +14,14 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Datasource": "host.docker.internal, 1433",
+        "Database": "DBFidelidade",
+        "DbUser": "SA",
+        "Password": "Suporte59@.!",
+        "SecretKey": "1130f66f-591f-4f1c-a748-f1f9a1c7c43a",
+        "HOST": "host.docker.internal"
+
       }
     },
     "FrwkBootCampFidelidade.Bonification.API": {

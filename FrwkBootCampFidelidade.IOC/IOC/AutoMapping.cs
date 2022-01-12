@@ -12,6 +12,7 @@ using FrwkBootCampFidelidade.DTO.PromotionContext;
 using FrwkBootCampFidelidade.DTO.RansomContext;
 using FrwkBootCampFidelidade.DTO.WalletContext;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 {
@@ -37,7 +38,8 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
             CreateMap<Ransom, RansomDTO>();
             CreateMap<RansomDTO, Ransom>();
             CreateMap<List<RansomDTO>, List<Ransom>>();
-            CreateMap<List<Ransom>, List<RansomDTO>>();
+            CreateMap<IEnumerable<Ransom>, IEnumerable<RansomDTO>>();
+            CreateMap<IEnumerable<RansomDTO>, IQueryable<RansomDTO>>();
 
             CreateMap<RansomHistoryStatus, RansomHistoryStatusDTO>();
             CreateMap<RansomHistoryStatusDTO, RansomHistoryStatus>();
@@ -46,13 +48,9 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 
             CreateMap<Promotion, PromotionDTO>().ReverseMap();
             CreateMap<List<PromotionDTO>, List<Promotion>>().ReverseMap();
-            CreateMap<Promotion, PromotionCreateUpdateRemoveDTO>().ReverseMap();
-            CreateMap<List<Promotion>, List<PromotionCreateUpdateRemoveDTO>>().ReverseMap();
 
             CreateMap<PromotionItem, PromotionItemDTO>().ReverseMap();
             CreateMap<List<PromotionItemDTO>, List<PromotionItem>>().ReverseMap();
-            CreateMap<PromotionItem, PromotionItemCreateUpdateRemoveDTO>().ReverseMap();
-            CreateMap<List<PromotionItem>, List<PromotionItemCreateUpdateRemoveDTO>>().ReverseMap();
 
             CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<List<ProductDTO>, List<Product>>().ReverseMap();

@@ -28,7 +28,9 @@ namespace FrwkBootCampFidelidade.Ransom.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DBContext>(options => options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
+            services.AddDbContext<DBContext>(options =>
+            //options.UseSqlServer($"Server={DATASOURCE};Database={DATABASE};Trusted_Connection=True;MultipleActiveResultSets=true"));
+            options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
 
 
             services.AddDBInjector();

@@ -30,8 +30,8 @@ namespace FrwkBootCampFidelidade.Wallet.API
         public void ConfigureServices(IServiceCollection services)
         {
 
-
             services.AddDbContext<DBContext>(options =>
+            //options.UseSqlServer($"Server={DATASOURCE};Database={DATABASE};Trusted_Connection=True;MultipleActiveResultSets=true"));
             options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
 
             services.AddDBInjector();

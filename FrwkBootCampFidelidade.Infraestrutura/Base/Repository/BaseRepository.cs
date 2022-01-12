@@ -1,6 +1,7 @@
 ﻿using FrwkBootCampFidelidade.Dominio.Base.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -58,15 +59,15 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Base.Repository
         public async Task<int> SaveChanges()
             => await Db.SaveChangesAsync();
 
-        public void Dispose()
-            => Db.Dispose();
+        public void Dispose() =>
+             Db.Dispose();
 
-        public IQueryable<TEntity> GetAll(bool asNoTracking = true)
+        public async Task<IEnumerable<TEntity>> GetAll(bool asNoTracking = true)
         {
             if (!asNoTracking)
-                return DbSet;
+                return await DbSet.ToListAsync();
 
-            return DbSet.AsNoTracking();
+            return await DbSet.AsNoTracking().ToListAsync();
         }
 
         public IQueryable<TEntity> GetBy(Expression<Func<TEntity, bool>> predicado, bool asNoTracking = true)

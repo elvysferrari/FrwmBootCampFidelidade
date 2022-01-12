@@ -216,12 +216,8 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
 
             modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.PromotionContext.Entities.Promotion", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:IdentityIncrement", 1)
-                        .HasAnnotation("SqlServer:IdentitySeed", 1)
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -243,29 +239,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Promotion");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            CreatedAt = new DateTime(2021, 12, 15, 11, 29, 6, 254, DateTimeKind.Local).AddTicks(3461),
-                            Description = "Black Friday",
-                            DiscountPercentage = 10.0,
-                            EndDate = new DateTime(2021, 11, 30, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2021, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UpdatedAt = new DateTime(2021, 12, 15, 11, 29, 6, 254, DateTimeKind.Local).AddTicks(3461)
-                        },
-                        new
-                        {
-                            Id = 2,
-                            CreatedAt = new DateTime(2021, 12, 15, 11, 29, 6, 254, DateTimeKind.Local).AddTicks(3461),
-                            Description = "Natal",
-                            DiscountPercentage = 20.0,
-                            EndDate = new DateTime(2021, 12, 25, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            StartDate = new DateTime(2021, 12, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UpdatedAt = new DateTime(2021, 12, 15, 11, 29, 6, 254, DateTimeKind.Local).AddTicks(3461)
-                        });
+                    b.ToTable("Promotions");
                 });
 
             modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.RansomContext.Entities.Ransom", b =>

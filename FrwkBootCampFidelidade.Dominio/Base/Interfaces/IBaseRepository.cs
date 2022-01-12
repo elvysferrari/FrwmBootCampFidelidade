@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace FrwkBootCampFidelidade.Dominio.Base.Interfaces
     {
         Task Add(TEntity obj);
         Task<TEntity> GetById(int id);
-        IQueryable<TEntity> GetAll(bool asNoTracking = true);        
+        Task<IEnumerable<TEntity>> GetAll(bool asNoTracking = true);
         IQueryable<TEntity> GetBy(Expression<Func<TEntity, bool>> predicado, bool asNoTracking = true);
         void Update(TEntity obj);
         void Remove(int id);
