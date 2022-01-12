@@ -399,5 +399,4 @@ FrwkBootCampFidelidade.API/appsettings.json
 [Mm]igrations/
 /rabbitmq/data
 /mssql
-mssql/Entropy.bin
 /mongodb
