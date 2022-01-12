@@ -6,7 +6,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Interfaces
 {
     public interface IRansomService
     {
-        Task Add(RansomDTO obj);
+        Task<RansomDTO> Add(RansomDTO ransomDTO);
         Task<RansomDTO> GetById(int Id);
         IEnumerable<RansomDTO> GetAll();
         Task<List<RansomDTO>> GetListByCPF(string CPF);

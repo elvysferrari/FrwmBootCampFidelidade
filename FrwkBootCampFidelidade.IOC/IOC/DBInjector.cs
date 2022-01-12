@@ -29,7 +29,6 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
             services.AddTransient<IWalletTypeRepository, WalletTypeRepository>();
             services.AddTransient<IPromotionRepository, PromotionRepository>();
             services.AddTransient<IWalletHistoryTransferRepository, WalletHistoryTransferRepository>();
-            services.AddTransient<IPromotionItemRepository, PromotionItemRepository>();
             services.AddTransient<IMongoContext, MongoContext>();
 
             return services;

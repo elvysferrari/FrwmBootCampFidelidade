@@ -1,20 +1,19 @@
-﻿using FrwkBootCampFidelidade.DTO.WalletContext;
-using System;
+﻿using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
+using FrwkBootCampFidelidade.DTO.WalletContext;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Aplicacao.Interfaces
 {
     public interface IWalletService
     {
-        Task Add(WalletDTO wallet);
-        void Update(WalletDTO wallet);
+        Task<WalletDTO> Add(WalletDTO wallet);
+        Task Update(WalletDTO wallet);
         Task<List<WalletDTO>> GetAllByUserId(int userId);
         Task<List<WalletDTO>> GetByUserIdAndType(int userId, int walletType);
-        Task Transfer(WalletTransferDTO walletTransferDTO);
+        Task<WalletTransferDTO> Transfer(WalletTransferDTO walletTransferDTO);
         Task Withdraw(WalletWithdrawDTO walletWithdrawDTO);
+        Task UpdateWalletAmountValue(Bonification bonification);
     }
 }
 

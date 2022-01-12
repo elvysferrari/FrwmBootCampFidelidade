@@ -27,10 +27,8 @@
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "Database": "promotionsdb",
-        "DbUser": "null",
-        "Password": "null",
-        "Datasource": "mongodb://localhost:27017"
+        "MongoDbDatasource": "mongodb://localhost:27017",
+        "MongoDbDatabase": "promotionsdb"
       },
       "applicationUrl": "https://localhost:5001;http://localhost:5000",
       "dotnetRunMessages": "true"
@@ -40,7 +38,14 @@
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/swagger",
       "publishAllPorts": true,
-      "useSSL": true
+      "useSSL": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Database": "promotionsdb",
+        "DbUser": "null",
+        "Password": "null",
+        "Datasource": "mongodb://host.docker.internal:27017"
+      }
     }
   }
 }

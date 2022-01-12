@@ -9,25 +9,19 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Context
 {
     public class MongoContext : IMongoContext
     {
-        public MongoContext(IConfiguration configuration)
+        public MongoContext(string dataSource = null, string dataBase = null)
         {
-            var Datasource = Environment.GetEnvironmentVariable("Datasource");
-            var Database = Environment.GetEnvironmentVariable("Database");
-            var DbUser = Environment.GetEnvironmentVariable("DbUser");
-            var Password = Environment.GetEnvironmentVariable("Password");
+            var datasource = string.IsNullOrEmpty(dataSource) ? Environment.GetEnvironmentVariable("MongoDbDatasource") : dataSource;
+            var database = string.IsNullOrEmpty(dataBase) ? Environment.GetEnvironmentVariable("MongoDbDatabase") : dataBase;
 
-            var client = new MongoClient(Datasource);
-            var database = client.GetDatabase(Database);
+            var _client = new MongoClient(datasource);
+            var _database = _client.GetDatabase(database);
 
-            Promotions = database.GetCollection<Promotion>("promotions");
-            PromotionItems = database.GetCollection<PromotionItem>("promotionsitem");
+            Promotions = _database.GetCollection<Promotion>("promotions");
 
             PromotionContextSeed.SeedData(Promotions);
-            //PromotionItemContextSeed.SeedData(PromotionItems);
         }
 
         public IMongoCollection<Promotion> Promotions { get; }
-
-        public IMongoCollection<PromotionItem> PromotionItems { get; }
     }
 }

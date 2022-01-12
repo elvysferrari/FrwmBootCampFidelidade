@@ -18,17 +18,19 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
                 .AddTransient<IWalletService, WalletService>()
                 .AddTransient<IRansomService, RansomService>()
                 .AddTransient<IPromotionService, PromotionService>()
-                .AddTransient<IExtractService, ExtractService>()
-                .AddTransient<IPromotionItemService, PromotionItemService>();
+                .AddTransient<IExtractService, ExtractService>();
 
             return services;
         }
+
         public static IServiceCollection AddHosted(this IServiceCollection services)
         {
             services
                 .AddHostedService<PromotionConsumer>()
                 .AddHostedService<BonificationConsumer>()
-                .AddHostedService<ExtractConsumer>();
+                .AddHostedService<ExtractConsumer>()
+                .AddHostedService<RansomConsumer>()
+                .AddHostedService<WalletConsumer>();
 
             return services;
         }

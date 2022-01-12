@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Web.BootCampFidelidade.HttpAggregator.Models.DTO;
 
 namespace Web.BootCampFidelidade.HttpAggregator.Controller
@@ -24,20 +25,15 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         [Authorize]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(typeof(ProductDTO), StatusCodes.Status200OK)]
-        public ActionResult<ProductDTO> Get()
+        [ProducesResponseType(typeof(PromotionItemDTO), StatusCodes.Status200OK)]
+        public async Task<ActionResult<PromotionItemDTO>> Get()
         {
-            var message = new MessageInputModel()
-            {
-                Queue = DomainConstant.PRODUCT,
-                Method = MethodConstant.GET,
-                Content = string.Empty,
-            };
+            var message = new MessageInputModel(DomainConstant.PRODUCT, MethodConstant.GET, string.Empty);
 
-            var response = service.Call(message);
+            var response = await service.Call(message);
             service.Close();
 
-            var product = JsonSerializer.Deserialize<List<ProductDTO>>(response);
+            var product = JsonSerializer.Deserialize<List<PromotionItemDTO>>(response);
 
             return Ok(new { product });
         }

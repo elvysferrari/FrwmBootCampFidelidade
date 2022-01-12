@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FrwkBootCampFidelidade.DTO.WalletContext
+﻿namespace FrwkBootCampFidelidade.DTO.WalletContext
 {
     public class WalletDTO
     {
@@ -11,7 +7,6 @@ namespace FrwkBootCampFidelidade.DTO.WalletContext
         public int UserId { get; set; }
         public string CPF { get; set; }
         public int WalletTypeId { get; set; }
-        public string Name { get; set; }
         public float Amount { get; set; }
     }
 }

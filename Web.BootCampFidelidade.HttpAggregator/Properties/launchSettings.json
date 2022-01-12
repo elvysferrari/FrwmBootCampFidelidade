@@ -14,14 +14,12 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development",
-        "Database": "DBFidelidade",
-        "DbUser": "SA",
-        "Password": "Suporte59@.!",
-        "Datasource": "host.docker.internal, 1433",
-//        "Datasource": "(localdb)\\mssqllocaldb",
-        "SecretKey": "1130f66f-591f-4f1c-a748-f1f9a1c7c43a",
-        "HOST": "host.docker.internal"
+      "ASPNETCORE_ENVIRONMENT": "Development",
+      "SecretKey": "1130f66f-591f-4f1c-a748-f1f9a1c7c43a",
+      "Database": "DBFidelidade",
+      "DbUser": "sa",
+      "Password": "Suporte59@.!",
+      "Datasource": "localhost, 1433"
       }
     },
     "Web.BootCampFidelidade.HttpAggregator": {
@@ -29,7 +27,14 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Database": "DBFidelidade",
+        "DbUser": "sa",
+        "Password": "Suporte59@.!",
+        "Datasource": "localhost, 1433",
+        "MongoDbDatasource": "mongodb://localhost:27017",
+        "MongoDbDatabase": "promotionsdb",
+        "SecretKey": "1130f66f-591f-4f1c-a748-f1f9a1c7c43a"
       },
       "applicationUrl": "http://localhost:5000",
       "dotnetRunMessages": "true"

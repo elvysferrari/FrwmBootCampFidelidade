@@ -6,6 +6,6 @@ namespace FrwkBootCampFidelidade.Dominio.Base.Interfaces
     public interface IMongoContext
     {
         IMongoCollection<Promotion> Promotions { get; }
-        IMongoCollection<PromotionItem> PromotionItems { get; }
+        //IMongoCollection<PromotionItem> PromotionItems { get; }
     }
 }

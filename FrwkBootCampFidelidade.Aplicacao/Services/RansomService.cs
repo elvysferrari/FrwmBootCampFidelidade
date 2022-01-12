@@ -24,7 +24,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             _mapper = mapper;
         }
 
-        public async Task Add(RansomDTO ransomDTO)
+        public async Task<RansomDTO> Add(RansomDTO ransomDTO)
         {
             if (ransomDTO == null) return;
 

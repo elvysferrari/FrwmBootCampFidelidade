@@ -64,32 +64,20 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.PromotionContext.Repository
         public async Task<IEnumerable<Promotion>> GetPromotionByDateRange(Promotion promotion)
         {
             FilterDefinition<Promotion> filter = Builders<Promotion>.Filter
-                .Where(x => x.StartDate >= promotion.StartDate &&
-                    x.EndDate <= promotion.EndDate);
+                .Where(x => x.StartDate >= promotion.StartDate && x.EndDate <= promotion.EndDate);
 
             return await _context.Promotions.Find(filter).ToListAsync();
-
-            //EF
-            //return await _context.Promotions.Where(x => 
-            //                            x.StartDate >= promotionRequest.StartDate &&
-            //                            x.EndDate <= promotionRequest.EndDate)
-            //                            .AsNoTracking()
-            //                            .ToListAsync();
         }
 
         public async Task<IEnumerable<Promotion>> GetPromotionToday(Promotion promotion)
         {
             FilterDefinition<Promotion> filter = Builders<Promotion>.Filter
-                .Where(x =>x.UserId == promotion.UserId && x.DrugstoreId == promotion.DrugstoreId);
-
+                .Where(x => x.UserId == promotion.UserId &&
+                       x.DrugstoreId == promotion.DrugstoreId &&
+                       x.StartDate >= DateTime.Now.Date &&
+                       x.EndDate <= DateTime.Now.Date);
+                        
             return await _context.Promotions.Find(filter).ToListAsync();
-
-            //EF
-            //return await _context.Promotions.Where(x => 
-            //                            x.StartDate >= DateTime.Now &&
-            //                            x.EndDate <= DateTime.Now)
-            //                            .AsNoTracking()
-            //                            .ToListAsync();
         }
     }
 }

@@ -42,7 +42,12 @@
       "useSSL": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development",
-        "HOST": "host.docker.internal"
+        "HOST": "host.docker.internal",
+        "Database": "DBFidelidade",
+        "DbUser": "SA",
+        "Password": "Suporte59@.!",
+        "Datasource": "host.docker.internal, 1433"
+
       }
     }
   }

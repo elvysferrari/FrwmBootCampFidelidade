@@ -44,13 +44,15 @@ services:
           - 27017
     
     apigateway:
-        image: elvysferrari/apigateway.api        
+        image: fernando2022/apigateway.api        
         environment:
             - SecretKey=1130f66f-591f-4f1c-a748-f1f9a1c7c43a
             - Database=DBFidelidade
             - DbUser=SA
             - Password=Suporte59@.!
             - Datasource=host.docker.internal, 1433
+            - MongoDbDatabase=promotionsdb
+            - MongoDbDatasource=mongodb://host.docker.internal:27017
         ports:
             - 7000:80
         depends_on:
@@ -60,7 +62,7 @@ services:
             dockerfile: Web.BootCampFidelidade.HttpAggregator\Dockerfile
 
     wallet.api:
-        image: elvysferrari/wallet.api  
+        image: fernando2022/wallet.api  
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
@@ -80,7 +82,7 @@ services:
             dockerfile: FrwkBootCampFidelidade.Wallet.API\Dockerfile
 
     bonification.api:
-        image: elvysferrari/bonification.api  
+        image: fernando2022/bonification.api  
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
@@ -100,7 +102,7 @@ services:
             dockerfile: FrwkBootCampFidelidade.Bonification.API\Dockerfile    
             
     ransom.api:
-        image: elvysferrari/ransom.api  
+        image: fernando2022/ransom.api  
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
@@ -120,7 +122,7 @@ services:
             dockerfile: FrwkBootCampFidelidade.Ransom.API\Dockerfile   
             
     extract.api:
-        image: elvysferrari/extract.api  
+        image: fernando2022/extract.api  
         environment:
           - ASPNETCORE_ENVIRONMENT=Development
           - DOCKER_ENVIRONMENT=true
@@ -140,15 +142,13 @@ services:
             dockerfile: FrwkBootCampFidelidade.Extract.API\Dockerfile
 
     promotion.api:
-        image: elvysferrari/promotion.api  
+        image: fernando2022/promotion.api  
         environment:
             - ASPNETCORE_ENVIRONMENT=Development
             - DOCKER_ENVIRONMENT=true
             - ASPNETCORE_URLS=http://+:8005
-            - Database=promotionsdb
-            - DbUser=null
-            - Password=null
-            - Datasource=mongodb://host.docker.internal:27017
+            - MongoDbDatabase=promotionsdb
+            - MongoDbDatasource=mongodb://host.docker.internal:27017
         ports:
             - 8005:8005
         mem_limit: 

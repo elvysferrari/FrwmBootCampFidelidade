@@ -66,16 +66,6 @@ namespace Web.BootCampFidelidade.HttpAggregator
                     };
                 });
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy("CorsPolicy", builder => builder
-                    .AllowAnyOrigin()
-                    .AllowAnyMethod()
-                    .AllowAnyHeader()
-                    //.AllowCredentials()
-                );
-            });
-
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Api Gateway", Version = "v1" });
@@ -102,8 +92,7 @@ namespace Web.BootCampFidelidade.HttpAggregator
 
             app.UseHttpsRedirection()
                 .UseRouting()
-                .UseAuthentication()
-                .UseCors("CorsPolicy");
+                .UseAuthentication();
 
             app.UseAuthorization();
 

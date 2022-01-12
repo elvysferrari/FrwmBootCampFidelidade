@@ -2,10 +2,12 @@ using FluentValidation.AspNetCore;
 using FrwkBootCampFidelidade.Aplicacao.Configuration;
 using FrwkBootCampFidelidade.Dominio.Base.Interfaces;
 using FrwkBootCampFidelidade.DTO.PromotionContext;
+using FrwkBootCampFidelidade.Infraestrutura.Context;
 using FrwkBootCampFidelidade.Infraestrutura.Data.Context;
 using FrwkBootCampFidelidade.Infraestrutura.IOC.IOC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -38,9 +40,8 @@ namespace FrwkBootCampFidelidade.Promotion.API
                 });
 
             //EF MSSQL
-            //services.AddDbContext<DBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("connection")));
+            services.AddDbContext<DBContext>(options => options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
 
-            
 
             services.AddCors(options =>
             {
