@@ -26,11 +26,11 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
         public async Task<RansomDTO> Add(RansomDTO ransomDTO)
         {
-            if (ransomDTO == null) return;
+            if (ransomDTO == null) return null;
 
             var ransom = _mapper.Map<Ransom>(ransomDTO);
 
-            if (!EhValido(ransom)) return;
+            if (!EhValido(ransom)) return null;
 
             ransom.Created = DateTime.Now;
             ransom.Updated = DateTime.Now;
@@ -45,7 +45,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             {
             }
 
-            return;
+            return null;
         }
 
         public async Task Remove(int id)
