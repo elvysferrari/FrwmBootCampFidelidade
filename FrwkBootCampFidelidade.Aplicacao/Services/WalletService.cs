@@ -78,7 +78,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
             {
                 if (originWallet.Amount >= walletTransferDTO.Quantity)
                 {
-                    originWallet.Amount -= TransferCalculation(walletTransferDTO.Quantity, originWallet.WalletTypeId);
+                    originWallet.Amount -= walletTransferDTO.Quantity;
                     targetWallet.Amount += TransferCalculation(walletTransferDTO.Quantity, targetWallet.WalletTypeId);
 
                     originWallet.UpdatedAt = DateTime.Now;
@@ -154,7 +154,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         private static float TransferCalculation(float quantity, int walletType)
         {
             if (walletType == 1)
-                return quantity;
+                return ScoreCalculator.CalculateScoreByValue(quantity);
 
             return ScoreCalculator.CalculateValueByScore(quantity);
         }
