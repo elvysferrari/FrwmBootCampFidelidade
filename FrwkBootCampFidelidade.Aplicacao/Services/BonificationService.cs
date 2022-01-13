@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FrwkBootCampFidelidade.Aplicacao.Functions;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
 using FrwkBootCampFidelidade.Dominio.BonificationContext.Interfaces;
@@ -28,7 +29,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
         {
             var bonification = _mapper.Map<Bonification>(bonificationDTO);
 
-            bonification.ScoreQuantity = CalculateScoreByValue(bonificationDTO.TotalValue);
+            bonification.ScoreQuantity = ScoreCalculator.CalculateScoreByValue(bonificationDTO.TotalValue);
 
             bonification.Date = DateTime.Now;
             bonification.CreatedAt = bonification.Date;
@@ -88,11 +89,6 @@ namespace FrwkBootCampFidelidade.Aplicacao.Services
 
                 }
             }
-        }
-
-        private float CalculateScoreByValue(float totalValue)
-        {
-            return totalValue / 100 * 1;
         }
 
         public async Task UpdateScheduleScoreCredit(Bonification bonification)
