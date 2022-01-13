@@ -17,6 +17,8 @@ using FrwkBootCampFidelidade.Dominio.ExtractContext.Entities;
 using FrwkBootCampFidelidade.DTO.ExtractContext;
 using FrwkBootCampFidelidade.Aplicacao.Services.RpcService;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces.RpcService;
+using FrwkBootCampFidelidade.Dominio.OrderContext.Entities;
+using FrwkBootCampFidelidade.DTO.OrderContext;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 {
@@ -82,6 +84,12 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
                 cfg.CreateMap<Product, ProductDTO>().ReverseMap();
                 cfg.CreateMap<List<ProductDTO>, List<Product>>().ReverseMap();
 
+                #endregion
+
+                #region Order
+                cfg.CreateMap<Order, OrderDTO>();
+                cfg.CreateMap<List<OrderItem>, OrderItemDTO>();
+                cfg.CreateMap<List<OrderItem>, List<OrderItemDTO>>();
                 #endregion
 
             })).AsSelf().SingleInstance();

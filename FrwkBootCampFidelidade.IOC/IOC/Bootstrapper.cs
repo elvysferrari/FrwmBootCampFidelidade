@@ -18,7 +18,8 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
                 .AddTransient<IWalletService, WalletService>()
                 .AddTransient<IRansomService, RansomService>()
                 .AddTransient<IPromotionService, PromotionService>()
-                .AddTransient<IExtractService, ExtractService>();
+                .AddTransient<IExtractService, ExtractService>()
+                .AddTransient<IOrderService, OrderService>();
 
             return services;
         }

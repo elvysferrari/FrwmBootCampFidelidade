@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FrwkBootCampFidelidade.Aplicacao.Constants
+﻿namespace FrwkBootCampFidelidade.Aplicacao.Constants
 {
     public class DomainConstant
     {
@@ -14,5 +8,6 @@ namespace FrwkBootCampFidelidade.Aplicacao.Constants
         public const string WALLET = "WALLET";
         public const string EXTRACT = "EXTRACT";
         public const string RANSOM = "RANSOM";
+        public const string ORDER = "ORDER";
     }
 }
