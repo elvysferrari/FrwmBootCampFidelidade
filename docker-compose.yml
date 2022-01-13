@@ -31,12 +31,12 @@ services:
         image : mongo
         container_name: mongodb
         environment:
-        - PUID=1000
-        - PGID=1000
+            - PUID=1000
+            - PGID=1000
         volumes:
-        - ./mongodb:/data/db
+            - ./mongodb:/data/db
         ports:
-        - 27017:27017
+            - 27017:27017
         restart: unless-stopped
         mem_limit: 
             512m
@@ -157,5 +157,25 @@ services:
             - mongodb
         build:
             context: .
-            dockerfile: FrwkBootCampFidelidade.Promotion.API\Dockerfile    
+            dockerfile: FrwkBootCampFidelidade.Promotion.API\Dockerfile
+
+    order.api:
+        image: fernando2022/order.api  
+        environment:
+          - ASPNETCORE_ENVIRONMENT=Development
+          - DOCKER_ENVIRONMENT=true
+          - ASPNETCORE_URLS=http://+:8004
+          - Database=DBFidelidade
+          - DbUser=SA
+          - Password=Suporte59@.!
+          - Datasource=host.docker.internal, 1433
+        ports:
+            - 8006:8006
+        mem_limit: 
+            512m
+        depends_on:
+            - mssql
+        build:
+            context: .
+            dockerfile: FrwkBootCampFidelidade.Order.API\Dockerfile
     
