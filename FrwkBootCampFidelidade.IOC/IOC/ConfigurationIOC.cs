@@ -19,6 +19,7 @@ using FrwkBootCampFidelidade.Aplicacao.Services.RpcService;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces.RpcService;
 using FrwkBootCampFidelidade.Dominio.OrderContext.Entities;
 using FrwkBootCampFidelidade.DTO.OrderContext;
+using System.Linq;
 
 namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 {
@@ -61,7 +62,7 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
                 cfg.CreateMap<Ransom, RansomDTO>();
                 cfg.CreateMap<RansomDTO, Ransom>();
                 cfg.CreateMap<List<RansomDTO>, List<Ransom>>();
-                cfg.CreateMap<List<Ransom>, List<RansomDTO>>();
+                cfg.CreateMap<IEnumerable<Ransom>, IQueryable<RansomDTO>>();
                 #endregion
 
                 #region Extract

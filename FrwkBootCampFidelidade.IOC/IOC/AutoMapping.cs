@@ -37,16 +37,18 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
             CreateMap<List<WalletTransferDTO>, List<WalletHistoryTransfer>>();
             CreateMap<List<WalletHistoryTransfer>, List<WalletTransferDTO>>();
 
+            #region RANSOM
             CreateMap<Ransom, RansomDTO>();
             CreateMap<RansomDTO, Ransom>();
             CreateMap<List<RansomDTO>, List<Ransom>>();
-            CreateMap<IEnumerable<Ransom>, IEnumerable<RansomDTO>>();
+            CreateMap<List<Ransom>, List<RansomDTO>>();
             CreateMap<IEnumerable<RansomDTO>, IQueryable<RansomDTO>>();
 
             CreateMap<RansomHistoryStatus, RansomHistoryStatusDTO>();
             CreateMap<RansomHistoryStatusDTO, RansomHistoryStatus>();
             CreateMap<List<RansomHistoryStatusDTO>, List<RansomHistoryStatus>>();
             CreateMap<List<RansomHistoryStatus>, List<RansomHistoryStatusDTO>>();
+            #endregion
 
             CreateMap<Promotion, PromotionDTO>().ReverseMap();
             CreateMap<List<PromotionDTO>, List<Promotion>>().ReverseMap();
