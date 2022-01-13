@@ -1,12 +1,14 @@
 ﻿using AutoMapper;
 using FrwkBootCampFidelidade.Dominio.BonificationContext.Entities;
 using FrwkBootCampFidelidade.Dominio.ExtractContext.Entities;
+using FrwkBootCampFidelidade.Dominio.OrderContext.Entities;
 using FrwkBootCampFidelidade.Dominio.ProductContext.Entities;
 using FrwkBootCampFidelidade.Dominio.PromotionContext.Entities;
 using FrwkBootCampFidelidade.Dominio.RansomContext.Entities;
 using FrwkBootCampFidelidade.Dominio.WalletContext.Entities;
 using FrwkBootCampFidelidade.DTO.BonificationContext;
 using FrwkBootCampFidelidade.DTO.ExtractContext;
+using FrwkBootCampFidelidade.DTO.OrderContext;
 using FrwkBootCampFidelidade.DTO.ProductContext;
 using FrwkBootCampFidelidade.DTO.PromotionContext;
 using FrwkBootCampFidelidade.DTO.RansomContext;
@@ -54,6 +56,11 @@ namespace FrwkBootCampFidelidade.Infraestrutura.IOC.IOC
 
             CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<List<ProductDTO>, List<Product>>().ReverseMap();
+
+            CreateMap<Order, OrderDTO>().ReverseMap();
+            CreateMap<OrderItem, OrderItemDTO>().ReverseMap();
+            CreateMap<List<OrderItem>, OrderItemDTO>().ReverseMap();
+
         }
     }
 }

@@ -2,7 +2,7 @@
 using FrwkBootCampFidelidade.Aplicacao.Constants;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.Base;
-using FrwkBootCampFidelidade.DTO.RansomContext;
+using FrwkBootCampFidelidade.DTO.OrderContext;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -16,14 +16,14 @@ using System.Threading.Tasks;
 
 namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 {
-    public class RansomConsumer : BackgroundService
+    public class OrderConsumer : BackgroundService
     {
         private readonly RabbitMqConfiguration _config;
         private readonly IConnection _connection;
         private readonly IModel _channel;
         private readonly IServiceProvider _serviceProvider;
 
-        public RansomConsumer(IOptions<RabbitMqConfiguration> option, IServiceProvider serviceProvider)
+        public OrderConsumer(IOptions<RabbitMqConfiguration> option, IServiceProvider serviceProvider)
         {
             _config = option.Value;
             _serviceProvider = serviceProvider;
@@ -37,7 +37,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
             _channel = _connection.CreateModel();
 
             _channel.QueueDeclare(
-                        queue: DomainConstant.RANSOM,
+                        queue: DomainConstant.ORDER,
                         durable: false,
                         exclusive: false,
                         autoDelete: false,
@@ -50,7 +50,7 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
         {
             var consumer = new EventingBasicConsumer(_channel);
 
-            _channel.BasicConsume(queue: DomainConstant.RANSOM, autoAck: false, consumer: consumer);
+            _channel.BasicConsume(queue: DomainConstant.ORDER, autoAck: false, consumer: consumer);
 
             consumer.Received += async (model, ea) =>
             {
@@ -91,20 +91,14 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
         private async Task<string> InvokeService(MessageInputModel message)
         {
             using var scope = _serviceProvider.CreateScope();
-            var ransomService = scope.ServiceProvider.GetRequiredService<IRansomService>();
+            var OrderService = scope.ServiceProvider.GetRequiredService<IOrderService>();
 
             dynamic response = string.Empty;
 
             switch (message.Method)
             {
                 case MethodConstant.POST:
-                    response = await ransomService.Add(JsonConvert.DeserializeObject<RansomDTO>(message.Content));
-                    break;
-                case MethodConstant.GET:
-                    response = ransomService.GetAll();
-                    break;
-                case MethodConstant.GETBYID:
-                    response = await ransomService.GetById(int.Parse(message.Content));
+                    response = await OrderService.Add(JsonConvert.DeserializeObject<OrderDTO>(message.Content));
                     break;
             }
 

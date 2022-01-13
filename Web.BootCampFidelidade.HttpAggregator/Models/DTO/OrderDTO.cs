@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace FrwkBootCampFidelidade.DTO.OrderContext
+namespace Web.BootCampFidelidade.HttpAggregator.Models.DTO
 {
     public class OrderDTO
     {
