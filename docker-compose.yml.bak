@@ -34,7 +34,7 @@ services:
             - PUID=1000
             - PGID=1000
         volumes:
-            - mongodb:/data/db
+            - ./mongodb:/data/db
         ports:
             - 27017:27017
         restart: unless-stopped
@@ -42,7 +42,6 @@ services:
             512m
         expose:
           - 27017
-        
     
     apigateway:
         image: fernando2022/apigateway.api        
@@ -179,5 +178,4 @@ services:
         build:
             context: .
             dockerfile: FrwkBootCampFidelidade.Order.API\Dockerfile
-volumes:
-    mongodb:
+    

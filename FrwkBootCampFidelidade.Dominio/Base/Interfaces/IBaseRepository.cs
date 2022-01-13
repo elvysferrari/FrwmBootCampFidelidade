@@ -10,7 +10,7 @@ namespace FrwkBootCampFidelidade.Dominio.Base.Interfaces
     {
         Task Add(TEntity obj);
         Task<TEntity> GetById(int id);
-        Task<IEnumerable<TEntity>> GetAll(bool asNoTracking = true);
+        IEnumerable<TEntity> GetAll(bool asNoTracking = true);
         IQueryable<TEntity> GetBy(Expression<Func<TEntity, bool>> predicado, bool asNoTracking = true);
         void Update(TEntity obj);
         void Remove(int id);

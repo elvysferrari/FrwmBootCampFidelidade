@@ -47,9 +47,11 @@ namespace FrwkBootCampFidelidade.Infraestrutura.RansomContext.Repository
             await _context.SaveChangesAsync();
         }
 
-        public async Task<List<RansomDTO>> GetAll()
+        public async Task<IEnumerable<RansomDTO>> GetAll()
         {
-            return await _context.Set<RansomDTO>().ToListAsync();
+            var ransoms = await _context.Set<RansomDTO>().ToListAsync();
+
+            return ransoms;
         }
 
         public async Task<List<RansomDTO>> GetListByCPF(string cpf)
@@ -64,6 +66,5 @@ namespace FrwkBootCampFidelidade.Infraestrutura.RansomContext.Repository
 
             return await query.ToListAsync();
         }
-
     }
 }
