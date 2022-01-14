@@ -33,7 +33,6 @@ namespace FrwkBootCampFidelidade.Order.API
 
             services.AddDBInjector();
             services.AddServices();
-            services.AddHostedService<OrderKafkaConsumer>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

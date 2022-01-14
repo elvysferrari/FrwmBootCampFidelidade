@@ -81,7 +81,6 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
                         while (true)
                         {
                             var cr = consumer.Consume(cts.Token);
-                            consumer.Commit(cr);
                         }
                     }
                     catch (OperationCanceledException)
