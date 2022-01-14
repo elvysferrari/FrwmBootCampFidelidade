@@ -1,14 +1,14 @@
 ﻿using Confluent.Kafka;
-using Confluent.Kafka.Admin;
 using FrwkBootCampFidelidade.Aplicacao.Configuration;
+using FrwkBootCampFidelidade.Aplicacao.Constants;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
+using FrwkBootCampFidelidade.Dominio.Base;
 using FrwkBootCampFidelidade.DTO.OrderContext;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -72,16 +72,19 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
             }
         }
 
-        private async Task<string> InvokeService(ConsumeResult<Ignore, string> message)
+        private async Task InvokeService(ConsumeResult<Ignore, string> message)
         {
+            var mensagem = JsonConvert.DeserializeObject<MessageInputModel>(message.Message.Value);
+
             using var scope = _serviceProvider.CreateScope();
-            var OrderService = scope.ServiceProvider.GetRequiredService<IOrderService>();
+            var _orderService = scope.ServiceProvider.GetRequiredService<IOrderService>();
 
-            dynamic response = string.Empty;
-
-            await OrderService.Add(JsonConvert.DeserializeObject<OrderDTO>(message.Message.Value));
-
-            return JsonConvert.SerializeObject(response);
+            switch (mensagem.Method)
+            {
+                case MethodConstant.POST:
+                    await _orderService.Add(JsonConvert.DeserializeObject<OrderDTO>(mensagem.Content));
+                    break;
+            }
         }
     }
 }
