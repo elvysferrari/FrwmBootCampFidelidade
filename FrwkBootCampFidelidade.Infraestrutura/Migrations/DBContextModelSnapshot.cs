@@ -214,34 +214,6 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.PromotionContext.Entities.Promotion", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("DiscountPercentage")
-                        .HasColumnType("float");
-
-                    b.Property<DateTime>("EndDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("UpdatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Promotions");
-                });
-
             modelBuilder.Entity("FrwkBootCampFidelidade.Dominio.RansomContext.Entities.Ransom", b =>
                 {
                     b.Property<int>("Id")
