@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 
 namespace Web.BootCampFidelidade.HttpAggregator.Controller
 {

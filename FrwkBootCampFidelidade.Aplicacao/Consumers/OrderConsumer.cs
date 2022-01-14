@@ -1,4 +1,5 @@
-﻿using FrwkBootCampFidelidade.Aplicacao.Configuration;
+﻿using Confluent.Kafka;
+using FrwkBootCampFidelidade.Aplicacao.Configuration;
 using FrwkBootCampFidelidade.Aplicacao.Constants;
 using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 using FrwkBootCampFidelidade.Dominio.Base;
@@ -7,10 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
 using System;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -18,91 +16,75 @@ namespace FrwkBootCampFidelidade.Aplicacao.Consumers
 {
     public class OrderConsumer : BackgroundService
     {
-        private readonly RabbitMqConfiguration _config;
-        private readonly IConnection _connection;
-        private readonly IModel _channel;
+        private readonly KafkaConfiguration _config;
+        private readonly CancellationTokenSource _cancellationTokenSource;
         private readonly IServiceProvider _serviceProvider;
+        private readonly string _topicName;
+        private readonly ConsumerConfig _consumerConfig;
 
-        public OrderConsumer(IOptions<RabbitMqConfiguration> option, IServiceProvider serviceProvider)
+        public OrderConsumer(IOptions<KafkaConfiguration> option, IServiceProvider serviceProvider)
         {
             _config = option.Value;
             _serviceProvider = serviceProvider;
+            _topicName = "frwkBootcampFidelidadeOrder";
 
-            var factory = new ConnectionFactory
+            _consumerConfig = new ConsumerConfig
             {
-                HostName = _config.Host
+                BootstrapServers = _config.Host,
+                GroupId = $"{_topicName}-group-0",
+                AutoOffsetReset = AutoOffsetReset.Earliest
             };
 
-            _connection = factory.CreateConnection();
-            _channel = _connection.CreateModel();
-
-            _channel.QueueDeclare(
-                        queue: DomainConstant.ORDER,
-                        durable: false,
-                        exclusive: false,
-                        autoDelete: false,
-                        arguments: null);
-
-            _channel.BasicQos(0, 1, false);
+            _cancellationTokenSource = new CancellationTokenSource();
         }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            var consumer = new EventingBasicConsumer(_channel);
+            var task = Task.Run(() => ProcessQueue(stoppingToken), stoppingToken);
 
-            _channel.BasicConsume(queue: DomainConstant.ORDER, autoAck: false, consumer: consumer);
+            return task;
+        }
 
-            consumer.Received += async (model, ea) =>
+        private void ProcessQueue(CancellationToken stoppingToken)
+        {
+            using (var consumer = new ConsumerBuilder<Ignore, string>(_consumerConfig).Build())
             {
-                string response = null;
-
-                var body = ea.Body.ToArray();
-                var props = ea.BasicProperties;
-                var replyProps = _channel.CreateBasicProperties();
-                replyProps.CorrelationId = props.CorrelationId;
+                consumer.Subscribe(_topicName);
 
                 try
                 {
-                    var contentArray = ea.Body.ToArray();
-                    var incommingMessage = Encoding.UTF8.GetString(contentArray);
-                    var message = JsonConvert.DeserializeObject<MessageInputModel>(incommingMessage);
-
-                    var replyMessage = await InvokeService(message);
-
-                    response = replyMessage;
+                    while (!stoppingToken.IsCancellationRequested)
+                    {
+                        try
+                        {
+                            var consumeResult = consumer.Consume(stoppingToken);
+ 
+                            Task.Run(async () => { await InvokeService(consumeResult); }, stoppingToken);
+                        }
+                        catch (ConsumeException ex)
+                        { }
+                    }
                 }
-                catch (Exception e)
+                catch (OperationCanceledException ex)
                 {
-                    response = e.Message;
+                    consumer.Close();
                 }
-                finally
-                {
-                    var responseBytes = Encoding.UTF8.GetBytes(response);
-                    _channel.BasicPublish(exchange: "", routingKey: props.ReplyTo,
-                      basicProperties: replyProps, body: responseBytes);
-                    _channel.BasicAck(deliveryTag: ea.DeliveryTag,
-                      multiple: false);
-                }
-            };
-
-            return Task.CompletedTask;
+            }
         }
 
-        private async Task<string> InvokeService(MessageInputModel message)
+        private async Task InvokeService(ConsumeResult<Ignore, string> message)
         {
+            var mensagem = JsonConvert.DeserializeObject<MessageInputModel>(message.Message.Value);
+
             using var scope = _serviceProvider.CreateScope();
-            var OrderService = scope.ServiceProvider.GetRequiredService<IOrderService>();
+            var _orderService = scope.ServiceProvider.GetRequiredService<IOrderService>();
 
-            dynamic response = string.Empty;
-
-            switch (message.Method)
+            switch (mensagem.Method)
             {
                 case MethodConstant.POST:
-                    response = await OrderService.Add(JsonConvert.DeserializeObject<OrderDTO>(message.Content));
+                    await _orderService.Add(JsonConvert.DeserializeObject<OrderDTO>(mensagem.Content));
                     break;
             }
-
-            return JsonConvert.SerializeObject(response);
         }
     }
 }
