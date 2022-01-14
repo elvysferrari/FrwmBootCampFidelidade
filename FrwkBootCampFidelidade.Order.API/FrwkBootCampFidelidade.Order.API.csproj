@@ -20,6 +20,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\FrwkBootCampFidelidade.Aplicacao\FrwkBootCampFidelidade.Aplicacao.csproj" />
 		<ProjectReference Include="..\FrwkBootCampFidelidade.Infraestrutura\FrwkBootCampFidelidade.Infraestrutura.Data.csproj" />
 		<ProjectReference Include="..\FrwkBootCampFidelidade.IOC\FrwkBootCampFidelidade.Infraestrutura.IOC.csproj" />
 	</ItemGroup>
