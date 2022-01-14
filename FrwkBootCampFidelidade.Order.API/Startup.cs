@@ -1,4 +1,5 @@
 using FluentValidation.AspNetCore;
+using FrwkBootCampFidelidade.Aplicacao.Consumers;
 using FrwkBootCampFidelidade.Infraestrutura.Context;
 using FrwkBootCampFidelidade.Infraestrutura.IOC.IOC;
 using Microsoft.AspNetCore.Builder;
@@ -32,6 +33,8 @@ namespace FrwkBootCampFidelidade.Order.API
 
             services.AddDBInjector();
             services.AddServices();
+            services.AddHostedService<OrderKafkaConsumer>();
+
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services
