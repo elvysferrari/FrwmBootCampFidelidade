@@ -58,6 +58,7 @@ namespace FrwkBootCampFidelidade.Bonification.API
             });
 
             services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMqConfig"));
+            services.Configure<RabbitMqConfiguration>(Configuration.GetSection("RabbitMqConfig"));
 
         }
         //public void ConfigureContainer(ContainerBuilder Builder)

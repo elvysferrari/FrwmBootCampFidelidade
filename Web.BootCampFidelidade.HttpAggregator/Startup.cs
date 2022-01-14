@@ -72,8 +72,9 @@ namespace Web.BootCampFidelidade.HttpAggregator
             });
 
             services.Configure<RabbitMqConfiguration>(configuration.GetSection("RabbitMqConfig"));
-
+            services.Configure<KafkaConfiguration>(configuration.GetSection("KafkaConfig"));
         }
+
         //public void ConfigureContainer(ContainerBuilder Builder)
         //{
         //    Builder.RegisterModule(new ModuleIOC());

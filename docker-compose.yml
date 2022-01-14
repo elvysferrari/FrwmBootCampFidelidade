@@ -9,7 +9,7 @@ services:
         ports:
             - "1433:1433"
         volumes:
-            - ./mssql/:/var/opt/mssql/data   
+            - C:/Projetos/FrwmBootCampFidelidade/mssql:/var/opt/mssql/data
         container_name: 
             mssql
         expose:
@@ -34,7 +34,7 @@ services:
             - PUID=1000
             - PGID=1000
         volumes:
-            - ./mongodb:/data/db
+            - C:/Projetos/FrwmBootCampFidelidade/mongodb:/data/db
         ports:
             - 27017:27017
         restart: unless-stopped

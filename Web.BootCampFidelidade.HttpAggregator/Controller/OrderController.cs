@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using FrwkBootCampFidelidade.Aplicacao.Interfaces;
 
 namespace Web.BootCampFidelidade.HttpAggregator.Controller
 {
@@ -15,9 +16,9 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
     [ApiController]
     public class OrderController : ControllerBase
     {
-        private readonly IRpcClientService service;
+        private readonly IKafkaProducerService service;
 
-        public OrderController(IRpcClientService service)
+        public OrderController(IKafkaProducerService service)
         {
             this.service = service;
         }
@@ -31,15 +32,9 @@ namespace Web.BootCampFidelidade.HttpAggregator.Controller
         {
             var message = new MessageInputModel(DomainConstant.ORDER, MethodConstant.POST, JsonConvert.SerializeObject(orderDTO));
 
-            var response = await service.Call(message);
-            service.Close();
+            await service.Call(message);
 
-            if (response.Equals(""))
-                return NotFound();
-
-            var orders = JsonConvert.DeserializeObject<OrderDTO>(response);
-
-            return Created($"{Request.Path}/{orders.Id}", orders);
+            return Ok();
         }
     }
 }
