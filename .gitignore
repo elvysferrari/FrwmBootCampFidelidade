@@ -397,7 +397,5 @@ FodyWeavers.xsd
 # Especific for this project
 FrwkBootCampFidelidade.API/appsettings.json
 [Mm]igrations/
-/rabbitmq/data
-/mssql
-mssql/Entropy.bin
 /mongodb
+/mssql
