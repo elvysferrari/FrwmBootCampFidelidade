@@ -62,12 +62,12 @@ namespace FrwkBootCampFidelidade.Infraestrutura.Base.Repository
         public void Dispose() =>
              Db.Dispose();
 
-        public async Task<IEnumerable<TEntity>> GetAll(bool asNoTracking = true)
+        public IEnumerable<TEntity> GetAll(bool asNoTracking = true)
         {
             if (!asNoTracking)
-                return await DbSet.ToListAsync();
+                return DbSet.ToListAsync().Result;
 
-            return await DbSet.AsNoTracking().ToListAsync();
+            return DbSet.AsNoTracking().ToListAsync().Result;
         }
 
         public IQueryable<TEntity> GetBy(Expression<Func<TEntity, bool>> predicado, bool asNoTracking = true)

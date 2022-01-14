@@ -39,8 +39,8 @@ namespace Web.BootCampFidelidade.HttpAggregator
 
             
             services.AddDbContext<DBContext>(options =>
-           // options.UseSqlServer($"Server={DATASOURCE};Database={DATABASE};Trusted_Connection=True;MultipleActiveResultSets=true"));
-                options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
+            options.UseSqlServer($"Server={DATASOURCE};Database={DATABASE};Trusted_Connection=True;MultipleActiveResultSets=true"));
+             //   options.UseSqlServer($"Data Source={DATASOURCE};Initial Catalog={DATABASE};Persist Security Info=True;User ID={DBUSER};Password={DBPASSWORD}"));
 
             services.AddServices()
                     .AddDBInjector()
@@ -72,8 +72,9 @@ namespace Web.BootCampFidelidade.HttpAggregator
             });
 
             services.Configure<RabbitMqConfiguration>(configuration.GetSection("RabbitMqConfig"));
-
+            services.Configure<KafkaConfiguration>(configuration.GetSection("KafkaConfig"));
         }
+
         //public void ConfigureContainer(ContainerBuilder Builder)
         //{
         //    Builder.RegisterModule(new ModuleIOC());

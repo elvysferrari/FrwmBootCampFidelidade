@@ -78,12 +78,12 @@ namespace FrwkBootCampFidelidade.RansomxUnit.Unidade
             _ransomTestsAutoMocker.Mocker.GetMock<IMapper>().Setup(m =>
                 m.Map<IEnumerable<UsingRansom.Ransom>>(ransomsDTO)).Returns(ransoms);
 
-            _ransomTestsAutoMocker.Mocker.GetMock<IRansomRepository>().Setup(r => r.GetAll(true).Result)
+            _ransomTestsAutoMocker.Mocker.GetMock<IRansomRepository>().Setup(r => r.GetAll(true))
                 .Returns(ransoms);
 
             // Assert 
             Assert.True(ransoms.Any());
-            _ransomTestsAutoMocker.Mocker.GetMock<IRansomRepository>().Verify(r => r.GetAll(true).Result, Times.AtMostOnce);
+            _ransomTestsAutoMocker.Mocker.GetMock<IRansomRepository>().Verify(r => r.GetAll(true), Times.AtMostOnce);
         }
 
         private bool EhValido(UsingRansom.Ransom ransom)
