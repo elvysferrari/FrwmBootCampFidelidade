@@ -399,3 +399,5 @@ FrwkBootCampFidelidade.API/appsettings.json
 [Mm]igrations/
 /mongodb
 /mssql
+/.mongodb
+/.mssql
